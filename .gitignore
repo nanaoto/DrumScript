@@ -1,4 +1,5 @@
 .venv
 .archive
-development/
-.DS_Store
+development/*
+.DS_Store*
+local_tests/*
