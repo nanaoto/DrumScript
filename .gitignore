@@ -5,3 +5,4 @@ development/
 .DS_Store*
 local_tests/*
 audio_processor/local_tests/*
+dev_notes.txt
