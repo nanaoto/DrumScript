@@ -1,8 +1,10 @@
 numpy
 scipy
 librosa
-scikit-learn  # Or tensorflow/pytorch if using deep learning
+scikit-learn
 music21
-mido          # For MIDI utility, if needed
-pyyaml        # For config file parsing
-pydub         # Optional, for loading more audio formats
+mido       
+pyyaml
+pydub
+llvmlite
+numba
