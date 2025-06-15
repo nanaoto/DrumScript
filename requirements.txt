@@ -8,3 +8,6 @@ pyyaml
 pydub
 llvmlite
 numba
+soundfile
+pytorch
+tensorflow
