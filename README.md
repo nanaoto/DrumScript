@@ -16,13 +16,8 @@ It leverages **advanced audio signal processing** and **machine learning** to de
 * **Audio Input:** Supports common audio formats like WAV.
 * **Drum Hit Detection:** Identifies the precise timing of drum strikes.
 * **Drum Classification:** Differentiates between various drum kit elements (e.g., kick, snare, hi-hat).
-* **Musical Quantisation:** Aligns detected drum hits to a musical grid for accurate notation.
+* **Musical Quantization:** Aligns detected drum hits to a musical grid for accurate notation.
 * **PDF Sheet Music Output:** Generates clear and readable drum notation.
-
-
-> **NOTE:** 
-> Other `Python` package managers, ie `pip`, `conda`, `pyenv` maybe used interchangeably with the commands above.
-
 
 
 ---
@@ -45,6 +40,9 @@ It leverages **advanced audio signal processing** and **machine learning** to de
     source .venv/bin/activate  # On Windows, use `.venv\Scripts\activate`
     uv pip install -r requirements.txt
     ```
+
+> **NOTE:** 
+> Other `Python` package managers, ie `pip`, `conda`, `pyenv`, `hatch`, `poetry` may be used interchangeably with the commands above.
 
 ---
 

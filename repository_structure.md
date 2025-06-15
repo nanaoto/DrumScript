@@ -33,7 +33,7 @@ DrumScript/
 ├── requirements.txt
 ├── requirements.in
 ├── repository_structure.md
-├── setup.py
+├── pyproject.toml # replaces setup.py per PEP 517/518, works seamlessly with `pip`, `python -m build`, `uv`, `hatch`, `poetry`, etc.
 └── README.md
 ```
 
