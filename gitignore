@@ -1,9 +1,0 @@
-.venv
-.archive
-development/*
-development/
-.DS_Store*
-tests/*
-tests/
-audio_processor/local_tests/*
-dev_notes.txt
