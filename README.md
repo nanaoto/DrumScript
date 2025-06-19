@@ -54,7 +54,6 @@ Once installed, you can run `DrumScript` from the command line.
 
 ```bash
 python main.py <input_audio_file.wav> <output_sheet_music.pdf> [OPTIONS]
-
 ```
 
 #### Arguments
