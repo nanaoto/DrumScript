@@ -53,12 +53,12 @@ python3 audio_processor/feature_extractor.py
     Install 'soundfile' (pip install soundfile) to run this example fully.
     Skipping dummy file creation/deletion.
     feature_extractor.py example finished.
+    DrumScript %
 ```
-or, to **run `feature_extractor.py` as a module**
+or, to run `feature_extractor.py` as a **module**
 
 ```python
 python -m audio_processor.feature_extractor
-
 ```
 
 **expected output:**
@@ -108,8 +108,7 @@ Detected 68 onsets.
   rms: shape=(9,), mean=0.1392
 
 feature_extractor.py example finished.
-(DrumScript) victoriamckinney@Victoria’s MacBook Air DrumScript % 
-
+DrumScript % 
 
 ```
 
@@ -126,6 +125,13 @@ python3 audio_processor/onset_detector.py
     Detected onsets (seconds): ['0.51', '1.21', '1.81', '2.51', '3.11', '3.81', '4.41']
     Cleaned up dummy audio file: dummy_audio_with_hits.wav
     onset_detector.py example finished.
+
+or, to run `onset_detector.py` as a **module**
+
+
+**expected output:**
+
+    python3 -m  audio_processor.feature_extractor
 
 
 ---
