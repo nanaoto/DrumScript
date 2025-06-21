@@ -12,7 +12,7 @@ version = "0.1.0"
 #]
 description = "A Python package to convert drum audio to sheet music."
 readme = "README.md"
-# requires-python = "3.12.11"
+# requires-python = "3.12.10"
 # license = { text = "MIT License" } # Or use file = "LICENSE" if you have a LICENSE file
 keywords = ["drum", "audio", "music", "sheet-music", "notation", "dsp", "machine-learning", "drumscript", "drums", "percussion"]
 classifiers = [
@@ -40,6 +40,7 @@ dependencies = [
     "llvmlite",
     "numba",
     "soundfile",
+    "sounddevice"
     #"pytorch",
     #"tensorflow"
 ]
