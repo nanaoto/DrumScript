@@ -24,7 +24,7 @@ It leverages **advanced audio signal processing** and **machine learning** to de
  - **[Contributing](#contributing)**
  <!--- **[License](#license)**-->
  - **[Contact](#contact)**
- - **[FAQ's](#faqs)**
+ - **[FAQs](#faqs)**
 
 ---
 
