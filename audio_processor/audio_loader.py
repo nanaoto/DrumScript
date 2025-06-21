@@ -8,6 +8,9 @@ This module will handle loading and basic normalisation of audio files.
 
 import librosa
 import numpy as np
+import os
+import sounddevice as sd
+import time # for pausing listenable audio
 
 def load_audio(file_path: str, sr: int = None) -> tuple[np.ndarray, int]:
     """
@@ -50,7 +53,7 @@ def normalise_audio(audio_data: np.ndarray) -> np.ndarray:
     Returns:
         np.ndarray: The normalised audio time series.
     """
-    if audio_data.s == 0:
+    if audio_data.size == 0:
         return audio_data # Return empty array if input is empty
 
     max_abs_val = np.max(np.abs(audio_data))
@@ -62,51 +65,62 @@ def normalise_audio(audio_data: np.ndarray) -> np.ndarray:
 
 
 if __name__ == "__main__":
-    # This is a simple example of how to use the functions.
-    # In a real scenario, you'd likely have test audio files.
-    print("Running audio_loader.py example...")
-    try:
-        # Create a dummy audio file for testing (or use a real one)
-        # This part requires soundfile to create a dummy .wav
-        import soundfile as sf
-        dummy_sr = 44100
-        dummy_duration = 3 # seconds
-        # A simple sine wave as dummy audio
-        t = np.linspace(0, dummy_duration, int(dummy_sr * dummy_duration), endpoint=False)
-        dummy_audio = 0.5 * np.sin(2 * np.pi * 440 * t) # 440 Hz sine wave
-        dummy_filepath = "dummy_audio.wav"
-        sf.write(dummy_filepath, dummy_audio, dummy_sr)
-        print(f"Created dummy audio file: {dummy_filepath}")
+    print("Running audio_loader.py example with actual MP3/WAV...")
 
-        # Test load_audio
-        audio, sr = load_audio(dummy_filepath, sr=22050) # Load and resample
-        print(f"Loaded audio: Shape={audio.shape}, Sample Rate={sr}")
+    # --- Path to your actual drum recording ---
+    # Assuming your recording is in a 'data' folder at the project root
+    # e.g., DRUMSCRIPT/data/my_drum_recording.mp3
+    #
+    # To correctly get the path:
+    # 1. Get the directory of the current script (audio_loader.py)
+    current_script_dir = os.path.dirname(os.path.abspath(__file__))
+    # 2. Go up to the project root (from audio_processor to DRUMSCRIPT)
+    project_root = os.path.abspath(os.path.join(current_script_dir, os.pardir, os.pardir))
+    # 3. Construct the path to your audio file
+    actual_drum_recording_path = os.path.join(project_root,"DrumScript/tests","test.mp3") # Change .mp3 to .wav if using WAV
+
+    # --- IMPORTANT: Create a 'data' folder in your project root and place an MP3/WAV there ---
+    # For testing, you MUST have 'my_drum_recording.mp3' (or .wav) inside 'DRUMSCRIPT/data/'
+    # before running this example.
+
+    try:
+        print(f"Attempting to load: {actual_drum_recording_path}")
+        audio, sr = load_audio(actual_drum_recording_path, sr=22050)
+        print(f"Loaded audio: Shape={audio.shape}, Sample Rate={sr}, Duration={len(audio)/sr:.2f} seconds")
 
         # Test normalise_audio
         original_max = np.max(np.abs(audio))
         normalised_audio = normalise_audio(audio)
         normalised_max = np.max(np.abs(normalised_audio))
         print(f"Original max amplitude: {original_max:.4f}")
-        print(f"normalised max amplitude: {normalised_max:.4f}")
+        print(f"Normalised max amplitude: {normalised_max:.4f}")
         assert np.isclose(normalised_max, 1.0) or np.isclose(normalised_max, 0.0), "Normalisation failed!"
 
-        # Clean up dummy file
-        import os
-        os.remove(dummy_filepath)
-        print(f"Cleaned up dummy audio file: {dummy_filepath}")
+        # --- NEW: Play the loaded and normalised audio ---
+        print("\nPlaying loaded (and normalised) audio...")
+        # sd.play takes the audio array and sample rate
+        sd.play(normalised_audio, sr)
+        # sd.wait() blocks until playback is complete
+        sd.wait()
+        print("Audio playback finished.")
 
-    except ImportError:
-        print("Install 'soundfile' (pip install soundfile) to run this example fully.")
-        print("Skipping dummy file creation/deletion, attempting with non-existent file.")
-        try:
-            load_audio("non_existent_file.wav")
-        except FileNotFoundError:
-            print("Successfully caught FileNotFoundError for non_existent_file.wav")
-        except Exception as e:
-            print(f"Caught unexpected error: {e}")
+        # Optional: You can also save the loaded audio to a new file to verify
+        # import soundfile as sf
+        # output_wav_path = "output_test_audio.wav"
+        # sf.write(output_wav_path, normalised_audio, sr)
+        # print(f"Saved loaded audio to: {output_wav_path}")
+        # time.sleep(1) # Give it a moment before cleaning up if playing
+
     except FileNotFoundError:
-        print("Test file not found, skipping specific tests.")
+        # ... (your existing error handling) ...
+        print(f"\nERROR: The audio file '{actual_drum_recording_path}' was not found.")
+        print("Please ensure you have placed an audio file (e.g., 'test.mp3' or '.wav') inside tests/.")
+    except ImportError:
+        print("\nERROR: Required audio backend libraries might be missing.")
+        print("Ensure 'soundfile' and 'pydub' are installed via 'uv pip install -r requirements.txt'.")
+        print("For MP3, 'ffmpeg' must also be installed on your system and accessible in PATH.")
     except Exception as e:
-        print(f"An error occurred during the example execution: {e}")
+        print(f"\nAn unexpected error occurred during the example execution: {e}")
 
     print("audio_loader.py example finished.")
+
