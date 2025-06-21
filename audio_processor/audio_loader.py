@@ -1,4 +1,4 @@
-# DrumScript/audio_processor/audio_losder.py
+# DrumScript/audio_processor/audio_loader.py
 
 """
 This module will handle loading and basic normalisation of audio files.
@@ -37,28 +37,28 @@ def load_audio(file_path: str, sr: int = None) -> tuple[np.ndarray, int]:
         print(f"Error loading audio file {file_path}: {e}")
         raise
 
-def normalize_audio(audio_data: np.ndarray) -> np.ndarray:
+def normalise_audio(audio_data: np.ndarray) -> np.ndarray:
     """
-    Normalizes the audio data to a range between -1.0 and 1.0.
+    Normalises the audio data to a range between -1.0 and 1.0.
 
-    This helps in standardizing the amplitude across different recordings
+    This helps in standardising the amplitude across different recordings
     and prevents issues with varying loudness levels during processing.
 
     Args:
         audio_data (np.ndarray): The input audio time series.
 
     Returns:
-        np.ndarray: The normalized audio time series.
+        np.ndarray: The normalised audio time series.
     """
-    if audio_data.size == 0:
+    if audio_data.s == 0:
         return audio_data # Return empty array if input is empty
 
     max_abs_val = np.max(np.abs(audio_data))
     if max_abs_val > 0:
-        normalized_data = audio_data / max_abs_val
+        normalised_data = audio_data / max_abs_val
     else:
-        normalized_data = audio_data # Already zero or empty
-    return normalized_data
+        normalised_data = audio_data # Already zero or empty
+    return normalised_data
 
 
 if __name__ == "__main__":
@@ -82,13 +82,13 @@ if __name__ == "__main__":
         audio, sr = load_audio(dummy_filepath, sr=22050) # Load and resample
         print(f"Loaded audio: Shape={audio.shape}, Sample Rate={sr}")
 
-        # Test normalize_audio
+        # Test normalise_audio
         original_max = np.max(np.abs(audio))
-        normalized_audio = normalize_audio(audio)
-        normalized_max = np.max(np.abs(normalized_audio))
+        normalised_audio = normalise_audio(audio)
+        normalised_max = np.max(np.abs(normalised_audio))
         print(f"Original max amplitude: {original_max:.4f}")
-        print(f"Normalized max amplitude: {normalized_max:.4f}")
-        assert np.isclose(normalized_max, 1.0) or np.isclose(normalized_max, 0.0), "Normalisation failed!"
+        print(f"normalised max amplitude: {normalised_max:.4f}")
+        assert np.isclose(normalised_max, 1.0) or np.isclose(normalised_max, 0.0), "Normalisation failed!"
 
         # Clean up dummy file
         import os
