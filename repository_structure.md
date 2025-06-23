@@ -3,38 +3,69 @@
 
 <!--date_created: sun-15-june2025-->
 
-<!--date_updated: sun-15-june2025-->
+<!--date_updated: mon-23-june2025-->
 
 ---
 ### **Modular Structure**
-```
+
+```markdown
+# Repository Structure
+
+This document outlines the directory and file structure of the `DrumScript` project.
+
+
 DrumScript/
-├── __init__.py
-├── audio_processor/ # This module handles raw audio manipulation and initial feature extraction.
-│   ├── __init__.py
-│   ├── audio_loader.py
-│   ├── feature_extractor.py
-│   └── onset_detector.py
-├── drum_classifier/ # determines model used to trascribe events
-│   ├── __init__.py
-│   ├── model_trainer.py
-│   ├── drum_model.py
-│   └── data_preparer.py
-├── notation_generator/ # This module handles converting the identified drum events into a visual score
-│   ├── __init__.py
-│   ├── score_builder.py
-│   └── pdf_exporter.py
-├── utils/ # This module contains helper functions and configuration.
-│   ├── __init__.py
-│   ├── config.py
-│   ├── helpers.py
-│   └── constants.py
-├── main.py                # The main entry point for running the conversion
-├── requirements.txt
-├── requirements.in
-├── repository_structure.md
-├── pyproject.toml # replaces setup.py per PEP 517/518, works seamlessly with `pip`, `python -m build`, `uv`, `hatch`, `poetry`, etc.
-└── README.md
+├── .venv/                         # Python virtual environment (created by `uv venv`)
+├── .gitignore                     # Specifies intentionally untracked files to ignore
+├── pyproject.toml                 # Project metadata and dependencies (managed by `uv`)
+├── README.md                      # Project overview and main documentation
+├── requirements.txt               # Direct dependencies (generated/used by `uv pip install -r`)
+├── LICENSE                        # Project licensing information (e.g., MIT License)
+├── main.py                        # (Optional) Main entry point for the application
+├── repository_structure.md        # This document
+├── tests/                         # Unit and integration tests
+│   └── test.mp3                   # Example audio file for testing modules
+│   └── ...
+├── DrumScript/                    # The main Python package
+│   ├── __init__.py                # Makes 'DrumScript' a Python package
+│   ├── audio_processor/           # Handles audio loading, normalisation, onset detection, and feature extraction
+│   │   ├── __init__.py
+│   │   ├── audio_loader.py        # Loads and normalises audio files
+│   │   ├── onset_detector.py      # Detects drum hit onsets
+│   │   └── feature_extractor.py   # Extracts features for classification
+│   ├── drum_classifier/           # Machine learning module for drum sound classification
+│   │   ├── __init__.py
+│   │   ├── data_preparer.py       # Prepares audio features into a dataset for training
+│   │   ├── drum_model.py          # Defines the drum classification model architecture (e.g., scikit-learn based)
+│   │   └── model_trainer.py       # Script for training, evaluating, and saving the drum classification model
+│   ├── training_data/             # Contains labelled audio files for model training
+│   │   ├── kick/                  # Subdirectory for kick drum samples
+│   │   │   ├── kick_001.wav
+│   │   │   └── ...
+│   │   ├── snare/                 # Subdirectory for snare drum samples
+│   │   │   ├── snare_001.wav
+│   │   │   ├── snare_002.mp3
+│   │   │   └── ...
+│   │   └── hihat/                 # Subdirectory for hi-hat samples
+│   │       ├── hihat_001.wav
+│   │       └── ...
+│   ├── sheet_music_generator/     # (Future) Generates musical notation
+│   │   └── __init__.py
+│   │   └── ...
+│   ├── utils/                     # Utility functions (e.g., for file handling, configuration)
+│   │   └── __init__.py
+│   │   └── ...
+<!--│   └── ...
+├── models/                        # **NEW:** Directory to store trained machine learning models, scalers, etc.
+│   ├── drum_classifier_model.joblib  # Example: Saved trained classifier model
+│   ├── scaler.joblib               # Example: Saved feature scaler
+│   └── label_map.json              # Example: Saved mapping of numerical labels to drum types
+└── documentation/                 # (Optional) Detailed documentation, tutorials, etc.
+└── user_guide.md
+└── ...--# commenting out for now--->
+
+```
+```
 ```
 
 
