@@ -10,5 +10,6 @@ llvmlite
 numba
 soundfile
 sounddevice
+pandas
 #pytorch
 #tensorflow
