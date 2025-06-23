@@ -8,38 +8,64 @@ import librosa
 import numpy as np
 import os # Import os for path manipulation
 
-# The extract_features function remains unchanged
 def extract_features(audio_segment: np.ndarray, sr: int) -> dict[str, np.ndarray]:
-    # ... (Your existing extract_features function code) ...
+    """
+    Extracts various audio features from a short audio segment.
+    Returns the mean of each feature over the segment to ensure fixed-length output.
+
+    Args:
+        audio_segment (np.ndarray): A short audio time series segment containing a drum hit.
+        sr (int): The sample rate of the audio segment.
+
+    Returns:
+        dict[str, np.ndarray]: A dictionary containing various extracted features.
+                              Each feature is returned as a NumPy array (mean over time).
+    """
     features = {}
 
     if audio_segment.size == 0:
-        features["mfccs"] = np.array([])
-        features["spectral_centroid"] = np.array([])
-        features["spectral_rolloff"] = np.array([])
-        features["zero_crossing_rate"] = np.array([])
-        features["rms"] = np.array([])
-        features["chroma"] = np.array([])
+        # Return zeros for all features if segment is empty to maintain consistent shape.
+        # These sizes correspond to the expected output after averaging (e.g., 20 MFCCs, 1 for spectral centroid).
+        features["mfccs"] = np.zeros(20) # Common n_mfcc value
+        features["spectral_centroid"] = np.array([0.0])
+        features["spectral_rolloff"] = np.array([0.0])
+        features["zero_crossing_rate"] = np.array([0.0])
+        features["rms"] = np.array([0.0])
+        features["chroma"] = np.zeros(12) # Common n_chroma value
         return features
+    
+    # Define common FFT parameters for percussive sounds
+    # Adjust n_fft and hop_length to be more suitable for short transients
+    N_FFT = 1024 # A common choice for transient analysis, allows for shorter segments
+    HOP_LENGTH = 512 # Standard hop_length for N_FFT=1024
 
-    n_fft = 2048
-    hop_length = 512
+    # MFCCs (Mel-frequency cepstral coefficients)
+    # We take the mean across the time axis (axis=1) to get a single vector of 20 coefficients.
+    mfccs = librosa.feature.mfcc(y=audio_segment, sr=sr, n_mfcc=20)
+    features["mfccs"] = np.mean(mfccs, axis=1) if mfccs.size > 0 else np.zeros(20)
 
-    if len(audio_segment) < n_fft:
-        padded_segment = np.pad(audio_segment, (0, n_fft - len(audio_segment)), mode='constant')
-        y_proc = padded_segment
-    else:
-        y_proc = audio_segment
+    # Spectral Centroid
+    spectral_centroids = librosa.feature.spectral_centroid(y=audio_segment, sr=sr)[0]
+    features["spectral_centroid"] = np.array([np.mean(spectral_centroids)] if spectral_centroids.size > 0 else [0.0])
 
-    features["mfccs"] = librosa.feature.mfcc(y=y_proc, sr=sr, n_mfcc=20, n_fft=n_fft, hop_length=hop_length)
-    features["spectral_centroid"] = librosa.feature.spectral_centroid(y=y_proc, sr=sr, n_fft=n_fft, hop_length=hop_length)
-    features["spectral_rolloff"] = librosa.feature.spectral_rolloff(y=y_proc, sr=sr, n_fft=n_fft, hop_length=hop_length)
-    features["zero_crossing_rate"] = librosa.feature.zero_crossing_rate(y=y_proc)
-    features["rms"] = librosa.feature.rms(y=y_proc)
+    # Spectral Rolloff
+    spectral_rolloff = librosa.feature.spectral_rolloff(y=audio_segment, sr=sr)[0]
+    features["spectral_rolloff"] = np.array([np.mean(spectral_rolloff)] if spectral_rolloff.size > 0 else [0.0])
 
-    flattened_features = {k: v.flatten() for k, v in features.items()}
+    # Zero-Crossing Rate
+    zcr = librosa.feature.zero_crossing_rate(y=audio_segment)[0] # [0] to get the 1D array
+    features["zero_crossing_rate"] = np.array([np.mean(zcr)] if zcr.size > 0 else [0.0])
 
-    return flattened_features
+    # RMS Energy
+    rms = librosa.feature.rms(y=audio_segment)[0] # [0] to get the 1D array
+    features["rms"] = np.array([np.mean(rms)] if rms.size > 0 else [0.0])
+
+    # Chroma features (optional, but ensure it's handled consistently if used)
+    # We take the mean across the time axis (axis=1) to get a single vector of 12 chroma values.
+    chroma = librosa.feature.chroma_stft(y=audio_segment, sr=sr)
+    features["chroma"] = np.mean(chroma, axis=1) if chroma.size > 0 else np.zeros(12)
+
+    return features
 
 
 if __name__ == "__main__":

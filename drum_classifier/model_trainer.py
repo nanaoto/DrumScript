@@ -74,11 +74,12 @@ def train_and_evaluate_model(data_dir: str, model_save_path: str, scaler_save_pa
 if __name__ == "__main__":
     # Determine project root dynamically
     current_script_dir = os.path.dirname(os.path.abspath(__file__))
-    project_root = os.path.abspath(os.path.join(current_script_dir, os.pardir, os.pardir))
+    # Go up one level from drum_classifier/ to DrumScript/
+    project_root = os.path.abspath(os.path.join(current_script_dir, os.pardir))
 
     # Define paths for data and saved models
-    data_directory = os.path.join(project_root, "DrumScript","training_data")
-    model_save_directory = os.path.join(project_root, "DrumScript",  "models")
+    data_directory = os.path.join(project_root, "training_data")
+    model_save_directory = os.path.join(project_root, "models")
     
     # Ensure 'models' directory exists
     os.makedirs(model_save_directory, exist_ok=True)

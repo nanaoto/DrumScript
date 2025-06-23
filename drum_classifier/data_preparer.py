@@ -126,8 +126,9 @@ if __name__ == "__main__":
 
     # Determine project xroot
     current_script_dir = os.path.dirname(os.path.abspath(__file__))
-    project_root = os.path.abspath(os.path.join(current_script_dir, os.pardir, os.pardir))
-    data_directory = os.path.join(project_root, "DrumScript", "training_data")
+    # Go up one level from drum_classifier/ to DrumScript/
+    project_root = os.path.abspath(os.path.join(current_script_dir, os.pardir))
+    data_directory = os.path.join(project_root, "training_data")
 
     # Define the sample rate for processing
     sr = 22050 # Common sample rate for audio processing
@@ -179,7 +180,7 @@ if __name__ == "__main__":
         label_map_path = os.path.join(project_root, "models", "label_map.json")
         
         # Ensure 'models' directory exists
-        models_dir = os.path.join(project_root, "DrumScript", "models")
+        models_dir = os.path.join(project_root, "models")
         os.makedirs(models_dir, exist_ok=True)
 
         joblib.dump(scaler, scaler_path)
