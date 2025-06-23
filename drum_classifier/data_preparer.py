@@ -127,7 +127,7 @@ if __name__ == "__main__":
     # Determine project xroot
     current_script_dir = os.path.dirname(os.path.abspath(__file__))
     project_root = os.path.abspath(os.path.join(current_script_dir, os.pardir, os.pardir))
-    data_directory = os.path.join(project_root, "training_data") # Adjust if your training data is elsewhere
+    data_directory = os.path.join(project_root, "DrumScript", "training_data")
 
     # Define the sample rate for processing
     sr = 22050 # Common sample rate for audio processing
