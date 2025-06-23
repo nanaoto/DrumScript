@@ -124,10 +124,13 @@ if __name__ == "__main__":
     # This assumes you have a 'data' folder at your project root
     # like DRUMSCRIPT/training_data/kick/, DRUMSCRIPT/training_data/snare/, DRUMSCRIPT/training_data/hihat/
 
-    # Determine project root
+    # Determine project xroot
     current_script_dir = os.path.dirname(os.path.abspath(__file__))
     project_root = os.path.abspath(os.path.join(current_script_dir, os.pardir, os.pardir))
     data_directory = os.path.join(project_root, "training_data") # Adjust if your training data is elsewhere
+
+    # Define the sample rate for processing
+    sr = 22050 # Common sample rate for audio processing
 
     print(f"Attempting to prepare data from: {data_directory}")
 
@@ -176,7 +179,7 @@ if __name__ == "__main__":
         label_map_path = os.path.join(project_root, "models", "label_map.json")
         
         # Ensure 'models' directory exists
-        models_dir = os.path.join(project_root, "models")
+        models_dir = os.path.join(project_root, "DrumScript", "models")
         os.makedirs(models_dir, exist_ok=True)
 
         joblib.dump(scaler, scaler_path)
