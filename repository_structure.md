@@ -3,7 +3,7 @@
 
 <!--date_created: sun-15-june2025-->
 
-<!--date_updated: mon-23-june2025-->
+<!--date_updated: tues-24-june-2025-->
 
 ---
 ### **Modular Structure**
@@ -55,6 +55,7 @@ DrumScript/
 │   ├── utils/                     # Utility functions (e.g., for file handling, configuration)
 │   │   └── __init__.py
 │   │   └── ...
+│   ├── how_it_works.md            # Documentation that explains how music theory and `DrumScript` interact
 <!--│   └── ...
 ├── models/                        # **NEW:** Directory to store trained machine learning models, scalers, etc.
 │   ├── drum_classifier_model.joblib  # Example: Saved trained classifier model
@@ -63,7 +64,7 @@ DrumScript/
 └── documentation/                 # (Optional) Detailed documentation, tutorials, etc.
 └── user_guide.md
 └── ...--# commenting out for now--->
-
+ 
 ```
 ```
 ```

@@ -1,7 +1,7 @@
 ## DrumScript
 
 <!--date_created: sun-15-june-2025-->
-<!--date_updated: sat-21-june-2025-->
+<!--date_updated: tues-24-june-2025-->
 
 ###### Python 3.12.10
 
@@ -21,10 +21,13 @@ It leverages **advanced audio signal processing** and **machine learning** to de
    - **[Options](#options)**
    - **[Example](#example)**
  - **[Model Training](#model-training)**
- - **[Contributing](#contributing)**
+ 
  <!--- **[License](#license)**-->
+ - **[Contributing](#contributing)**
  - **[Contact](#contact)**
  - **[FAQs](#faqs)**
+
+> See **[how_it_works.md](how_it_works.md)** if you are interested in the link between **music theory** and `DrumScript` structure. 
 
 ---
 
@@ -110,8 +113,6 @@ sudo apt install ffmpeg
 
 
 ---
-
-
 ### Usage
 
 Once installed, you can run `DrumScript` from the command line.
