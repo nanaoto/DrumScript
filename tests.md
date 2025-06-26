@@ -250,9 +250,72 @@ python3 -m drum_classifier.model_trainer
 **expected output:**
 
 ```
+Preparing dataset from: ~~DrumScript/training_data
+  Processing 'bass_drum' sounds...
+  Processing 'closed_hi_hat' sounds...
+  Processing 'crash' sounds...
+  Processing 'dbl_bass_drum' sounds...
+  Processing 'kick' sounds...
+  Processing 'open_hi_hat' sounds...
+  Processing 'ride' sounds...
+  Processing 'snare' sounds...
 
+  Finished data preparation.
+  Total samples: 2519
+  Feature dimension: 24
+  Labels processed: {'bass_drum': 0, 'closed_hi_hat': 1, 'crash': 2, 'dbl_bass_drum': 3, 'kick': 4, 'open_hi_hat': 5, 'ride': 6, 'snare': 7}
+  Features scaled using StandardScaler.
+
+  Training set size: 2015 samples
+  Test set size: 504 samples
+  Initialized DrumClassifier with model type: random_forest
+  Training random_forest model...
+  Model training complete.
+
+  Model Evaluation (random_forest):
+  Accuracy: 0.9782
+
+  Classification Report:
+  ~/DrumScript/.venv/lib/python3.12/site-packages/sklearn/metrics/_classification.py:2939: UserWarning: labels size, 4, does not match size of target_names, 8
+    warnings.warn(
+                precision    recall  f1-score   support
+
+      bass_drum       0.94      0.92      0.93        48
+  closed_hi_hat       0.99      0.98      0.99       150
+          crash       0.95      0.86      0.90        22
+  dbl_bass_drum       0.98      1.00      0.99       284
+
+      accuracy                           0.98       504
+      macro avg       0.96      0.94      0.95       504
+  weighted avg       0.98      0.98      0.98       504
+
+
+  Saving model assets...
+  Model saved to: ~DrumScript/models/drum_classifier_model.joblib
+  Scaler saved to: ~DrumScript/models/scaler.joblib
+  Label map saved to: ~DrumScript/models/label_map.json
+
+  Model training and evaluation finished.
 ```
 
+<!---Once `model_trainer.py` has run to completion, here is an overview of what it will have done:
+
+  * **Data preparation:**
+    *  The script successfully loaded and processed your drum sound samples from `/training_data`, extracting 24 features for each.
+    *  It will have identified all drum labels and applied `StandardScaler` to your features.
+* **Model training:**
+    * Your dataset was split into a training set of n samples and a test set of x samples.
+    * A `random_forest` model was initialised and trained successfully.
+    * The model achieved a very high **Accuracy of 0.9782** on the test set.
+* **Classification report:**
+    * The `UserWarning: labels size, 4, does not match size of target_names, 8` is expected and indicates that your current *test split* happened to only contain 4 of your 8 drum classes. This is common with random splits, especially if some classes have fewer samples.
+    * Despite this, the report successfully shows detailed metrics (*precision*, *recall*, **f1-score**, and *support*) for the 4 classes present in your test set (ie.'bass_drum', 'closed_hi_hat', 'crash', and 'dbl_bass_drum'). The high scores for these categories confirm the model is performing well on the data it was tested against.
+* **Model assets saved:**
+    * Your trained model (`drum_classifier_model.joblib`), the scaler (`scaler.joblib`), and the label map (`label_map.json`) have all been successfully saved into your `models/` directory. These files are essential for using your model to classify new drum sounds in the future.
+>-->
+   You should now have a **trained model** for use! :) 
+
+> **Please note:** The model **currently being used/tested** is a **`RandomClassifier` model**. This may change as package development progresses.
 
 ---
 <!--END-->
