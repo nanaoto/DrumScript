@@ -122,7 +122,7 @@ This is the "brain" of the package, identifying which drum was hit.
     * **Functions:**
         * `build_dataset(audio_files, annotations_files)`: Takes raw drum audio (ideally isolated hits or labeled full tracks) and corresponding labels (e.g., "kick," "snare," "hi-hat"). Extracts features for each labeled hit and stores them.
         * `split_data(features, labels)`: Splits data into training, validation, and test sets.
-    * **Challenge:** Creating a robust, labeled dataset is the hardest part. You might need to manually label some initial drum samples or use existing datasets (e.g., Open Drum Kit, ENST-Drums).
+    * **Challenge:** Creating a robust, labeled dataset is the hardest part.  might need to manually label some initial drum samples or use existing datasets (e.g., Open Drum Kit, ENST-Drums).
 
 * **`drum_model.py`**:
     * **Purpose:** Define the machine learning model architecture.
@@ -133,7 +133,7 @@ This is the "brain" of the package, identifying which drum was hit.
             * **Traditional ML (Scikit-learn):** `RandomForestClassifier`, `SVC` (Support Vector Classifier). Simpler, good baseline.
             * **Deep Learning (TensorFlow/PyTorch):**
                 * **CNN (Convolutional Neural Network):** Excellent for processing spectral images (spectrograms generated from features). Can learn hierarchical features directly from frequency-time representations.
-                * **RNN/LSTM:** If you want to consider sequential context (e.g., hi-hat patterns).
+                * **RNN/LSTM:** If  want to consider sequential context (e.g., hi-hat patterns).
                 * **Transformer:** Emerging as powerful for sequential data like audio.
 
 * **`model_trainer.py`**:
@@ -169,7 +169,7 @@ This module handles converting the identified drum events into a visual score.
         * `music21`: A powerful Python library for computer-aided musicology. Can represent musical objects and export to MusicXML, which can then be converted to PDF.
         * `LilyPond` (external): A powerful music engraving program. `music21` can often interface with it.
         * `PyPDF2` (for direct PDF manipulation if rendering manually, less common for complex scores).
-        * `reportlab` (for drawing shapes, if you want to draw the staff and notes manually, more complex).
+        * `reportlab` (for drawing shapes, if  ant to draw the staff and notes manually, more complex).
     * **Functions:**
         * `generate_pdf(score_data, output_path)`: Takes the structured score data and generates a PDF. This will be the most visually challenging part.
     * **Considerations:** Staff lines, note heads, stems, flags, rests, clefs, time signatures, tempo markings, dynamic markings. `music21` simplifies this greatly.
@@ -186,9 +186,27 @@ Helper functions and configuration.
 
 #### `main.py` (*`The Orchestrator`*)
 
-This script brings all the modules together.
+<!--This script brings all the modules together.-->
 
+ `main.py`serves as the **main entry point** or **orchestration script** for the entire `DrumScript` application. Specifically,  `main.py` is used for:
 
+1.  **Orchestrating the full pipeline:** 
+It brings together all the individual components of  `DrumScript`:
+>
+    * **Audio loading:** It loads the input drum audio file.
+    * **Onset detection:** It detects when drum hits occur in the audio.
+    * **Drum classification:** It loads previously trained drum classification model (from `drum_classifier.drum_model` and `model_trainer`), extracts features from the detected drum hits, and then classifies each hit (e.g., as a kick, snare, hi-hat).
+    * **Notation generation:** It takes the classified drum events, quantizes them (aligns them to a musical grid), and structures them into data suitable for sheet music.
+    * **PDF generation:** Finally, it generates a PDF file of the drum sheet music.
+>
+1.  **User Interface via Command Line:** 
+   It uses `argparse` to allow users **to specify the input audio file**, **the desired output PDF file path**, and (optionally) **the tempo**, directly from the **command line**.
+>
+**This makes it easy for someone to run the entire conversion process with a single command.**
+
+> `main.py` is the script  would run when you **want to convert a complete drum audio recording** into a drum **sheet music PD**F, utilising all the preceding steps (like data preparation and model training). It's the final piece that connects everything together for the end-user functionality.
+
+> However, as the comments in `main.py` script point out, for `main.py` to work correctly,  **must first have a trained drum classification model** saved (using `model_trainer.py`)
 
 ---
 <!--END--->
