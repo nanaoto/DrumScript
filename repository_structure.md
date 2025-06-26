@@ -196,7 +196,7 @@ It brings together all the individual components of  `DrumScript`:
     * **Audio loading:** It loads the input drum audio file.
     * **Onset detection:** It detects when drum hits occur in the audio.
     * **Drum classification:** It loads previously trained drum classification model (from `drum_classifier.drum_model` and `model_trainer`), extracts features from the detected drum hits, and then classifies each hit (e.g., as a kick, snare, hi-hat).
-    * **Notation generation:** It takes the classified drum events, quantizes them (aligns them to a musical grid), and structures them into data suitable for sheet music.
+    * **Notation generation:** It takes the classified drum events, quantizes them (ie. aligns them to a musical grid), and structures them into data suitable for sheet music.
     * **PDF generation:** Finally, it generates a PDF file of the drum sheet music.
 >
 1.  **User Interface via Command Line:** 
