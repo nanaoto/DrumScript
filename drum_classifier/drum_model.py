@@ -4,6 +4,7 @@ import joblib # For saving/loading scikit-learn models
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.svm import SVC
 from sklearn.neural_network import MLPClassifier # Multi-layer Perceptron
+import numpy as np
 
 class DrumClassifier:
     """
