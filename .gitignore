@@ -1,9 +1,20 @@
+# Python build/distribution artifacts
+*.egg-info/
+.Python
+__pycache__/
+*.pyc
+*.so
+*.pyd
+*.dist-info/
+*.egg/
+
 # Python compiled files
 __pycache__/
 *.pyc
 *.pyd
 *.pyo
 *.cpython-312.pyc
+
 # Virtual environment
 .venv/
 venv/
