@@ -31,8 +31,9 @@ def extract_features(audio_segment: np.ndarray, sr: int) -> dict[str, np.ndarray
         features["spectral_rolloff"] = np.array([0.0])
         features["zero_crossing_rate"] = np.array([0.0])
         features["rms"] = np.array([0.0])
-        features["chroma"] = np.zeros(12) # Common n_chroma value
+        # features["chroma"] = np.zeros(12) # Common n_chroma value - COMMENT OUT OR DELETE THIS LINE
         return features
+    
     
     # Define common FFT parameters for percussive sounds
     # Adjust n_fft and hop_length to be more suitable for short transients
@@ -60,10 +61,11 @@ def extract_features(audio_segment: np.ndarray, sr: int) -> dict[str, np.ndarray
     rms = librosa.feature.rms(y=audio_segment)[0] # [0] to get the 1D array
     features["rms"] = np.array([np.mean(rms)] if rms.size > 0 else [0.0])
 
-    # Chroma features (optional, but ensure it's handled consistently if used)
+# Chroma features (optional, but ensure it's handled consistently if used)
     # We take the mean across the time axis (axis=1) to get a single vector of 12 chroma values.
-    chroma = librosa.feature.chroma_stft(y=audio_segment, sr=sr)
-    features["chroma"] = np.mean(chroma, axis=1) if chroma.size > 0 else np.zeros(12)
+    # COMMENT OUT OR DELETE THESE TWO LINES:
+    # chroma = librosa.feature.chroma_stft(y=audio_segment, sr=sr)
+    # features["chroma"] = np.mean(chroma, axis=1) if chroma.size > 0 else np.zeros(12)
 
     return features
 
