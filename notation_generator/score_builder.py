@@ -1,9 +1,12 @@
 # DrumScript/notation_generator/score_builder.py
 
 from typing import List, Dict, Any
-from . import config
-from . import constants
-from .helpers import seconds_to_beats, round_to_nearest_subdivision, format_event_for_notation_library
+#from . import config
+#from . import constants
+#from .helpers import seconds_to_beats, round_to_nearest_subdivision, format_event_for_notation_library
+import config
+import constants
+from helpers import seconds_to_beats, round_to_nearest_subdivision, format_event_for_notation_library
 
 def quantize_events(classified_events: List[Dict[str, Any]], tempo: int, subdivision: int) -> List[Dict[str, Any]]:
     """
