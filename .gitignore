@@ -60,4 +60,4 @@ training_data/
 # temp files
 audio_processor/__pycache__/feature_extractor.cpython-312.pyc
 logs.txt
-audio_processor/__pycache__/feature_extractor.cpython-312.pyc
+.gitignore
