@@ -1,12 +1,19 @@
 import argparse
-from DrumScript.audio_processor.audio_loader import load_audio
-from DrumScript.audio_processor.onset_detector import detect_onsets
-from DrumScript.audio_processor.feature_extractor import extract_features
-from DrumScript.drum_classifier.drum_model import DrumClassifierModel
-from DrumScript.drum_classifier.model_trainer import load_model # Assuming a pre-trained model
-from DrumScript.notation_generator.score_builder import quantize_events, map_to_drum_parts, create_score_data
-from DrumScript.notation_generator.pdf_exporter import generate_pdf
-from DrumScript.utils.config import get_config
+import os # Make sure os is imported for path manipulations
+import joblib # Import joblib for loading scaler and model
+import json   # Import json for loading label map
+import numpy as np # Import numpy for array manipulation
+
+
+# Corrected imports for main.py located within the DrumScript package directory
+from audio_processor.audio_loader import load_audio
+from audio_processor.onset_detector import detect_onsets
+from audio_processor.feature_extractor import extract_features
+from drum_classifier.drum_model import DrumClassifier # Already correct
+from notation_generator.score_builder import quantize_events, create_score_data # map_to_drum_parts might not be needed
+from notation_generator.pdf_exporter import generate_pdf
+from utils.config import get_config # This imports get_config from utils/config.py
+
 
 def run_drumscript(audio_filepath, output_pdf_path, tempo=None):
     config = get_config()
@@ -18,32 +25,77 @@ def run_drumscript(audio_filepath, output_pdf_path, tempo=None):
     onset_times = detect_onsets(audio_data, sr)
     print(f"Detected {len(onset_times)} onsets.")
 
-    print("Loading drum classification model...")
-    # Load your pre-trained model here
-    # For a real project, you'd train this separately and save it.
-    drum_classifier = load_model(config['model']['path'])
+    print("Loading drum classification model, scaler, and label map...")
+    # --- START of MODIFIED/NEW LOADING LOGIC ---
+    models_dir = config['model']['models_dir'] # Assuming you add this to your config.py
+    model_path = os.path.join(models_dir, 'drum_classifier_model.joblib')
+    scaler_path = os.path.join(models_dir, 'scaler.joblib')
+    label_map_path = os.path.join(models_dir, 'label_map.json')
+
+    # Load the trained model
+    # Initialise the DrumClassifier, then load the actual trained model into its .model attribute
+    drum_classifier_instance = DrumClassifier(model_type=config['model']['type']) # Use the model type from config
+    drum_classifier_instance.model = joblib.load(model_path)
+
+    # Load the scaler
+    scaler = joblib.load(scaler_path)
+
+    # Load the label map
+    with open(label_map_path, 'r') as f:
+        label_map = json.load(f)
+    inverse_label_map = {v: k for k, v in label_map.items()}
+    # --- END of MODIFIED/NEW LOADING LOGIC ---
 
     classified_events = []
     print("Classifying drum events...")
+    # Loop through detected onsets to extract features and classify
     for i, onset_time in enumerate(onset_times):
         # Extract small segment around the onset
         start_sample = int(onset_time * sr)
-        end_sample = min(start_sample + int(config['audio']['segment_length_samples']), len(audio_data))
-        segment = audio_data[start_sample:end_sample]
+        # Use segment_length_seconds from config for consistency
+        segment_length_samples = int(config['audio']['segment_length_seconds'] * sr) 
+        end_sample = min(start_sample + segment_length_samples, len(audio_data))
+        audio_segment = audio_data[start_sample:end_sample]
 
-        if len(segment) > 0:
-            features = extract_features(segment, sr)
-            # Reshape features for prediction if needed (e.g., for single prediction)
-            prediction = drum_classifier.predict([features])[0] # Assuming single prediction
-            # Map prediction index to drum type string
-            drum_type = config['model']['class_labels'][prediction]
-            classified_events.append({'time': onset_time, 'drum_type': drum_type})
-            print(f"  Onset {i+1}: {onset_time:.2f}s -> {drum_type}")
+        # Ensure the segment is not empty for feature extraction
+        if audio_segment.size == 0:
+            print(f"  Warning: Empty segment for onset at {onset_time:.2f}s. Skipping feature extraction.")
+            continue
+
+        features_dict = extract_features(audio_segment, sr)
+        
+        # Flatten the dictionary of features into a single NumPy array
+        # Ensure the order of features is consistent with how the model was trained
+        all_features = []
+        # The `sorted(features_dict.keys())` ensures consistent feature order as in `predict.py`
+        for key in sorted(features_dict.keys()): 
+            feature_array = features_dict[key]
+            # Ensure the feature_array is a 1D array before extending
+            if feature_array.ndim > 1:
+                feature_array = feature_array.flatten()
+            all_features.extend(feature_array)
+        
+        # Reshape the features for single sample prediction (1 row, N columns)
+        X_new = np.array(all_features).reshape(1, -1) 
+
+        # Scale the new features using the loaded scaler
+        X_new_scaled = scaler.transform(X_new) # Use the directly loaded 'scaler' object
+
+        # Predict the drum type using the loaded model instance
+        predictions_numeric = drum_classifier_instance.predict(X_new_scaled)
+        # Get the string label from the inverse label map
+        predicted_label = inverse_label_map.get(predictions_numeric[0], f"Unknown Label {predictions_numeric[0]}")
+        
+        classified_events.append({'time': onset_time, 'drum_type': predicted_label})
+        print(f"  Onset {i+1}: {onset_time:.2f}s -> {predicted_label}")
 
     print("Quantizing and building score data...")
-    # If tempo is not provided, you might need a tempo detection step here
-    # For simplicity, let's assume a default or user-provided tempo for now
-    quantized_events = quantize_events(classified_events, tempo=tempo if tempo else config['notation']['default_tempo'], subdivision=config['notation']['subdivision'])
+    # If tempo is not provided, use the default from config
+    # You might want more sophisticated tempo detection here later
+    final_tempo = tempo if tempo else config['notation']['default_tempo']
+    quantized_events = quantize_events(classified_events, tempo=final_tempo, subdivision=config['notation']['subdivision'])
+    
+    # map_to_drum_parts is likely called within create_score_data, or directly if needed
     score_data = create_score_data(quantized_events)
 
     print(f"Generating PDF sheet music to {output_pdf_path}...")
@@ -58,8 +110,5 @@ if __name__ == "__main__":
     parser.add_argument("--tempo", type=int, default=None, help="Optional: Specify tempo in BPM. If not provided, a default or detected tempo will be used.")
     args = parser.parse_args()
 
-    # Example of a missing piece: training a model initially.
-    # For first use, you'd need to run a separate script to train the model
-    # and save it before you can load it here.
-
+    # Call the main function to run the drumscript
     run_drumscript(args.audio_file, args.output_pdf, args.tempo)
