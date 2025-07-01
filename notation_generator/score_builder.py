@@ -4,7 +4,7 @@ from typing import List, Dict, Any
 #from . import config
 #from . import constants
 #from .helpers import seconds_to_beats, round_to_nearest_subdivision, format_event_for_notation_library
-import config
+import utils.config as config
 import constants
 from helpers import seconds_to_beats, round_to_nearest_subdivision, format_event_for_notation_library
 
