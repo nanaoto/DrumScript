@@ -2,11 +2,13 @@
 *.egg-info/
 .Python
 __pycache__/
+__pycache__/*
 *.pyc
 *.so
 *.pyd
 *.dist-info/
 *.egg/
+*.cpython-312.pyc
 
 # Python compiled files
 __pycache__/
@@ -58,6 +60,8 @@ training_data/
 .ipynb_checkpoints/ # Jupyter notebooks
 
 # temp files
+
 audio_processor/__pycache__/feature_extractor.cpython-312.pyc
+/feature_extractor.cpython-312.pyc
 logs.txt
 .gitignore
