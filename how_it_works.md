@@ -2,7 +2,7 @@
 
 
 <!--date_created: tues-24-june-2025-->
-<!--date_updated: weds-25-june2025-->
+<!--date_updated: thurs-03-july-2025-->
 **Description:** This document serves dual purpose:
 
 1) It outlines the purpose of **specific modules** in `DrumScript`, object-wise.

@@ -1,9 +1,12 @@
 <!--date_created: weds-25-june-2025-->
-<!--date_updated: weds-25-june2025-->
+<!--date_updated: thurs-03-july-2025-->
 
 # **`DrumScript`: Glossary of Terms**
 
-## [`librosa`](#librosa)
+# **Python Libraries**
+## [`Librosa`](#librosa)
+<!--## **[`librosa`](https://github.com/librosa/librosa)**-->
+> **Python library**
    - [`librosa`](https://librosa.org/doc/latest/advanced.html) is a popular open-source Python library for **audio and music analysis**. It is a **powerful toolkit** that helps you **process, analyse**, and understand **sound**.
    - `librosa` provides a wide **range of Python functions** for common tasks in **music information retrieval (MIR)** and **audio processing**, such as:
      - **Loading audio files:** Reading various audio formats (`.wav`, `.MP3`, etc.) into a format Python can easily work with.
@@ -14,7 +17,19 @@
      - **Onset detection:** Finding the **precise moments where sounds begin** (like a *snare hit*).
 
   In `DrumScript`, `librosa` is crucial because it's the underlying library that `audio_loader.py`, `feature_extractor.py`, and `onset_detector.py` use to actually perform the **low-level audio processing** and extract the characteristics of your **drum sound** and **audio recordings**
+<!--## **[`MuseScore`](https://github.com/musescore/MuseScore)**-->
+## [`MuseScore`](#musescore)
+   - [`MuseScore`](https://musescore.org/) [source code here](https://github.com/musescore/MuseScore)is a popular, free, and open-source **music notation software**. It provides a comprehensive environment for **creating, editing, printing**, and **playing back sheet music**.
+   - `MuseScore` offers a wide range of features for **composing and arranging music**, such as:
+     - **Intuitive score entry:** Easily add notes, rests, and other musical elements using a mouse, keyboard, or MIDI input.
+     - **Extensive musical symbols:** Supports a vast library of notation symbols, including dynamics, articulations, slurs, tuplets, and complex rhythmic figures.
+     - **Playback capabilities:** Hear your compositions with built-in sounds, allowing for immediate feedback on your arrangements.
+     - **Layout and formatting:** Professional-quality typesetting and customizable layout options for print and digital distribution.
+     - **Import/Export options:** Supports various file formats, including **MusicXML**, MIDI, PDF, and audio formats.
 
+  In `DrumScript`, `MuseScore` is crucial because `music21` can be configured to use it as an **external backend for converting the generated MusicXML score data into a high-quality PDF of drum sheet music**. When LilyPond encounters issues, `MuseScore` serves as a robust and visually capable alternative for rendering the final notation.
+
+# **Variables**
 ## `sample_rate` (`sr`)
 > ***Variable***
   * **Meaning:** How many *snapshots* of the sound wave are taken per second when audio is digitised. A higher number means more detail.
@@ -73,3 +88,8 @@
 > If `hop_length=512`, the window (or `object_event`) moves **512 samples to the right** for the next analysis, overlapping with the previous window (`object_event`).
 
   * Playing around with the `hop_length` is often crucial for finding the right split of intervals in a given audio sample. 
+
+
+---
+
+<!--END-->

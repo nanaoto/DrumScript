@@ -2,8 +2,7 @@
 
 
 <!--date_created: sun-15-june2025-->
-
-<!--date_updated: weds-24-june-2025-->
+<!--date_updated: thurs-03-july-2025-->
 
 ---
 ### **Modular Structure**
@@ -89,15 +88,15 @@ This module handles all the raw audio manipulation and initial feature extractio
     * **Functions:**
         * `load_audio(file_path, sr=None)`: Loads audio, optionally resamples to a target sample rate (`sr`).
         * `normalise_audio(audio_data)`: Normalizes amplitude to a standard range (-1.0 to 1.0).
-    * 
 
+>
 * **`onset_detector.py`**:
     * **Purpose:** Identify the precise time points where drum hits occur.
     * **Scientific Principle:** Onsets are characterized by rapid changes in spectral energy or amplitude over time (high spectral flux).
     * **Functions:**
         * `detect_onsets(audio_data, sr)`: Uses algorithms like `librosa.onset.onset_detect` (which might use spectral flux, peak picking, etc.) to return a list of onset times in seconds.
     * **Considerations:** Thresholding is critical. Too low, many false positives; too high, miss subtle hits (ghost notes).
-
+>
 * **`feature_extractor.py`**:
     * **Purpose:** Extract relevant features from audio segments around detected onsets that characterize drum sounds.
     * **Scientific Principle:** Timbre differences are encoded in the frequency content (spectrum) and the temporal evolution of the sound.
@@ -112,18 +111,18 @@ This module handles all the raw audio manipulation and initial feature extractio
             * **Spectral Bandwidth:** Spread of frequencies.
             * **Pitch (for pitched elements like toms, or to *disregard* for unpitched ones):** While drums are unpitched, low-frequency content can indicate bass drum.
             * **Attack/Decay Characteristics:** Shape of the amplitude envelope.
-
+>
 #### `drum_classifier/`
 
-This is the "brain" of the package, identifying which drum was hit.
+This is the *brain* of the package, identifying **which drum was hit**.
 
 * **`data_preparer.py`**:
     * **Purpose:** Prepare a dataset for training the drum classifier.
     * **Functions:**
-        * `build_dataset(audio_files, annotations_files)`: Takes raw drum audio (ideally isolated hits or labeled full tracks) and corresponding labels (e.g., "kick," "snare," "hi-hat"). Extracts features for each labeled hit and stores them.
+        * `build_dataset(audio_files, annotations_files)`: Takes raw drum audio (ideally isolated hits or labeled full tracks) and corresponding labels (e.g., *kick,* *snare,* *hi-hat*). Extracts features for each labeled hit and stores them.
         * `split_data(features, labels)`: Splits data into training, validation, and test sets.
     * **Challenge:** Creating a robust, labeled dataset is the hardest part.  might need to manually label some initial drum samples or use existing datasets (e.g., Open Drum Kit, ENST-Drums).
-
+>
 * **`drum_model.py`**:
     * **Purpose:** Define the machine learning model architecture.
     * **Scientific Principle:** Machine learning models learn complex patterns and relationships between input features (spectral data) and output classes (drum type).
@@ -135,7 +134,7 @@ This is the "brain" of the package, identifying which drum was hit.
                 * **CNN (Convolutional Neural Network):** Excellent for processing spectral images (spectrograms generated from features). Can learn hierarchical features directly from frequency-time representations.
                 * **RNN/LSTM:** If  want to consider sequential context (e.g., hi-hat patterns).
                 * **Transformer:** Emerging as powerful for sequential data like audio.
-
+>
 * **`model_trainer.py`**:
     * **Purpose:** Train and evaluate the drum classification model.
     * **Functions:**
@@ -152,7 +151,7 @@ This module handles converting the identified drum events into a visual score.
     * **Scientific Principle:** Musical quantization (aligning events to a beat grid) and standard drum notation rules.
     * **Functions:**
         * `quantize_events(onset_times, tempo=120, subdivision=16)`: Takes raw onset times and snaps them to the nearest musical subdivision (e.g., 16th note). This is critical for readable sheet music. Requires tempo detection (or user input).
-        * `map_to_drum_parts(classified_events)`: Converts classified drum hits ("kick", "snare") into standard drum notation elements (e.g., MIDI note numbers for notation software, or custom symbols).
+        * `map_to_drum_parts(classified_events)`: Converts classified drum hits (*kick*, *snare*) into standard drum notation elements (e.g., MIDI note numbers for notation software, or custom symbols).
         * `create_score_data(quantized_events)`: Assembles the raw data for the score (e.g., a list of `(time, drum_part, velocity)` tuples).
     * **Notation Mapping (Example):**
         * Kick: Lowest space/line
@@ -162,7 +161,7 @@ This module handles converting the identified drum events into a visual score.
         * Crash: Above top staff line
         * Ride: Top space (X-head)
         * Toms: Various spaces/lines
-
+>
 * **`pdf_exporter.py`**:
     * **Purpose:** Render the musical score data into a PDF.
     * **Libraries:**
@@ -173,10 +172,10 @@ This module handles converting the identified drum events into a visual score.
     * **Functions:**
         * `generate_pdf(score_data, output_path)`: Takes the structured score data and generates a PDF. This will be the most visually challenging part.
     * **Considerations:** Staff lines, note heads, stems, flags, rests, clefs, time signatures, tempo markings, dynamic markings. `music21` simplifies this greatly.
-
+>
 #### `utils/`
 
-Helper functions and configuration.
+> Helper and configuration functions
 
 * **`config.py`**: Stores configuration parameters (e.g., default sample rate, model paths, feature extraction parameters).
 * **`helpers.py`**: Small utility functions (e.g., `milliseconds_to_seconds`).
