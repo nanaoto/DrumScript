@@ -7,6 +7,7 @@ from typing import List, Dict, Any
 import utils.config as config
 #import constants
 from . import constants
+import math
 #from helpers import seconds_to_beats, round_to_nearest_subdivision, format_event_for_notation_library
 from .helpers import seconds_to_beats, round_to_nearest_subdivision, format_event_for_notation_library
 
@@ -154,6 +155,7 @@ def create_score_data(quantized_and_mapped_events: List[Dict[str, Any]]) -> Dict
         score_data['parts']['drums'].append({
             'measure': measure_number,
             'beat_in_measure': beat_in_measure,
+            'time_beats': beat_time,
             'midi_pitch': event['midi_pitch'],
             'drum_type': event['drum_type'],
             'note_head_type': event['note_head_type'],
