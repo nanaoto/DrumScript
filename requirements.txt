@@ -8,9 +8,11 @@ pyyaml
 pydub
 llvmlite
 music21
+musescore
 numba
 soundfile
 sounddevice
 pandas
+#lilypond
 #pytorch
 #tensorflow

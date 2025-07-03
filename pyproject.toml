@@ -42,7 +42,9 @@ dependencies = [
     "numba",
     "soundfile",
     "sounddevice",
-    "music21"
+    "music21",
+    "musescore",
+    #"lilypond"
     #"pytorch",
     #"tensorflow"
 ]
