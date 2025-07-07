@@ -13,6 +13,20 @@ The following documentation outlines how you can use the `data_labeller/` module
 
 <!-- date_updated: mon-07-jul-2025-->
 
+> **Updated functionality:**
+> 
+> For each detected drum event, the `data_labeler` module will now:
+>
+> 1. **Extract the audio segment.**
+>
+> 2. **Save this segment** as a `.wav` file in a new `audio_segments/` sub-folder within your chosen output directory (e.g., `labelled_datasets/audio_segments/`). 
+> 3. **Include the path to this saved audio segment** in both the `JSON` and `CSV` output files under the field `"saved_audio_segment_path"`. 
+> 
+> **NOTE:** The filename will be descriptive, including the **original audio name**, **event number**, and **onset time** (e.g., groove_1_event_3_onset_2.15s.wav).
+>
+> These amendments allow for **easy post-review** and playback, post-script.
+
+
 ---
 
 ### How it Works
@@ -55,7 +69,7 @@ This module facilitates an **interactive labelling process**, which is the most 
         ```bash
         uv pip install sounddevice
         ```
-      * **Important for Audio Playback:** `sounddevice` relies on a system-level library called **PortAudio**. You might need to install this separately:
+      * **Important for Audio Playback:** `sounddevice` relies on a system-level  library called **PortAudio**. You might need to install this separately:
           * **macOS:** `brew install portaudio` (if you have Homebrew)
           * **Ubuntu/Debian:** `sudo apt-get install libportaudio2`
           * **Windows:** PortAudio usually comes bundled with `sounddevice` wheels, or you might need to find specific installation instructions for your Python distribution.
