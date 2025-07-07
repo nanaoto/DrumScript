@@ -60,7 +60,7 @@ def extract_features_for_segment(y_segment: np.ndarray, sr: int) -> Dict[str, An
 
 def process_and_label_audio(
     audio_filepath: Path,
-    output_dir: Path, # Not directly used in this function, but passed from main
+    output_dir: Path, # Directory to save labelled data and audio segments
     onset_offset_ms: int = 50, # Time before onset to start segment
     onset_duration_ms: int = 200, # Duration after onset for segment
     onset_pre_max: int = 1, # Parameters for librosa onset detection
@@ -73,11 +73,15 @@ def process_and_label_audio(
 ) -> List[Dict[str, Any]]:
     """
     Loads an audio file, detects onsets, and interactively prompts the user
-    to label each detected drum event.
+    to label each detected drum event. It also saves each segment to an audio file.
     """
     print(f"\n--- Processing '{audio_filepath.name}' for labelling ---")
     y, sr = audio_loader.load_audio(str(audio_filepath))
     y = audio_loader.normalize_audio(y)
+
+    # Create a subdirectory for audio segments within the main output_dir
+    audio_segments_output_path = output_dir / "audio_segments"
+    audio_segments_output_path.mkdir(parents=True, exist_ok=True)
 
     # Use existing onset detection logic, potentially with refined parameters
     onset_frames = onset_detector.detect_onsets(
@@ -98,10 +102,21 @@ def process_and_label_audio(
 
         # Convert times to sample indices
         start_sample = int(start_time * sr)
-        end_sample = int(end_sample * sr) # Corrected line: was int(end_time * sr)
+        end_sample = int(end_time * sr)
 
         # Extract audio segment
         y_segment = y[start_sample:end_sample]
+
+        # Save the audio segment to a file
+        segment_filename = f"{audio_filepath.stem}_event_{i+1}_onset_{onset_time:.2f}s.wav"
+        segment_filepath = audio_segments_output_path / segment_filename
+        
+        try:
+            sf.write(str(segment_filepath), y_segment, sr)
+            print(f"Saved segment to: {segment_filepath}")
+        except Exception as e:
+            print(f"Error saving audio segment {segment_filepath}: {e}")
+            segment_filepath = None # Mark as failed if saving fails
 
         print(f"\n--- Event {i+1}/{len(onset_times)} at {onset_time:.2f}s ---")
         play_audio_segment(y_segment, sr)
@@ -122,6 +137,7 @@ def process_and_label_audio(
             "segment_end_s": float(end_time),
             "segment_duration_s": float(end_time - start_time),
             "label": label,
+            "saved_audio_segment_path": str(segment_filepath) if segment_filepath else None,
             "features": segment_features
         }
         labelled_events.append(event_data)
@@ -135,7 +151,8 @@ def generate_labelled_dataset(audio_file_paths: List[str], output_dir: str):
 
     Args:
         audio_file_paths (List[str]): List of paths to input audio files.
-        output_dir (str): Directory to save the JSON and CSV output files.
+        output_dir (str): Directory to save the JSON and CSV output files,
+                          and a subdirectory for audio segments.
     """
     output_path = Path(output_dir)
     output_path.mkdir(parents=True, exist_ok=True)
@@ -151,7 +168,6 @@ def generate_labelled_dataset(audio_file_paths: List[str], output_dir: str):
             print(f"Warning: Unsupported audio format for {file_path_str}. Skipping.")
             continue
 
-        # Pass output_path to process_and_label_audio, though it's not used directly inside
         labelled_events_for_file = process_and_label_audio(file_path, output_path)
         all_labelled_events.extend(labelled_events_for_file)
 
@@ -170,7 +186,6 @@ def generate_labelled_dataset(audio_file_paths: List[str], output_dir: str):
     if all_labelled_events:
         csv_data = []
         # Dynamically build feature headers based on actual extracted features
-        # Assuming n_mfcc=13 for consistency based on extract_features_for_segment
         mfcc_mean_headers = [f"mfccs_mean_{i}" for i in range(13)]
         mfcc_std_headers = [f"mfccs_std_{i}" for i in range(13)]
         
@@ -181,7 +196,8 @@ def generate_labelled_dataset(audio_file_paths: List[str], output_dir: str):
         
         base_headers = [
             "audio_filename", "onset_time_s", "segment_start_s",
-            "segment_end_s", "segment_duration_s", "label"
+            "segment_end_s", "segment_duration_s", "label",
+            "saved_audio_segment_path" # Added this field
         ]
         
         all_headers = base_headers + mfcc_mean_headers + mfcc_std_headers + feature_specific_headers
@@ -193,7 +209,8 @@ def generate_labelled_dataset(audio_file_paths: List[str], output_dir: str):
                 "segment_start_s": event["segment_start_s"],
                 "segment_end_s": event["segment_end_s"],
                 "segment_duration_s": event["segment_duration_s"],
-                "label": event["label"]
+                "label": event["label"],
+                "saved_audio_segment_path": event["saved_audio_segment_path"] # Added this field
             }
             # Flatten MFCCs and other features
             features_dict = event.get("features", {})
