@@ -19,7 +19,7 @@
   In `DrumScript`, `librosa` is crucial because it's the underlying library that `audio_loader.py`, `feature_extractor.py`, and `onset_detector.py` use to actually perform the **low-level audio processing** and extract the characteristics of your **drum sound** and **audio recordings**
 <!--## **[`MuseScore`](https://github.com/musescore/MuseScore)**-->
 ## [`MuseScore`](#musescore)
-   - [`MuseScore`](https://musescore.org/) [source code here](https://github.com/musescore/MuseScore)is a popular, free, and open-source **music notation software**. It provides a comprehensive environment for **creating, editing, printing**, and **playing back sheet music**.
+   - [`MuseScore`](https://musescore.org/) [source code here](https://github.com/musescore/MuseScore) is a popular, free, and open-source **music notation software**. It provides a comprehensive environment for **creating, editing, printing**, and **playing back sheet music**.
    - `MuseScore` offers a wide range of features for **composing and arranging music**, such as:
      - **Intuitive score entry:** Easily add notes, rests, and other musical elements using a mouse, keyboard, or MIDI input.
      - **Extensive musical symbols:** Supports a vast library of notation symbols, including dynamics, articulations, slurs, tuplets, and complex rhythmic figures.

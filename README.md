@@ -1,7 +1,7 @@
 ## **DrumScript**
 
 <!--date_created: sun-15-june-2025-->
-<!--date_updated: thurs-03-july-2025-->
+<!--date_updated: mon-07-july-2025-->
 
 > **Python 3.12.10**
 
@@ -63,9 +63,9 @@ It leverages **advanced audio signal processing** and **machine learning** to de
 > **NOTE:** 
 > Other `Python` package managers, ie `pip`, `conda`, `pyenv`, `hatch`, `poetry` may be used interchangeably with the commands above.
 >
-> **LilyPond Installation**
+**LilyPond Installation**
 
-To generate high-quality PDF sheet music, DrumScript utilizes `music21` which, in turn, relies on an external music engraving program called **LilyPond**. You'll need to install LilyPond separately on your system for PDF export functionality to work.
+To generate high-quality PDF sheet music, DrumScript utilises `music21` which, in turn, relies on an external music engraving program called **LilyPond**. You'll need to install LilyPond separately on your system for PDF export functionality to work.
 
   * **Download & Install LilyPond:**
 
@@ -88,8 +88,20 @@ To generate high-quality PDF sheet music, DrumScript utilizes `music21` which, i
 
 ---
 ### Dependencies
->
-A list of dependencies can be found in the **[requirements](requirements.txt)** and in **[pyproject.toml](pyproject.toml)**
+A list of dependencies can be found in **[`requirements.txt`](requirements.txt)** and in **[`pyproject.toml`](pyproject.toml)**
+
+
+---
+> **Important  note for audio playback [`sounddevice`](https://python-sounddevice.readthedocs.io/en/0.5.1/):** 
+        >
+        > **`sounddevice`** relies on a system-level library called **[PortAudio](https://www.portaudio.com/). You might need to install this separately**:
+        >
+        > * **macOS:** `brew install portaudio` (if you have Homebrew)
+        > * **Ubuntu/Debian:** `sudo apt-get install libportaudio2`
+        > * **Windows:** `PortAudio` usually comes bundled with `sounddevice` wheels, but you might need to find specific installation instructions for your Python distribution.
+        > 
+        > **[`PortAudio` source code](https://github.com/PortAudio/portaudio)**
+
 
 
 ---
