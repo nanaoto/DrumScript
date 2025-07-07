@@ -33,7 +33,7 @@ def load_audio(file_path: str, sr: int = None) -> tuple[np.ndarray, int]:
     try:
         audio_data, sample_rate = librosa.load(file_path, sr=sr) # The liborsa.load_audio() fct handles wide variety of audio formats, including .mp3, .wav, .flac, .ogg, etc.
         return audio_data, sample_rate
-    except FileNotFoundError:
+    except FileNotFoundError:w
         print(f"Error: Audio file not found at {file_path}")
         raise
     except Exception as e:

@@ -77,7 +77,7 @@ def process_and_label_audio(
     """
     print(f"\n--- Processing '{audio_filepath.name}' for labelling ---")
     y, sr = audio_loader.load_audio(str(audio_filepath))
-    y = audio_loader.normalize_audio(y)
+    y = audio_loader.normalise_audio(y)
 
     # Create a subdirectory for audio segments within the main output_dir
     audio_segments_output_path = output_dir / "audio_segments"
