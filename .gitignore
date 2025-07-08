@@ -65,3 +65,4 @@ audio_processor/__pycache__/feature_extractor.cpython-312.pyc
 /feature_extractor.cpython-312.pyc
 logs.txt
 .gitignore
+labelled_datasets/audio_segments/
