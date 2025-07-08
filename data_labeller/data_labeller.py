@@ -85,7 +85,7 @@ def process_and_label_audio(
 
     # Use existing onset detection logic, potentially with refined parameters
     onset_frames = onset_detector.detect_onsets(
-        y=y, sr=sr,
+        audio_data=y, sr=sr,
         pre_max=onset_pre_max, post_max=onset_post_max,
         pre_avg=onset_pre_avg, post_avg=onset_post_avg,
         wait=onset_wait, delta=onset_delta, backtrack=onset_backtrack
