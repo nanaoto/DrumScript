@@ -105,7 +105,8 @@ def run_drumscript(audio_filepath, output_pdf_path, tempo=None):
     quantized_and_mapped_events = map_to_drum_parts(quantized_events)
 
     # Now pass the correctly mapped events to create_score_data
-    score_data = create_score_data(quantized_and_mapped_events)
+    # score_data = create_score_data(quantized_and_mapped_events)
+    score_data = create_score_data(quantized_and_mapped_events, final_tempo)
 
     print(f"Generating PDF sheet music to {output_pdf_path}...")
     generate_pdf(score_data, output_pdf_path)

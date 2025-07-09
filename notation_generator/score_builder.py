@@ -99,7 +99,8 @@ def map_to_drum_parts(quantized_events: List[Dict[str, Any]]) -> List[Dict[str, 
     print("Drum part mapping complete.")
     return drum_part_events
 
-def create_score_data(quantized_and_mapped_events: List[Dict[str, Any]]) -> Dict[str, Any]:
+#def create_score_data(quantized_and_mapped_events: List[Dict[str, Any]]) -> Dict[str, Any]:
+def create_score_data(quantized_and_mapped_events: List[Dict[str, Any]], tempo: int) -> Dict[str, Any]:
     """
     Aggregates quantized and mapped drum events into a structured dictionary
     representing the complete score, ready for PDF export.
@@ -132,7 +133,8 @@ def create_score_data(quantized_and_mapped_events: List[Dict[str, Any]]) -> Dict
     score_data = {
         'title': 'DrumScript Transcription',
         'composer': 'AI Generated',
-        'tempo': config.DEFAULT_TEMPO_BPM, # Use default or derive from input
+        #'tempo': config.DEFAULT_TEMPO_BPM, # Use default (120bpm) or derive from input when the script runs
+        'tempo': tempo, # Use the tempo passed as an argument
         'time_signature': f"{constants.TIME_SIGNATURE_NUMERATOR}/{constants.TIME_SIGNATURE_DENOMINATOR}",
         'parts': {
             'drums': []
