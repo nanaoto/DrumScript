@@ -52,7 +52,8 @@ def prepare_dataset(data_dir: str, sr: int = 22050, segment_length_seconds: floa
 
         print(f"  Processing '{drum_type}' sounds...")
         for audio_file_name in os.listdir(drum_type_path):
-            if audio_file_name.lower().endswith(('.wav', '.mp3', '.flac')):
+            # if audio_file_name.lower().endswith(('.wav', '.mp3', '.flac')):
+              if audio_file_name.lower().endswith(('.wav', '.mp3', '.flac', '.aif', '.aiff')):
                 file_path = os.path.join(drum_type_path, audio_file_name)
                 try:
                     audio_data, sample_rate = load_audio(file_path, sr=sr)
