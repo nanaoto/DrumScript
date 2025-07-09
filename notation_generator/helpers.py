@@ -28,38 +28,6 @@ def round_to_nearest_subdivision(time_in_beats: float, subdivision: int) -> floa
     rounded_time = round(time_in_beats / unit_duration_in_beats) * unit_duration_in_beats
     return rounded_time
 
-def map_pitch_to_staff_position(midi_pitch: int) -> float:
-    """
-    Maps a MIDI pitch number to a conceptual staff vertical position.
-    This is a simplified mapping for percussion staff.
-
-    Args:
-        midi_pitch (int): The MIDI note number (e.g., 36 for Kick).
-
-    Returns:
-        float: A conceptual vertical position on the staff.
-               0.0 could be the middle line, positive values above, negative below.
-               Half-integer values represent spaces between lines.
-    """
-    # This mapping is highly dependent on your desired visual representation
-    # and the rendering library. Using constants for common drum sounds.
-    if midi_pitch == constants.MIDI_KICK:
-        return constants.STAFF_POS_KICK
-    elif midi_pitch == constants.MIDI_SNARE_ACOUSTIC:
-        return constants.STAFF_POS_SNARE
-    elif midi_pitch in [constants.MIDI_HI_HAT_CLOSED, constants.MIDI_HI_HAT_OPEN, constants.MIDI_HI_HAT_PEDAL]:
-        return constants.STAFF_POS_HI_HAT
-    elif midi_pitch == constants.MIDI_CRASH_CYMBAL_1:
-        return constants.STAFF_POS_CRASH
-    elif midi_pitch == constants.MIDI_RIDE_CYMBAL_1:
-        return constants.STAFF_POS_RIDE
-    # Add more mappings as needed
-    else:
-        # Fallback for unmapped drums, or a default position
-        print(f"Warning: No specific staff position defined for MIDI pitch {midi_pitch}. Using default.")
-        return constants.STAFF_POS_SNARE # Default to snare position
-
-
 def get_note_duration_name(duration_beats: float, tempo_bpm: int) -> str:
     """
     Converts a duration in beats to a standard musical note duration name (e.g., "quarter", "eighth").
@@ -147,18 +115,31 @@ def format_event_for_notation_library(event: dict) -> dict:
 
     Returns:
         dict: A formatted dictionary with notation-specific properties,
-              e.g., {'beat_time': float, 'midi_pitch': int, 'note_head': str, 'staff_pos': float}.
+              e.g., {'midi_pitch': int, 'note_head': str, 'staff_pos': str}.
     """
     drum_type = event.get('drum_type')
     onset_time_seconds = event.get('time')
 
-    # Example mapping drum_type to MIDI pitch (you'll need a comprehensive mapping)
-    # This is simplified; ideally you have a more robust mapping from your constants or config
+    notation_map_entry = constants.DRUM_NOTATION_MAP.get(drum_type)
+
     midi_pitch = None
+    note_head_type = constants.NOTEHEAD_NORMAL # Default
+    staff_position_string = None # Will store string like 'F2', 'C3'
+
+    if notation_map_entry:
+        staff_position_string = notation_map_entry.get('staff_position')
+        note_head_type = notation_map_entry.get('note_head', constants.NOTEHEAD_NORMAL)
+    else:
+        print(f"Warning: No specific notation map entry defined for drum type '{drum_type}'. Using defaults.")
+        # Fallback if drum_type is not in DRUM_NOTATION_MAP
+        staff_position_string = 'C4' # A generic central percussion staff position
+        # note_head_type remains default
+
+    # MIDI pitch is still derived from constants.py MIDI definitions to align with General MIDI
     if drum_type == 'kick':
         midi_pitch = constants.MIDI_KICK
     elif drum_type == 'snare':
-        midi_pitch = constants.MIDI_SNARE_ACOUSTIC # Or MIDI_SNARE_SIDE_STICK
+        midi_pitch = constants.MIDI_SNARE_ACOUSTIC
     elif drum_type == 'hi-hat':
         midi_pitch = constants.MIDI_HI_HAT_CLOSED
     elif drum_type == 'crash':
@@ -166,29 +147,17 @@ def format_event_for_notation_library(event: dict) -> dict:
     elif drum_type == 'ride':
         midi_pitch = constants.MIDI_RIDE_CYMBAL_1
     else:
-        print(f"Warning: Unknown drum type '{drum_type}'. No MIDI mapping found.")
-        # Fallback to a default or raise an error
-        midi_pitch = constants.MIDI_KICK # Default fallback
+        midi_pitch = constants.MIDI_KICK # Default fallback for MIDI pitch
 
-    # Get staff position and note head from config or constants
-    notation_map_entry = constants.DRUM_NOTATION_MAP.get(drum_type) # Assuming you add DRUM_NOTATION_MAP to constants
-                                                                    # or pass config['drum_notation_map'] here
-    note_head_type = notation_map_entry.get('note_head', constants.NOTEHEAD_NORMAL) if notation_map_entry else constants.NOTEHEAD_NORMAL
-    staff_position = map_pitch_to_staff_position(midi_pitch) if midi_pitch else constants.STAFF_POS_KICK # Fallback
-
-    # Note: 'beat_time' needs to be calculated externally using seconds_to_beats if not already in beats
-    # This function primarily formats the *event attributes* for notation.
-    
     formatted_event = {
         'drum_type': drum_type,
         'onset_time_seconds': onset_time_seconds,
-        'midi_pitch': midi_pitch,
+        'midi_pitch': midi_pitch, # Keep MIDI pitch based on constants.py
         'note_head_type': note_head_type,
-        'staff_position': staff_position,
-        # You might add 'duration_beats', 'velocity', 'measure_number', 'beat_in_measure' etc.
-        # as these are determined by other parts of the score building process.
+        'staff_position': staff_position_string, # Crucial: pass the string position from DRUM_NOTATION_MAP
     }
     return formatted_event
+
 
 # Example of a simple mathematical helper (e.g., for musical interval calculations)
 # This might be overkill depending on your needs, but shows the concept.
