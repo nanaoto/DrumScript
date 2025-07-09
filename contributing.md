@@ -1,6 +1,6 @@
 ## Contributing to `DrumScript`
 <!--date_created: thurs-03-jul-2025-->
-<!--date_updated: thurs-03-jul-2025-->
+<!--date_updated: weds-09-jul-2025-->
 
 
 
@@ -39,7 +39,7 @@ cd digital-performance-dashboard
 
 ### 3\. Set Up Your Development Environment
 
-We use uv to manage our virtual environment and dependencies.
+We use `uv` to manage our virtual environment and dependencies.
 
 ```bash
 # Create a virtual environment (in .venv/)
@@ -59,6 +59,7 @@ pre-commit install
 ```
 
 > **Note:** The repository structure includes a `.venv/` directory, which `uv venv` will create and manage.
+ 
 
 ### 4\. Run the Project (Optional, for testing setup)
 
@@ -126,7 +127,15 @@ We follow a **feature branch workflow** with **Pull Requests** to ensure code qu
       * Once approved, your PR can be merged into `main`.
 
 -----
-
+> ## Editing the project in package-editing mode:
+>
+> For the purpose of amending package elements it is **recommended** that, once you have completed **[setup per the instructions in the `README.md`]((README.md))**, that you **edit the package in pip package-editing mode**, in order to streamline modules etc. To do this:
+>
+> 1. Activate your `.venv`
+> 2. Type `uv pip install -e .` in Terminal
+>
+> Unfortunately, you have to **run this command every time you commence/resume working on the project**. 
+---
 ## Coding Standards
 
 To maintain consistency and readability, please adhere to the following:
