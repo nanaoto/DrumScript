@@ -44,6 +44,8 @@ dependencies = [
     "sounddevice",
     "music21",
     "musescore",
+    "pretty_midi",
+    "setuptools"
     #"lilypond"
     #"pytorch",
     #"tensorflow"

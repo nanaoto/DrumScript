@@ -13,6 +13,8 @@ numba
 soundfile
 sounddevice
 pandas
+pretty-midi
+setuptools
 #lilypond
 #pytorch
 #tensorflow
