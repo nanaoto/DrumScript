@@ -53,6 +53,8 @@ def _extract_features(audio_path, sr, segment_length_seconds):
     except Exception as e:
         print(f"Error extracting features from {audio_path}: {e}")
         return None
+    
+
 
 # --- Data Preparation ---
 def prepare_dataset(data_dir: str, sr: int, segment_length_seconds: float):
@@ -73,25 +75,24 @@ def prepare_dataset(data_dir: str, sr: int, segment_length_seconds: float):
 
     print(f"Extracting features from {len(df)} audio segments...")
     for index, row in tqdm(df.iterrows(), total=len(df), desc="Feature Extraction"):
-        audio_segment_path = os.path.join(data_dir, "ENST_processed", row['audio_segment_filename'])
-        
+        audio_segment_path = os.path.join(data_dir, "ENST_processed", row['filename']) # Already corrected this
+
         features = _extract_features(audio_segment_path, sr, segment_length_seconds)
         
-        if features is not None and features.shape == (int(segment_length_seconds * sr / 512) + 1, 40): # Adjust based on actual MFCC output shape
+        if features is not None and features.shape == (int(segment_length_seconds * sr / 512) + 1, 40):
             all_features.append(features)
             
-            # Create a multi-hot encoded label vector
+            # FIX: Reconstruct multi-hot encoded label vector from individual drum type columns
             label_vector = np.zeros(len(ALL_DRUM_TYPES))
-            # Convert string of drums back to list for processing
-            drums_in_segment = eval(row['drum_types']) # Use eval to convert string list to actual list
-            for drum in drums_in_segment:
-                if drum in ALL_DRUM_TYPES:
-                    label_vector[ALL_DRUM_TYPES.index(drum)] = 1
+            for i, drum_type in enumerate(ALL_DRUM_TYPES):
+                if drum_type in row: # Check if the column exists in the current row's data
+                    label_vector[i] = row[drum_type] # Get the 0 or 1 value directly
+                # If a drum_type column doesn't exist (unlikely if ALL_DRUM_TYPES is consistent)
+                # it will remain 0 due to np.zeros initialization.
             all_labels.append(label_vector)
         else:
             # Handle cases where feature extraction failed or shape is incorrect
-            # print(f"Skipping {row['audio_segment_filename']} due to feature extraction issues or incorrect shape.")
-            pass # Use pass or a more specific log if needed
+            pass
 
     X = np.array(all_features)
     y = np.array(all_labels)
