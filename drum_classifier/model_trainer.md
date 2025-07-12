@@ -90,14 +90,37 @@ The `model_trainer.py` script will:
 
 ### How to run
 
+
+
 From the `DrumScript/` project root directory, run the script:
 
-```bash
+```python
 python3 -m drum_classifier.model_trainer training_data
 ```
 
-This process might take a considerable amount of time depending on your hardware, as it involves processing over 300,000 audio segments and training a deep learning model.
+or 
 
+```python
+python3 drum_classifier/model_trainer.py >> drum_classifier/training_log.txt
+```
+
+You should see something like this in Terminal:
+
+```bash
+(DrumScript) % python3 drum_classifier/model_trainer.py >> drum_classifier/training_log.txt
+Feature Extraction:  23%|██████████████████████████████████████████████████████▋                                                                                                                                                                                  | 71792/305780 [02:13<07:50, 497.17it/s]
+```
+
+Depending on your compute-capability, it will take **approximately 10 minutes** to train the model, as it involves processing over **300,000 audio segments** and **training a deep learning model**.
+
+
+
+> **TIP:** 
+> 
+> It is **recommended** that you track the output of `model_trainer.py` runs in order to diagnose outcomes. The easiest way to do this is to append the command `>> drum_classifier/training_log.txt` to the end of the command below when you run it. 
+> 
+> This will either a) **create a new `.txt` file** in `./drum_classifier` module folder (or wherever you specify the path) called `training_data.txt`, b) **append the output to the existing file** (assuming you use the same path/file_name). 
+>  Once the script completes the file will contain the results of the run. 
 ---
 
 <!--END-->
