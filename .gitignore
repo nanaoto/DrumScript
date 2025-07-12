@@ -74,3 +74,4 @@ drum_classifier/logs/model_trainer_logs_1.txt
 drum_classifier/logs/
 model_trainer1_cnn.txt
 package-build.md
+drum_classifier/training_log.txt
