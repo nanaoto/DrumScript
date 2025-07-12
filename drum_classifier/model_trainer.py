@@ -157,6 +157,7 @@ def train_and_evaluate_model(data_dir: str, model_save_path: str, scaler_save_pa
     """
     Trains and evaluates a multi-label drum classification model using a CNN.
     """
+    print("-------------------------------------------------------------")
     print("Starting multi-label model training and evaluation process...")
 
     # 1. Prepare Data
@@ -215,6 +216,7 @@ def train_and_evaluate_model(data_dir: str, model_save_path: str, scaler_save_pa
     print(f"Label map saved to: {label_map_save_path}")
 
     print("\nMulti-label model training and evaluation finished.")
+    print("\n---------------------------------------------------")
 
 
 if __name__ == "__main__":
