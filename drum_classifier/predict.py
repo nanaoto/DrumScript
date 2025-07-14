@@ -168,11 +168,11 @@ if __name__ == "__main__":
     print("\n--- Longer Audio File Prediction Example ---")
     # IMPORTANT: Replace this with the path to your actual longer audio file
     # This could be an MP3, WAV, etc. (librosa supports various formats)
-    long_audio_filepath = os.path.join(project_root, "reference_audio", "test.mp3") 
+    long_audio_filepath = os.path.join(project_root, "test_audio", "test.mp3") 
     
     if not os.path.exists(long_audio_filepath):
         print(f"Error: Long audio file not found at {long_audio_filepath}")
-        #print("Please place audio file (e.g., 'test.mp3') inside the 'DrumScript/reference_audio/' directory, or update the path.")
+        #print("Please place audio file (e.g., 'test.mp3') inside the 'DrumScript/test_audio/' directory, or update the path.")
     else:
         results = process_long_audio_and_predict(long_audio_filepath, loaded_model, loaded_scaler, loaded_label_map)
         
