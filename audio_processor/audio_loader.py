@@ -1,7 +1,7 @@
 #.audio_processor/audio_loader.py
 
 """
-This module will handle loading and basic normalisation of audio files.
+This module will handle loading and basic normalisation of audio files. It also offers automatic playback of the audio once loaded.
 """
 
 # DrumScript/audio_processor/audio_loader.py
@@ -65,6 +65,7 @@ def normalise_audio(audio_data: np.ndarray) -> np.ndarray:
 
 
 if __name__ == "__main__":
+    #print("Running audio_loader.py example with actual MP3/WAV...")
     print("Running audio_loader.py example with actual MP3/WAV...")
 
     # --- Path to your actual drum recording ---
@@ -81,6 +82,7 @@ if __name__ == "__main__":
 
     # --- IMPORTANT: Create a 'data' folder in your project root and place an MP3/WAV there ---
     # For testing, you MUST have 'my_drum_recording.mp3' (or .wav) inside 'DRUMSCRIPT/data/'
+    # For testing, you MUST have 'my_drum_recording.mp3' (or .wav) inside 'DRUMSCRIPT/data/'
     # before running this example.
 
     try:
@@ -96,7 +98,7 @@ if __name__ == "__main__":
         print(f"Normalised max amplitude: {normalised_max:.4f}")
         assert np.isclose(normalised_max, 1.0) or np.isclose(normalised_max, 0.0), "Normalisation failed!"
 
-        # --- NEW: Play the loaded and normalised audio ---
+        # Playback the loaded and normalised audio:
         print("\nPlaying loaded (and normalised) audio...")
         # sd.play takes the audio array and sample rate
         sd.play(normalised_audio, sr)
