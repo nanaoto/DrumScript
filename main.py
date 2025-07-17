@@ -6,6 +6,7 @@ import librosa
 import tensorflow as tf
 import argparse
 
+print(f'#-------------------------------------------------------------')
 # --- Configuration (must match training configuration) ---
 SAMPLE_RATE = 22050
 SEGMENT_LENGTH_SECONDS = 0.2
