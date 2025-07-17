@@ -1,15 +1,25 @@
 # DrumScript/notation_generator/score_builder.py
 
+"""
+This script will build the score from the model output in order to generate PDF (pdf_exporter.py)
+"""
+
 from typing import List, Dict, Any
-#from . import config
-#from . import constants
-#from .helpers import seconds_to_beats, round_to_nearest_subdivision, format_event_for_notation_library
-import utils.config as config
-#import constants
-from . import constants
+import os
 import math
-#from helpers import seconds_to_beats, round_to_nearest_subdivision, format_event_for_notation_library
-from .helpers import seconds_to_beats, round_to_nearest_subdivision, format_event_for_notation_library
+from helpers import seconds_to_beats, round_to_nearest_subdivision, format_event_for_notation_library
+import constants
+
+
+# --- Path to your actual drum recording (test.mp3) ---
+# This dynamic path calculation should correctly point to DRUMSCRIPT/other_modules
+current_script_dir = os.path.dirname(os.path.abspath(__file__)) # DrumScript/notation_generator
+# Go up two levels from audio_processor/onset_detector.py to the outer DRUMSCRIPT/ folder
+project_root = os.path.abspath(os.path.join(current_script_dir,"DrumScript/", os.pardir, os.pardir)) # goes up TWO levels from current directory (notation_generator)
+
+#print(project_root)
+#print(os.pardir)
+#print(current_script_dir)
 
 def quantize_events(classified_events: List[Dict[str, Any]], tempo: int, subdivision: int) -> List[Dict[str, Any]]:
     """
