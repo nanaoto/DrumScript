@@ -2,7 +2,7 @@
 
 
 <!--date_created: sun-15-june2025-->
-<!--date_updated: thurs-03-july-2025-->
+<!--date_updated: fri-18-jul-2025-->
 
 ---
 ### **Modular Structure**
@@ -13,48 +13,48 @@
 This document outlines the directory and file structure of the `DrumScript` project.
 
 
-DrumScript/
+**DrumScript/                        # The main Python package**
+├── __init__.py                    # Makes 'DrumScript' a Python package
+├── main.py                        # Main entry point for the application
 ├── .venv/                         # Python virtual environment (created by `uv venv`)
 ├── .gitignore                     # Specifies intentionally untracked files to ignore
 ├── pyproject.toml                 # Project metadata and dependencies (managed by `uv`)
 ├── README.md                      # Project overview and main documentation
 ├── requirements.txt               # Direct dependencies (generated/used by `uv pip install -r`)
 ├── LICENSE                        # Project licensing information (e.g., MIT License)
-├── main.py                        # (Optional) Main entry point for the application
 ├── repository_structure.md        # This document
-├── tests/                         # Unit and integration tests
-│   └── test.mp3                   # Example audio file for testing modules
-│   └── ...
-├── DrumScript/                    # The main Python package
-│   ├── __init__.py                # Makes 'DrumScript' a Python package
-│   ├── audio_processor/           # Handles audio loading, normalisation, onset detection, and feature extraction
+├── docs/                          # Documentation on how DrumScript works, as well as contributing, testing etc.
+├── audio_processor/               # Handles audio loading, normalisation, onset detection, and feature extraction
 │   │   ├── __init__.py
 │   │   ├── audio_loader.py        # Loads and normalises audio files
 │   │   ├── onset_detector.py      # Detects drum hit onsets
 │   │   └── feature_extractor.py   # Extracts features for classification
-│   ├── drum_classifier/           # Machine learning module for drum sound classification
+├── drum_classifier/               # Machine learning module for drum sound/audio classification (uses Deep Learning)
 │   │   ├── __init__.py
 │   │   ├── data_preparer.py       # Prepares audio features into a dataset for training
 │   │   ├── drum_model.py          # Defines the drum classification model architecture (e.g., scikit-learn based)
 │   │   └── model_trainer.py       # Script for training, evaluating, and saving the drum classification model
-│   ├── training_data/             # Contains labelled audio files for model training
-│   │   ├── kick/                  # Subdirectory for kick drum samples
-│   │   │   ├── kick_001.wav
-│   │   │   └── ...
-│   │   ├── snare/                 # Subdirectory for snare drum samples
-│   │   │   ├── snare_001.wav
-│   │   │   ├── snare_002.mp3
-│   │   │   └── ...
-│   │   └── hihat/                 # Subdirectory for hi-hat samples
-│   │       ├── hihat_001.wav
-│   │       └── ...
-│   ├── sheet_music_generator/     # (Future) Generates musical notation
+│   │   ├── docs/                  # Associated documentation for drum_classifier/ module
+├── notation_generator/            # Generates musical notation and pdf sheet music
+│   │   ├── __init__.py
+│   │   ├── constants.py       
+│   │   ├── helpers.py            # Defines the drum classification model architecture (e.g., scikit-learn based)
+│   │   └── pdf_exporter.py       # Script for training, evaluating, and saving the drum classification model
+│   │   ├── score_builder.py       
+├── models/                       # Outputs from model learning used to generate mappings in new audio
+│   │   ├── drum_classifier_model.joblib
+│   │   ├── label_map.json
+│   │   ├── multi_label_drum_classifier_model.h5     
+│   │   ├── multi_label_label_map           
+│   │   └── multi_label_scaler.joblib
+│   │   ├── scaler     
+├── theory/                        # Some helpful theory on drums, percussion, and advanced audio signal processing.
+├── utils/                         # Utility functions (e.g., for file handling, configuration)
+
+<!--├── reference_audio/               # Generates musical notation and pdf sheet music
 │   │   └── __init__.py
 │   │   └── ...
-│   ├── utils/                     # Utility functions (e.g., for file handling, configuration)
-│   │   └── __init__.py
-│   │   └── ...
-│   ├── how_it_works.md            # Documentation that explains how music theory and `DrumScript` interact
+│   ├── how_it_works.md            # Documentation that explains how music theory and `DrumScript` interact-->
 <!--│   └── ...
 ├── models/                        # **NEW:** Directory to store trained machine learning models, scalers, etc.
 │   ├── drum_classifier_model.joblib  # Example: Saved trained classifier model
@@ -63,6 +63,9 @@ DrumScript/
 └── documentation/                 # (Optional) Detailed documentation, tutorials, etc.
 └── user_guide.md
 └── ...--# commenting out for now--->
+<!--├── tests/                         # Unit and integration tests
+│   └── test.mp3                   # Example audio file for testing modules
+│   └── ...-->
  
 ```
 ```
