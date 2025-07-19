@@ -1,3 +1,5 @@
+# DrumScript/main.py
+
 import os
 import numpy as np
 import joblib
@@ -13,6 +15,9 @@ print(f'#-------------------------------------------------------------')
 # --- Configuration (must match training configuration) ---
 SAMPLE_RATE = 22050
 SEGMENT_LENGTH_SECONDS = 0.2
+# Define the target number of frames for feature vectors
+# (20 MFCCs + 4 other features) * 15 frames = 24 * 15 = 360 features
+TARGET_N_FRAMES = 15
 # This must match the ALL_DRUM_TYPES list used in process_enst_dataset.py and model_trainer.py
 ALL_DRUM_TYPES = sorted(['kick', 'snare', 'hi-hat', 'crash', 'ride', 'tom'])
 
@@ -45,22 +50,62 @@ def load_model_components(models_dir: str):
 # --- Feature Extraction for Prediction (uses the imported extract_features) ---
 def _prepare_features_for_prediction(audio_segment: np.ndarray, sr: int) -> np.ndarray:
     """
-    Calls the main extract_features function and flattens its output into a single vector.
+    Calls the main extract_features function, ensures a fixed number of frames,
+    and flattens its output into a single vector of 360 features.
     The order of features in the flattened vector MUST match the order used during training.
     """
     features_dict = extract_features(audio_segment, sr)
 
+    # List to hold processed and flattened feature arrays
+    processed_features = []
+
+    # Process each feature type to ensure TARGET_N_FRAMES and flatten
     # The order here is CRUCIAL and must match how features were concatenated during training.
-    # Based on feature_extractor.py, the standard order is MFCCs first, then other features.
-    feature_vector = np.concatenate([
-        features_dict['mfccs'],
-        features_dict['spectral_centroid'],
-        features_dict['spectral_rolloff'],
-        features_dict['zero_crossing_rate'],
-        features_dict['rms']
-        # If 'chroma' or other features were used in training, they must be added here
-        # and extract_features must also be updated to generate them.
-    ])
+    # Assuming MFCCs, then spectral_centroid, rolloff, ZCR, RMS were concatenated for each frame.
+    
+    # Feature keys and their expected dimensions per frame (before flattening across frames)
+    feature_keys_order = [
+        ('mfccs', 20),
+        ('spectral_centroid', 1),
+        ('spectral_rolloff', 1),
+        ('zero_crossing_rate', 1),
+        ('rms', 1)
+        # Add 'chroma', 12 if it was used in training
+    ]
+
+    for key, dim_per_frame in feature_keys_order:
+        feature_data = features_dict[key] # Shape: (feature_dim_per_frame, n_actual_frames)
+        
+        # Handle potential empty feature data from extract_features (e.g., for empty audio_segment)
+        if feature_data.size == 0 and audio_segment.size == 0:
+            # If the original segment was empty, fill with zeros for TARGET_N_FRAMES
+            padded_feature = np.zeros((dim_per_frame, TARGET_N_FRAMES))
+        else:
+            # Pad or truncate to TARGET_N_FRAMES
+            n_actual_frames = feature_data.shape[1]
+            if n_actual_frames > TARGET_N_FRAMES:
+                # Truncate if too many frames
+                padded_feature = feature_data[:, :TARGET_N_FRAMES]
+            elif n_actual_frames < TARGET_N_FRAMES:
+                # Pad with zeros if too few frames
+                padding_needed = TARGET_N_FRAMES - n_actual_frames
+                padded_feature = np.pad(feature_data, ((0, 0), (0, padding_needed)), 'constant')
+            else:
+                # Exactly TARGET_N_FRAMES
+                padded_feature = feature_data
+        
+        # Flatten the processed feature data for this type
+        # The result will be (dim_per_frame * TARGET_N_FRAMES,)
+        processed_features.append(padded_feature.flatten())
+
+    # Concatenate all flattened features into one long vector
+    feature_vector = np.concatenate(processed_features)
+    
+    # Assert the final expected shape for debugging
+    expected_len = sum(dim for _, dim in feature_keys_order) * TARGET_N_FRAMES
+    if feature_vector.shape[0] != expected_len:
+        raise ValueError(f"Feature vector has {feature_vector.shape[0]} features, but expected {expected_len}. Check feature extraction and concatenation logic.")
+
     return feature_vector
 
 # --- Prediction Helper (adapted to use _prepare_features_for_prediction) ---
@@ -85,6 +130,9 @@ def predict_drum_type_from_array(audio_segment_array: np.ndarray, loaded_model, 
         if prob > 0.5: # Example threshold
             predicted_drum_types.append(labels[i])
     return predicted_drum_types, predictions.tolist() # Return raw predictions as list
+
+# The rest of main.py remains the same.
+# ... (rest of main.py) ...
 
 # --- Process Long Audio and Classify Events ---
 def classify_drum_events(audio_filepath: str, loaded_model, loaded_scaler, loaded_label_map, sr: int, segment_length_seconds: float, hop_length_seconds: float, prediction_threshold: float) -> list[dict]:
