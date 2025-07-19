@@ -15,9 +15,11 @@ print(f'#-------------------------------------------------------------')
 # --- Configuration (must match training configuration) ---
 SAMPLE_RATE = 22050
 SEGMENT_LENGTH_SECONDS = 0.2
-# Define the target number of frames for feature vectors
-# (20 MFCCs + 4 other features) * 15 frames = 24 * 15 = 360 features
-TARGET_N_FRAMES = 15
+
+# Corrected based on expected CNN input shape (None, 9, 40)
+TARGET_N_FRAMES = 9 # Model expects 9 time steps
+FEATURES_PER_FRAME = 40 # Model expects 40 features per time step (e.g., 20 MFCCs + 20 Delta MFCCs)
+
 # This must match the ALL_DRUM_TYPES list used in process_enst_dataset.py and model_trainer.py
 ALL_DRUM_TYPES = sorted(['kick', 'snare', 'hi-hat', 'crash', 'ride', 'tom'])
 
@@ -50,77 +52,87 @@ def load_model_components(models_dir: str):
 # --- Feature Extraction for Prediction (uses the imported extract_features) ---
 def _prepare_features_for_prediction(audio_segment: np.ndarray, sr: int) -> np.ndarray:
     """
-    Calls the main extract_features function, ensures a fixed number of frames,
-    and flattens its output into a single vector of 360 features.
+    Calls the main extract_features function, ensures a fixed number of frames (TARGET_N_FRAMES),
+    concatenates features per frame, and flattens them into a single vector of 360 features.
     The order of features in the flattened vector MUST match the order used during training.
     """
     features_dict = extract_features(audio_segment, sr)
 
-    # List to hold processed and flattened feature arrays
-    processed_features = []
+    # List to hold processed feature arrays for each frame
+    # Each element in this list will be a (FEATURES_PER_FRAME,) array
+    features_per_frame_list = []
 
-    # Process each feature type to ensure TARGET_N_FRAMES and flatten
-    # The order here is CRUCIAL and must match how features were concatenated during training.
-    # Assuming MFCCs, then spectral_centroid, rolloff, ZCR, RMS were concatenated for each frame.
-    
-    # Feature keys and their expected dimensions per frame (before flattening across frames)
-    feature_keys_order = [
-        ('mfccs', 20),
-        ('spectral_centroid', 1),
-        ('spectral_rolloff', 1),
-        ('zero_crossing_rate', 1),
-        ('rms', 1)
-        # Add 'chroma', 12 if it was used in training
-    ]
+    # Combine all features for each frame
+    # The order here is CRUCIAL and must match how features were combined per frame during training.
+    # Assuming MFCCs (20), Delta MFCCs (20) = 40 features per frame, and other features were not used in this specific 40.
+    # If other features (spectral_centroid, rolloff, zcr, rms) were also part of the 40,
+    # then they should be added here, and FEATURES_PER_FRAME adjusted.
+    # Given (9, 40) where 20+20=40, it implies only MFCCs and Delta MFCCs contribute to the 40.
 
-    for key, dim_per_frame in feature_keys_order:
-        feature_data = features_dict[key] # Shape: (feature_dim_per_frame, n_actual_frames)
+    # Determine the minimum number of frames available across all features
+    # This is important because librosa.feature.delta can return one less frame than librosa.feature.mfcc
+    # The number of frames is the second dimension of the feature array
+    n_actual_frames = min([f.shape[1] for f in features_dict.values() if f.ndim == 2]) if features_dict else 0
+
+    # Handle cases where audio_segment is empty or no frames were extracted
+    if n_actual_frames == 0:
+        # If no frames, create an array of zeros with the target shape (TARGET_N_FRAMES, FEATURES_PER_FRAME)
+        combined_features_across_frames = np.zeros((TARGET_N_FRAMES, FEATURES_PER_FRAME))
+    else:
+        # Iterate over each frame and concatenate features for that frame
+        # Ensure 'mfccs' and 'delta_mfccs' are indeed 20 features each
+        for i in range(n_actual_frames):
+            frame_features = np.concatenate([
+                features_dict['mfccs'][:, i],         # 20 features
+                features_dict['delta_mfccs'][:, i]    # 20 features
+                # If other 1-dim features were part of the 40 per frame, add them here
+                # E.g., features_dict['spectral_centroid'][:, i],
+            ])
+            features_per_frame_list.append(frame_features)
         
-        # Handle potential empty feature data from extract_features (e.g., for empty audio_segment)
-        if feature_data.size == 0 and audio_segment.size == 0:
-            # If the original segment was empty, fill with zeros for TARGET_N_FRAMES
-            padded_feature = np.zeros((dim_per_frame, TARGET_N_FRAMES))
-        else:
-            # Pad or truncate to TARGET_N_FRAMES
-            n_actual_frames = feature_data.shape[1]
-            if n_actual_frames > TARGET_N_FRAMES:
-                # Truncate if too many frames
-                padded_feature = feature_data[:, :TARGET_N_FRAMES]
-            elif n_actual_frames < TARGET_N_FRAMES:
-                # Pad with zeros if too few frames
-                padding_needed = TARGET_N_FRAMES - n_actual_frames
-                padded_feature = np.pad(feature_data, ((0, 0), (0, padding_needed)), 'constant')
-            else:
-                # Exactly TARGET_N_FRAMES
-                padded_feature = feature_data
-        
-        # Flatten the processed feature data for this type
-        # The result will be (dim_per_frame * TARGET_N_FRAMES,)
-        processed_features.append(padded_feature.flatten())
+        # Stack the features from all frames into a 2D array
+        combined_features_across_frames = np.array(features_per_frame_list) # Shape: (n_actual_frames, FEATURES_PER_FRAME)
 
-    # Concatenate all flattened features into one long vector
-    feature_vector = np.concatenate(processed_features)
+        # Pad or truncate to TARGET_N_FRAMES (9 frames)
+        if combined_features_across_frames.shape[0] > TARGET_N_FRAMES:
+            # Truncate if too many frames
+            combined_features_across_frames = combined_features_across_frames[:TARGET_N_FRAMES, :]
+        elif combined_features_across_frames.shape[0] < TARGET_N_FRAMES:
+            # Pad with zeros if too few frames
+            padding_needed = TARGET_N_FRAMES - combined_features_across_frames.shape[0]
+            # Pad along the time axis (first axis)
+            combined_features_across_frames = np.pad(combined_features_across_frames, 
+                                                     ((0, padding_needed), (0, 0)), 
+                                                     'constant')
+        # Else: Exactly TARGET_N_FRAMES, no action needed
+
+    # Flatten the 2D array (9, 40) into a 1D array (360,) for StandardScaler
+    feature_vector_flat = combined_features_across_frames.flatten()
     
     # Assert the final expected shape for debugging
-    expected_len = sum(dim for _, dim in feature_keys_order) * TARGET_N_FRAMES
-    if feature_vector.shape[0] != expected_len:
-        raise ValueError(f"Feature vector has {feature_vector.shape[0]} features, but expected {expected_len}. Check feature extraction and concatenation logic.")
+    expected_len = TARGET_N_FRAMES * FEATURES_PER_FRAME
+    if feature_vector_flat.shape[0] != expected_len:
+        raise ValueError(f"Feature vector has {feature_vector_flat.shape[0]} features, but expected {expected_len} after flattening. Check feature extraction and concatenation logic.")
 
-    return feature_vector
+    return feature_vector_flat
 
-# --- Prediction Helper (adapted to use _prepare_features_for_prediction) ---
+# --- Prediction Helper ---
 def predict_drum_type_from_array(audio_segment_array: np.ndarray, loaded_model, loaded_scaler, loaded_label_map) -> tuple[list[str], list[float]]:
     """
     Predicts drum type(s) from a single audio segment (numpy array).
     """
-    # Prepare features using the aligned extraction function
-    feature_vector = _prepare_features_for_prediction(audio_segment_array, SAMPLE_RATE)
+    # Prepare features using the aligned extraction function (outputs 1D, 360 features)
+    feature_vector_flat = _prepare_features_for_prediction(audio_segment_array, SAMPLE_RATE)
 
     # Scale features. The scaler expects a 2D array (1 sample, N features).
-    scaled_features = loaded_scaler.transform(feature_vector.reshape(1, -1))
+    scaled_features_flat = loaded_scaler.transform(feature_vector_flat.reshape(1, -1))
+
+    # Reshape the scaled features for the CNN model: (batch_size, time_steps, features_per_time_step)
+    # The CNN expects (1, 9, 40)
+    scaled_features_cnn_input = scaled_features_flat.reshape(1, TARGET_N_FRAMES, FEATURES_PER_FRAME)
 
     # Predict probabilities
-    predictions = loaded_model.predict(scaled_features)[0]
+    predictions = loaded_model.predict(scaled_features_cnn_input)[0]
 
     # Map probabilities to drum types
     predicted_drum_types = []
@@ -131,10 +143,11 @@ def predict_drum_type_from_array(audio_segment_array: np.ndarray, loaded_model, 
             predicted_drum_types.append(labels[i])
     return predicted_drum_types, predictions.tolist() # Return raw predictions as list
 
-# The rest of main.py remains the same.
-# ... (rest of main.py) ...
 
-# --- Process Long Audio and Classify Events ---
+# The rest of main.py (main function, classify_drum_events, argparse, etc.)
+# should remain as it was in the previous correct version, as the changes
+# were focused on the _prepare_features_for_prediction and predict_drum_type_from_array.
+
 def classify_drum_events(audio_filepath: str, loaded_model, loaded_scaler, loaded_label_map, sr: int, segment_length_seconds: float, hop_length_seconds: float, prediction_threshold: float) -> list[dict]:
     """
     Processes a long audio file, segments it, and classifies drum events.

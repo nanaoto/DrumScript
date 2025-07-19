@@ -8,7 +8,7 @@ def extract_features(audio_segment: np.ndarray, sr: int) -> dict[str, np.ndarray
     """
     Extracts various audio features from a short audio segment.
     Returns the time-series of each feature (not the mean) for CNN input.
-    Padding/truncation to a fixed number of frames will be handled externally.
+    Includes base MFCCs and their first derivatives (deltas).
 
     Args:
         audio_segment (np.ndarray): A short audio time series segment containing a drum hit.
@@ -21,16 +21,15 @@ def extract_features(audio_segment: np.ndarray, sr: int) -> dict[str, np.ndarray
     features = {}
 
     # Define common FFT parameters for percussive sounds
-    # Adjust n_fft and hop_length to be more suitable for short transients
-    N_FFT = 1024 # A common choice for transient analysis, allows for shorter segments
+    N_FFT = 1024 # A common choice for transient analysis
     HOP_LENGTH = 512 # Standard hop_length for N_FFT=1024
 
     # Handle empty segment case: Return arrays with appropriate dimensions, filled with zeros.
-    # We expect feature arrays of shape (feature_dim, n_frames).
-    # Since n_frames is determined by segment length, we'll return a 0-frame array,
-    # and handle fixed frame count (e.g., 15) in main.py by padding/truncating.
     if audio_segment.size == 0:
+        # MFCCs and Delta MFCCs
         features["mfccs"] = np.empty((20, 0)) # n_mfcc x n_frames
+        features["delta_mfccs"] = np.empty((20, 0)) # n_mfcc x n_frames
+        # Other features (1 dimension per frame)
         features["spectral_centroid"] = np.empty((1, 0))
         features["spectral_rolloff"] = np.empty((1, 0))
         features["zero_crossing_rate"] = np.empty((1, 0))
@@ -38,37 +37,32 @@ def extract_features(audio_segment: np.ndarray, sr: int) -> dict[str, np.ndarray
         return features
     
     # MFCCs (Mel-frequency cepstral coefficients)
-    # Returns (n_mfcc, n_frames)
     mfccs = librosa.feature.mfcc(y=audio_segment, sr=sr, n_mfcc=20, n_fft=N_FFT, hop_length=HOP_LENGTH)
     features["mfccs"] = mfccs
 
+    # Delta MFCCs (first derivative of MFCCs)
+    delta_mfccs = librosa.feature.delta(mfccs)
+    features["delta_mfccs"] = delta_mfccs # Shape (n_mfcc, n_frames)
+
     # Spectral Centroid
-    # Returns (1, n_frames)
     spectral_centroids = librosa.feature.spectral_centroid(y=audio_segment, sr=sr, n_fft=N_FFT, hop_length=HOP_LENGTH)
     features["spectral_centroid"] = spectral_centroids
 
     # Spectral Rolloff
-    # Returns (1, n_frames)
     spectral_rolloff = librosa.feature.spectral_rolloff(y=audio_segment, sr=sr, n_fft=N_FFT, hop_length=HOP_LENGTH)
     features["spectral_rolloff"] = spectral_rolloff
 
     # Zero-Crossing Rate
-    # Returns (1, n_frames)
     zcr = librosa.feature.zero_crossing_rate(y=audio_segment, hop_length=HOP_LENGTH)
     features["zero_crossing_rate"] = zcr
 
     # RMS Energy
-    # Returns (1, n_frames)
     rms = librosa.feature.rms(y=audio_segment, hop_length=HOP_LENGTH)
     features["rms"] = rms
 
     return features
 
-# The __main__ block remains the same, but it's important to understand that
-# the feature shapes printed there will now be (feature_dim, n_frames) instead of (feature_dim,).
-# The assertion `assert all(f.size > 0 for f in features.values()), f"Some features are empty for onset {i+1}!"`
-# will still hold, but the shape check in main.py is where fixed dimensionality will be enforced.
-
+# The __main__ block remains the same
 if __name__ == "__main__":
     print("Running feature_extractor.py example with test.mp3...")
     try:
