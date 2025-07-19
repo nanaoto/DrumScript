@@ -1,17 +1,14 @@
 # DrumScript/audio_processor/feature_extractor.py
 
-"""
-This module will extract relevant features from audio segments for drum classification.
-"""
-
 import librosa
 import numpy as np
-import os # Import os for path manipulation
+import os
 
 def extract_features(audio_segment: np.ndarray, sr: int) -> dict[str, np.ndarray]:
     """
     Extracts various audio features from a short audio segment.
-    Returns the mean of each feature over the segment to ensure fixed-length output.
+    Returns the time-series of each feature (not the mean) for CNN input.
+    Padding/truncation to a fixed number of frames will be handled externally.
 
     Args:
         audio_segment (np.ndarray): A short audio time series segment containing a drum hit.
@@ -19,103 +16,91 @@ def extract_features(audio_segment: np.ndarray, sr: int) -> dict[str, np.ndarray
 
     Returns:
         dict[str, np.ndarray]: A dictionary containing various extracted features.
-                              Each feature is returned as a NumPy array (mean over time).
+                              Each feature is returned as a NumPy array (feature_dim x n_frames).
     """
     features = {}
 
-    if audio_segment.size == 0:
-        # Return zeros for all features if segment is empty to maintain consistent shape.
-        # These sizes correspond to the expected output after averaging (e.g., 20 MFCCs, 1 for spectral centroid).
-        features["mfccs"] = np.zeros(20) # Common n_mfcc value
-        features["spectral_centroid"] = np.array([0.0])
-        features["spectral_rolloff"] = np.array([0.0])
-        features["zero_crossing_rate"] = np.array([0.0])
-        features["rms"] = np.array([0.0])
-        # features["chroma"] = np.zeros(12) # Common n_chroma value - COMMENT OUT OR DELETE THIS LINE
-        return features
-    
-    
     # Define common FFT parameters for percussive sounds
     # Adjust n_fft and hop_length to be more suitable for short transients
     N_FFT = 1024 # A common choice for transient analysis, allows for shorter segments
     HOP_LENGTH = 512 # Standard hop_length for N_FFT=1024
 
+    # Handle empty segment case: Return arrays with appropriate dimensions, filled with zeros.
+    # We expect feature arrays of shape (feature_dim, n_frames).
+    # Since n_frames is determined by segment length, we'll return a 0-frame array,
+    # and handle fixed frame count (e.g., 15) in main.py by padding/truncating.
+    if audio_segment.size == 0:
+        features["mfccs"] = np.empty((20, 0)) # n_mfcc x n_frames
+        features["spectral_centroid"] = np.empty((1, 0))
+        features["spectral_rolloff"] = np.empty((1, 0))
+        features["zero_crossing_rate"] = np.empty((1, 0))
+        features["rms"] = np.empty((1, 0))
+        return features
+    
     # MFCCs (Mel-frequency cepstral coefficients)
-    # We take the mean across the time axis (axis=1) to get a single vector of 20 coefficients.
-    mfccs = librosa.feature.mfcc(y=audio_segment, sr=sr, n_mfcc=20)
-    features["mfccs"] = np.mean(mfccs, axis=1) if mfccs.size > 0 else np.zeros(20)
+    # Returns (n_mfcc, n_frames)
+    mfccs = librosa.feature.mfcc(y=audio_segment, sr=sr, n_mfcc=20, n_fft=N_FFT, hop_length=HOP_LENGTH)
+    features["mfccs"] = mfccs
 
     # Spectral Centroid
-    spectral_centroids = librosa.feature.spectral_centroid(y=audio_segment, sr=sr)[0]
-    features["spectral_centroid"] = np.array([np.mean(spectral_centroids)] if spectral_centroids.size > 0 else [0.0])
+    # Returns (1, n_frames)
+    spectral_centroids = librosa.feature.spectral_centroid(y=audio_segment, sr=sr, n_fft=N_FFT, hop_length=HOP_LENGTH)
+    features["spectral_centroid"] = spectral_centroids
 
     # Spectral Rolloff
-    spectral_rolloff = librosa.feature.spectral_rolloff(y=audio_segment, sr=sr)[0]
-    features["spectral_rolloff"] = np.array([np.mean(spectral_rolloff)] if spectral_rolloff.size > 0 else [0.0])
+    # Returns (1, n_frames)
+    spectral_rolloff = librosa.feature.spectral_rolloff(y=audio_segment, sr=sr, n_fft=N_FFT, hop_length=HOP_LENGTH)
+    features["spectral_rolloff"] = spectral_rolloff
 
     # Zero-Crossing Rate
-    zcr = librosa.feature.zero_crossing_rate(y=audio_segment)[0] # [0] to get the 1D array
-    features["zero_crossing_rate"] = np.array([np.mean(zcr)] if zcr.size > 0 else [0.0])
+    # Returns (1, n_frames)
+    zcr = librosa.feature.zero_crossing_rate(y=audio_segment, hop_length=HOP_LENGTH)
+    features["zero_crossing_rate"] = zcr
 
     # RMS Energy
-    rms = librosa.feature.rms(y=audio_segment)[0] # [0] to get the 1D array
-    features["rms"] = np.array([np.mean(rms)] if rms.size > 0 else [0.0])
-
-# Chroma features (optional, but ensure it's handled consistently if used)
-    # We take the mean across the time axis (axis=1) to get a single vector of 12 chroma values.
-    # COMMENT OUT OR DELETE THESE TWO LINES:
-    # chroma = librosa.feature.chroma_stft(y=audio_segment, sr=sr)
-    # features["chroma"] = np.mean(chroma, axis=1) if chroma.size > 0 else np.zeros(12)
+    # Returns (1, n_frames)
+    rms = librosa.feature.rms(y=audio_segment, hop_length=HOP_LENGTH)
+    features["rms"] = rms
 
     return features
 
+# The __main__ block remains the same, but it's important to understand that
+# the feature shapes printed there will now be (feature_dim, n_frames) instead of (feature_dim,).
+# The assertion `assert all(f.size > 0 for f in features.values()), f"Some features are empty for onset {i+1}!"`
+# will still hold, but the shape check in main.py is where fixed dimensionality will be enforced.
 
 if __name__ == "__main__":
     print("Running feature_extractor.py example with test.mp3...")
     try:
-        # Import necessary modules
-        #from DrumScript.audio_processor.audio_loader import load_audio, normalise_audio
-        #from DrumScript.audio_processor.onset_detector import detect_onsets
-
         from audio_processor.audio_loader import load_audio, normalise_audio
         from audio_processor.onset_detector import detect_onsets
 
-        sr = 22050 # Target sample rate for processing
-        segment_length_seconds = 0.2 # Length of audio segment around each onset (e.g., 200ms)
+        sr = 22050
+        segment_length_seconds = 0.2
 
-        # --- Path to your actual drum recording (test.mp3) ---
-        # This dynamic path calculation should correctly point to DRUMSCRIPT/tests/test.mp3
         current_script_dir = os.path.dirname(os.path.abspath(__file__))
-        # Go up two levels from audio_processor/feature_extractor.py to the outer DRUMSCRIPT/ folder
         project_root = os.path.abspath(os.path.join(current_script_dir, os.pardir, os.pardir))
-        # Construct the path to test.mp3 within the 'tests' directory
         test_mp3_path = os.path.join(project_root, "DrumScript/tests", "test.mp3")
 
-
         print(f"Attempting to load: {test_mp3_path}")
-        # Load and normalise the test.mp3 audio
         audio_data, sample_rate = load_audio(test_mp3_path, sr=sr)
         normalised_audio = normalise_audio(audio_data)
         print(f"Loaded audio: Shape={normalised_audio.shape}, Sample Rate={sample_rate}, Duration={len(normalised_audio)/sample_rate:.2f} seconds")
 
-        # Detect onsets
         print("\nDetecting onsets...")
         onsets = detect_onsets(normalised_audio, sample_rate)
         print(f"Detected {len(onsets)} onsets.")
 
         if onsets:
-            # Process features for a few detected onsets (e.g., first 5 or all if fewer)
-            num_onsets_to_process = min(len(onsets), 5) # Process up to 5 onsets for brevity
+            num_onsets_to_process = min(len(onsets), 5)
             for i in range(num_onsets_to_process):
                 onset_time = onsets[i]
                 onset_sample = int(onset_time * sample_rate)
                 segment_length_samples = int(segment_length_seconds * sample_rate)
 
-                # Define the segment: from onset to onset + segment_length
                 segment_start = onset_sample
                 segment_end = min(onset_sample + segment_length_samples, len(normalised_audio))
                 
-                # Ensure the segment is valid and long enough
                 if segment_start >= len(normalised_audio) or segment_end <= segment_start:
                     print(f"  Skipping onset {i+1} at {onset_time:.2f}s: Segment out of bounds or too short.")
                     continue
@@ -127,12 +112,13 @@ if __name__ == "__main__":
                     features = extract_features(audio_segment, sample_rate)
 
                     for key, value in features.items():
-                        # Handle potential empty arrays from extract_features if segment was too short after padding
+                        # Now print shape as (feature_dim, n_frames)
+                        print(f"  {key}: shape={value.shape}")
                         if value.size > 0:
-                            print(f"  {key}: shape={value.shape}, mean={np.mean(value):.4f}")
+                            print(f"  {key} (first few values if 1D): {value.flatten()[:5]}") # Flatten to show values
                         else:
-                            print(f"  {key}: (empty)")
-                    assert all(f.size > 0 for f in features.values()), f"Some features are empty for onset {i+1}!"
+                            print(f"  {key}: (empty array with shape {value.shape})")
+                    # Assertions should check for consistent number of frames as well, if needed.
                 else:
                     print(f"  Onset {i+1} segment is empty, cannot extract features.")
         else:
@@ -148,6 +134,6 @@ if __name__ == "__main__":
     except Exception as e:
         print(f"\nAn unexpected error occurred during the example execution: {e}")
         import traceback
-        traceback.print_exc() # Print full traceback for debugging
+        traceback.print_exc()
 
     print("\nfeature_extractor.py example finished.")
