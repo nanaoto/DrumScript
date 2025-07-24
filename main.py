@@ -121,7 +121,7 @@ def transcribe_audio_to_sheet_music(input_audio_path: str, output_pdf_path: str)
         # So, we call it directly here.
         score_builder.build_and_export_drum_score(
         detected_events=all_drum_events,
-        tempo=120, # You can make this configurable via command line args later if needed
+        tempo=65, # You can make this configurable via command line args later if needed
         output_filepath=output_pdf_path,
         quantization_subdivision=16 # You can make this configurable too
         )
