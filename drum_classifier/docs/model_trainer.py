@@ -1,5 +1,5 @@
 # DrumScript/drum_classifier/model_trainer.py
-# __backup4__sat12jul2025__cnn
+# __backup4__sat12jul2025__cnn
 
 import os
 import numpy as np
@@ -10,7 +10,6 @@ import librosa
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import classification_report, f1_score, precision_score, recall_score
-import matplotlib.pyplot as plt # Added for plotting
 
 # Import TensorFlow and Keras
 import tensorflow as tf
@@ -27,7 +26,7 @@ SAMPLE_RATE = 22050
 SEGMENT_LENGTH_SECONDS = 0.2
 # Define all UNIQUE drum types that we expect to classify.
 # This must match the ALL_DRUM_TYPES list used in process_enst_dataset.py
-ALL_DRUM_TYPES = sorted(['kick', 'snare', 'hi-hat', 'crash', 'ride', 'tom', 'open-hat', 'closed-hat', 'perc', 'tom-floor', 'hi-tom', 'mid-tom'])
+ALL_DRUM_TYPES = sorted(['kick', 'snare', 'hi-hat', 'crash', 'ride', 'tom']) # Ensure this matches process_enst_dataset.py
 
 
 # --- Feature Extraction Helper ---
@@ -38,310 +37,238 @@ def _extract_features(audio_path, sr, segment_length_seconds):
     try:
         audio, _ = librosa.load(audio_path, sr=sr, mono=True)
         # Ensure the segment has the expected length, pad if necessary
-        target_length_samples = int(segment_length_seconds * sr)
-        if len(audio) < target_length_samples:
-            # Pad with zeros if the segment is too short
-            audio = np.pad(audio, (0, target_length_samples - len(audio)), 'constant')
-        elif len(audio) > target_length_samples:
-            # Trim if the segment is too long
-            audio = audio[:target_length_samples]
-
-        if audio.size == 0:
-            # Return an array of zeros with the expected feature shape if audio is empty
-            # This shape needs to match the input shape of your CNN, e.g., (N_MFCC, N_FRAMES_PER_SEGMENT)
-            # For 20 MFCCs and hop_length=512, sr=22050, segment_length_seconds=0.2,
-            # n_frames = ceil(target_length_samples / hop_length) = ceil(0.2 * 22050 / 512) = ceil(4410 / 512) = ceil(8.6) = 9
-            # So, expected shape is (20, 9)
-            n_mfcc = 20 # As defined in your feature_extractor
-            n_frames_per_segment = int(np.ceil(target_length_samples / 512)) # Assuming hop_length = 512 from feature_extractor
-            return np.zeros((n_mfcc, n_frames_per_segment))
-
+        if len(audio) < int(segment_length_seconds * sr):
+            padding = int(segment_length_seconds * sr) - len(audio)
+            audio = np.pad(audio, (0, padding), mode='constant')
+        elif len(audio) > int(segment_length_seconds * sr):
+            audio = audio[:int(segment_length_seconds * sr)]
 
         # Extract MFCCs
-        mfccs = librosa.feature.mfcc(y=audio, sr=sr, n_mfcc=20)
+        # n_mfcc=20 is a common choice for speech/audio classification
+        # hop_length and n_fft impact the number of frames; keep consistent
+        mfccs = librosa.feature.mfcc(y=audio, sr=sr, n_mfcc=20, n_fft=2048, hop_length=512)
         
-        # Normalize MFCCs to a common length for CNN input
-        # This is crucial for fixed-size CNN input
-        # We need to ensure that the number of frames matches the expected input shape
-        n_frames_expected = int(np.ceil(target_length_samples / 512)) # Assuming hop_length = 512
-        if mfccs.shape[1] < n_frames_expected:
-            mfccs = np.pad(mfccs, ((0, 0), (0, n_frames_expected - mfccs.shape[1])), 'constant')
-        elif mfccs.shape[1] > n_frames_expected:
-            mfccs = mfccs[:, :n_frames_expected]
+        # Add delta (first derivative) MFCCs
+        delta_mfccs = librosa.feature.delta(mfccs)
 
+        # Other features (often useful for drum classification)
+        chroma = librosa.feature.chroma_stft(y=audio, sr=sr, n_fft=2048, hop_length=512)
+        spectral_centroid = librosa.feature.spectral_centroid(y=audio, sr=sr, n_fft=2048, hop_length=512)
+        spectral_bandwidth = librosa.feature.spectral_bandwidth(y=audio, sr=sr, n_fft=2048, hop_length=512)
+        rolloff = librosa.feature.spectral_rolloff(y=audio, sr=sr, n_fft=2048, hop_length=512)
+        zero_crossing_rate = librosa.feature.zero_crossing_rate(y=audio, frame_length=2048, hop_length=512)
+        rms = librosa.feature.rms(y=audio, frame_length=2048, hop_length=512) # Root Mean Square energy
 
-        return mfccs
+        # Concatenate all features
+        # Flatten each feature to a 1D array before concatenating
+        # This is suitable for a fully connected layer or for traditional ML models
+        # For CNNs, you'd stack them as 2D arrays (e.g., [n_features, n_frames])
+        
+        # For CNN input, we want features over time.
+        # We need to decide on a fixed number of frames per segment.
+        # Given SEGMENT_LENGTH_SECONDS=0.2 and sr=22050, hop_length=512
+        # num_frames = ceil(0.2 * 22050 / 512) = ceil(4410 / 512) = 9
+        # Ensure all features have consistent number of frames.
+        
+        # Pad or truncate features to ensure consistent shape (e.g., 9 frames)
+        target_frames = int(np.ceil(segment_length_seconds * sr / 512)) # 9 frames for 0.2s, 22050 sr, 512 hop
+        
+        def _pad_or_truncate(feature_array, target_frames_val):
+            if feature_array.shape[1] < target_frames_val:
+                padding = target_frames_val - feature_array.shape[1]
+                return np.pad(feature_array, ((0, 0), (0, padding)), mode='constant')
+            elif feature_array.shape[1] > target_frames_val:
+                return feature_array[:, :target_frames_val]
+            return feature_array
+
+        mfccs = _pad_or_truncate(mfccs, target_frames)
+        delta_mfccs = _pad_or_truncate(delta_mfccs, target_frames)
+        chroma = _pad_or_truncate(chroma, target_frames)
+        spectral_centroid = _pad_or_truncate(spectral_centroid, target_frames)
+        spectral_bandwidth = _pad_or_truncate(spectral_bandwidth, target_frames)
+        rolloff = _pad_or_truncate(rolloff, target_frames)
+        zero_crossing_rate = _pad_or_truncate(zero_crossing_rate, target_frames)
+        rms = _pad_or_truncate(rms, target_frames)
+
+        # Stack features for CNN input: (n_features, n_frames) -> (n_frames, n_features) if time is primary dim
+        # Or (n_features, n_frames, 1) if using Conv1D where last dim is channel
+        
+        # Concatenate along the feature dimension (axis=0)
+        # Resulting shape: (total_features, n_frames)
+        combined_features = np.vstack([
+            mfccs,
+            delta_mfccs,
+            chroma,
+            spectral_centroid,
+            spectral_bandwidth,
+            rolloff,
+            zero_crossing_rate,
+            rms
+        ])
+        
+        # Reshape for Conv1D: (n_frames, n_features_per_frame, 1_channel)
+        # Transpose to (n_frames, n_features) and then add channel dimension
+        return combined_features.T[:, :, np.newaxis] # Shape will be (9, X, 1)
+    
     except Exception as e:
         print(f"Error extracting features from {audio_path}: {e}")
-        return None
+        # Return a zero-filled array of the expected shape if extraction fails
+        # n_mfcc (20) + delta_mfcc (20) + chroma (12) + centroid (1) + bandwidth (1) + rolloff (1) + zcr (1) + rms (1) = 57 features
+        target_frames = int(np.ceil(segment_length_seconds * sr / 512))
+        return np.zeros((target_frames, 57, 1)) # Default feature shape
 
-# --- CNN Model Definition ---
-def build_cnn_model(input_shape, num_classes):
+
+# --- Model Definition (CNN) ---
+def build_cnn_model(input_shape, num_labels):
     """
     Builds a Convolutional Neural Network (CNN) model for multi-label classification.
-
-    Args:
-        input_shape (tuple): Shape of the input features (n_mfcc, n_frames).
-        num_classes (int): Number of distinct drum classes.
-
-    Returns:
-        tf.keras.Model: Compiled Keras CNN model.
+    Input shape: (n_frames, n_features, 1)
     """
     model = Sequential([
-        # Add a Conv1D layer (e.g., 64 filters, kernel size 3)
-        # Input shape should be (n_frames, n_mfcc) if data is transposed
-        # or (n_mfcc, n_frames) if channels_last is used for Conv1D, often it's (timesteps, features)
-        # Let's assume input_shape is (n_mfcc, n_frames) and we'll reshape X_train to (samples, n_frames, n_mfcc)
-        # for Conv1D to operate on time-series of features.
-        Conv1D(filters=64, kernel_size=3, activation='relu', input_shape=(input_shape[1], input_shape[0])), # (n_frames, n_mfcc)
-        MaxPooling1D(pool_size=2),
+        # First Conv1D layer
+        Conv1D(filters=64, kernel_size=3, activation='relu', input_shape=input_shape, padding='same'),
+        MaxPooling1D(pool_size=2, padding='same'),
         Dropout(0.3),
 
-        Conv1D(filters=128, kernel_size=3, activation='relu'),
-        MaxPooling1D(pool_size=2),
+        # Second Conv1D layer
+        Conv1D(filters=128, kernel_size=3, activation='relu', padding='same'),
+        MaxPooling1D(pool_size=2, padding='same'),
         Dropout(0.3),
 
-        Flatten(),
-        Dense(128, activation='relu'),
+        Flatten(), # Flatten the output of the convolutional layers
+
+        Dense(256, activation='relu'),
         Dropout(0.5),
+
         # Output layer for multi-label classification
-        # 'sigmoid' activation for independent probabilities for each class
-        # num_classes should be the total number of drum types (e.g., 6 for kick, snare, hi-hat, crash, ride, tom)
-        Dense(num_classes, activation='sigmoid')
+        Dense(num_labels, activation='sigmoid') # Sigmoid for multi-label
     ])
 
-    # Compile the model
-    # BinaryCrossentropy is suitable for multi-label classification
-    # Metrics for multi-label: BinaryAccuracy, Precision, Recall, AUC
     model.compile(optimizer=Adam(learning_rate=0.001),
-                  loss=BinaryCrossentropy(),
-                  metrics=[BinaryAccuracy(), Precision(), Recall(), AUC(name='auc')])
+                  loss=BinaryCrossentropy(), # Use BinaryCrossentropy for multi-label
+                  metrics=[BinaryAccuracy(), Precision(), Recall(), AUC()])
     return model
 
-# --- New Function to Save and Plot Training History ---
-def save_and_plot_training_history(history, output_dir, model_name="drum_classifier"):
-    """
-    Saves the training history to a CSV and generates plots for loss and accuracy.
-    """
-    # Ensure output directory exists
-    os.makedirs(output_dir, exist_ok=True)
 
-    # Save history to CSV
-    history_df = pd.DataFrame(history.history)
-    history_csv_path = os.path.join(output_dir, f"{model_name}_training_history.csv")
-    history_df.to_csv(history_csv_path, index=False)
-    print(f"\nTraining history saved to: {history_csv_path}")
-
-    # Plot training & validation accuracy values
-    plt.figure(figsize=(12, 6))
-    plt.plot(history.history['binary_accuracy'])
-    if 'val_binary_accuracy' in history.history:
-        plt.plot(history.history['val_binary_accuracy'])
-    plt.title(f'{model_name} Model Accuracy')
-    plt.ylabel('Accuracy')
-    plt.xlabel('Epoch')
-    plt.legend(['Train', 'Validation'], loc='upper left')
-    accuracy_plot_path = os.path.join(output_dir, f"{model_name}_accuracy_plot.png")
-    plt.savefig(accuracy_plot_path)
-    plt.close()
-    print(f"Accuracy plot saved to: {accuracy_plot_path}")
-
-
-    # Plot training & validation loss values
-    plt.figure(figsize=(12, 6))
-    plt.plot(history.history['loss'])
-    if 'val_loss' in history.history:
-        plt.plot(history.history['val_loss'])
-    plt.title(f'{model_name} Model Loss')
-    plt.ylabel('Loss')
-    plt.xlabel('Epoch')
-    plt.legend(['Train', 'Validation'], loc='upper left')
-    loss_plot_path = os.path.join(output_dir, f"{model_name}_loss_plot.png")
-    plt.savefig(loss_plot_path)
-    plt.close()
-    print(f"Loss plot saved to: {loss_plot_path}")
-
-    # Plot AUC (Area Under Curve) if available
-    if 'auc' in history.history:
-        plt.figure(figsize=(12, 6))
-        plt.plot(history.history['auc'])
-        if 'val_auc' in history.history:
-            plt.plot(history.history['val_auc'])
-        plt.title(f'{model_name} Model AUC')
-        plt.ylabel('AUC')
-        plt.xlabel('Epoch')
-        plt.legend(['Train', 'Validation'], loc='upper left')
-        auc_plot_path = os.path.join(output_dir, f"{model_name}_auc_plot.png")
-        plt.savefig(auc_plot_path)
-        plt.close()
-        print(f"AUC plot saved to: {auc_plot_path}")
-
-    print("\nTraining plots generated. Examine them to assess overfitting/underfitting.")
-
-
-# --- Main Training and Evaluation Function ---
+# --- Training and Evaluation ---
 def train_and_evaluate_model(data_dir: str, model_save_path: str, scaler_save_path: str, label_map_save_path: str):
     """
-    Loads processed data, trains a multi-label CNN classifier, and evaluates it.
+    Trains and evaluates a multi-label drum classification model.
     """
-    print("--- Starting Model Training and Evaluation ---")
-    print(f"Data directory: {data_dir}")
+    print("Starting multi-label model training and evaluation process...")
 
-    processed_data_path = os.path.join(data_dir, "ENST_processed", "multi_label_events.csv")
-    audio_segments_dir = os.path.join(data_dir, "ENST_processed", "audio_segments")
+    # Path to the processed multi-label CSV and audio segments
+    processed_enst_dir = os.path.join(data_dir, "ENST_processed")
+    multi_label_csv_path = os.path.join(processed_enst_dir, "multi_label_events.csv")
+    
+    if not os.path.exists(multi_label_csv_path):
+        raise FileNotFoundError(f"Multi-label metadata CSV not found: {multi_label_csv_path}")
 
-    if not os.path.exists(processed_data_path):
-        raise FileNotFoundError(f"Processed data CSV not found: {processed_data_path}\n"
-                                f"Please run process_enst_dataset.py first to generate the data.")
-
-    df = pd.read_csv(processed_data_path)
+    # Load metadata
+    print(f"Loading multi-label metadata from: {multi_label_csv_path}")
+    df = pd.read_csv(multi_label_csv_path)
 
     # Prepare features and labels
     X = []
-    y = [] # This will store multi-hot encoded labels
-
-    # Create a mapping from drum type string to integer index
-    label_map = {drum_type: i for i, drum_type in enumerate(ALL_DRUM_TYPES)}
-    inverse_label_map = {i: drum_type for drum_type, i in label_map.items()}
-    num_classes = len(ALL_DRUM_TYPES)
-
-    print(f"Preparing dataset for {len(df)} samples...")
-    for index, row in tqdm(df.iterrows(), total=len(df), desc="Extracting features for training"):
-        audio_file_name = row['audio_file']
-        audio_path = os.path.join(audio_segments_dir, audio_file_name)
-
-        features = _extract_features(audio_path, SAMPLE_RATE, SEGMENT_LENGTH_SECONDS)
-        if features is None:
-            continue
+    y_labels = [] # To store list of labels per event
+    
+    print(f"Extracting features from {len(df)} audio segments...")
+    for index, row in tqdm(df.iterrows(), total=len(df), desc="Feature Extraction"):
+        audio_segment_path = os.path.join(processed_enst_dir, row['audio_segment_filename'])
+        features = _extract_features(audio_segment_path, SAMPLE_RATE, SEGMENT_LENGTH_SECONDS)
+        X.append(features)
         
-        # Ensure features have the correct shape (n_mfcc, n_frames)
-        # The CNN expects (n_frames, n_mfcc) for Conv1D input_shape
-        # So we will transpose it later after scaling.
-        # For now, ensure features are consistent.
-        # We need to know the expected n_frames based on SEGMENT_LENGTH_SECONDS and HOP_LENGTH (512)
-        target_length_samples = int(SEGMENT_LENGTH_SECONDS * SAMPLE_RATE)
-        n_frames_expected = int(np.ceil(target_length_samples / 512)) # Assuming hop_length = 512 from feature_extractor
-
-        if features.shape[1] != n_frames_expected:
-             # This should ideally not happen if _extract_features pads/trims correctly
-             print(f"Warning: Feature shape mismatch for {audio_file_name}. Expected {n_frames_expected} frames, got {features.shape[1]}. Skipping.")
-             continue
-        
-        X.append(features.flatten()) # Flatten for StandardScaler, will reshape for CNN later
-
-        # Create multi-hot encoded label
-        current_labels = row['drum_types'].split(',') # Assuming drum_types is a comma-separated string
-        multi_hot_label = np.zeros(num_classes, dtype=int)
-        for label in current_labels:
-            label = label.strip()
-            if label in label_map:
-                multi_hot_label[label_map[label]] = 1
-            else:
-                print(f"Warning: Unknown drum type '{label}' found in data. Skipping.")
-        y.append(multi_hot_label)
+        # Parse multi-label string back to list
+        labels_str = row['labels'].strip("[]").replace("'", "").split(', ')
+        y_labels.append(labels_str)
 
     X = np.array(X)
-    y = np.array(y)
+    
+    # Create a consistent label mapping
+    # This ensures that even if a drum type isn't present in a batch, its column exists.
+    label_map = {drum_type: i for i, drum_type in enumerate(ALL_DRUM_TYPES)}
+    
+    # Convert multi-labels to binary matrix format
+    # Initialize y as a zero matrix of shape (num_samples, num_unique_drum_types)
+    y = np.zeros((len(y_labels), len(ALL_DRUM_TYPES)), dtype=int)
+    for i, labels in enumerate(y_labels):
+        for label in labels:
+            if label in label_map:
+                y[i, label_map[label]] = 1 # Set 1 for present labels
 
-    if X.size == 0:
-        print("No valid features extracted. Cannot proceed with training. Check data and feature extraction.")
-        return
+    # Save the final label map for inference
+    with open(label_map_save_path, 'w') as f:
+        json.dump(label_map, f)
+    print(f"Label map saved to: {label_map_save_path}")
 
-    print(f"Total samples for training: {len(X)}")
-    print(f"Feature matrix shape (X): {X.shape}")
-    print(f"Labels matrix shape (y): {y.shape}")
+    # Split data
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+    # Reshape X for StandardScaler (needs 2D array: samples, features)
+    # The current X is (n_samples, n_frames, n_features_per_frame, 1)
+    # For scaler, we need to flatten the last two dimensions to (n_samples, n_frames * n_features_per_frame)
+    
+    # Store original shape for reshaping back after scaling
+    original_shape_train = X_train.shape
+    original_shape_test = X_test.shape
+
+    X_train_reshaped_for_scaler = X_train.reshape(original_shape_train[0], -1)
+    X_test_reshaped_for_scaler = X_test.reshape(original_shape_test[0], -1)
 
     # Scale features
     scaler = StandardScaler()
-    X_scaled = scaler.fit_transform(X)
+    X_train_scaled = scaler.fit_transform(X_train_reshaped_for_scaler)
+    X_test_scaled = scaler.transform(X_test_reshaped_for_scaler)
 
-    # Reshape X_scaled for CNN input: (samples, n_frames, n_mfcc)
-    # Original X was (samples, n_mfcc * n_frames_expected) flattened
-    # We need to reshape back to (samples, n_frames_expected, n_mfcc)
-    # This assumes features[0] is (n_mfcc, n_frames_expected)
-    n_mfcc = features.shape[0] if X.size > 0 else 20 # Get n_mfcc from an actual feature, fallback to 20
-    X_reshaped = X_scaled.reshape(len(X_scaled), n_frames_expected, n_mfcc)
-    print(f"Reshaped feature matrix for CNN (X_reshaped): {X_reshaped.shape}")
+    # Reshape back to original CNN input shape
+    X_train_scaled = X_train_scaled.reshape(original_shape_train)
+    X_test_scaled = X_test_scaled.reshape(original_shape_test)
 
+    # Save the scaler
+    joblib.dump(scaler, scaler_save_path)
+    print(f"Scaler saved to: {scaler_save_path}")
 
-    # Split data
-    X_train, X_test, y_train, y_test = train_test_split(X_reshaped, y, test_size=0.2, random_state=42)
-
-    print(f"Training data shape: {X_train.shape}, {y_train.shape}")
-    print(f"Test data shape: {X_test.shape}, {y_test.shape}")
-
-    # Build and train the model
-    model = build_cnn_model(input_shape=(n_mfcc, n_frames_expected), num_classes=num_classes)
+    # Build and train CNN model
+    input_shape = X_train_scaled.shape[1:] # (n_frames, n_features_per_frame, 1)
+    num_labels = len(ALL_DRUM_TYPES)
+    model = build_cnn_model(input_shape, num_labels)
     model.summary()
 
-    print("\nTraining CNN model...")
-    # Add validation_data for monitoring during training
-    history = model.fit(X_train, y_train, epochs=50, batch_size=32, validation_data=(X_test, y_test), verbose=1)
+    print("\nTraining the CNN model...")
+    history = model.fit(X_train_scaled, y_train,
+                        epochs=50, # You can adjust the number of epochs
+                        batch_size=32,
+                        validation_split=0.1, # Use a portion of training data for validation
+                        verbose=1)
 
-    print("\n--- Training Complete ---")
+    # Save the trained model
+    model.save(model_save_path)
+    print(f"Model saved to: {model_save_path}")
 
-    # Evaluate the model on the test set
-    print("\n--- Evaluating Model ---")
-    loss, binary_accuracy, precision, recall, auc = model.evaluate(X_test, y_test, verbose=0)
+    # Evaluate the model
+    print("\nEvaluating the model on the test set...")
+    loss, accuracy, precision, recall, auc = model.evaluate(X_test_scaled, y_test, verbose=0)
+    
+    print(f"\n--- Model Evaluation Results ---")
     print(f"Test Loss: {loss:.4f}")
-    print(f"Test Binary Accuracy: {binary_accuracy:.4f}")
+    print(f"Test Binary Accuracy: {accuracy:.4f}")
     print(f"Test Precision: {precision:.4f}")
     print(f"Test Recall: {recall:.4f}")
     print(f"Test AUC: {auc:.4f}")
 
-    # Generate predictions for classification report
-    y_pred_probs = model.predict(X_test)
-    # Convert probabilities to binary predictions (multi-label)
-    # A common threshold is 0.5, but this can be tuned
-    y_pred_binary = (y_pred_probs > 0.5).astype(int)
+    # Classification report for more detailed metrics per label
+    y_pred_probs = model.predict(X_test_scaled)
+    y_pred = (y_pred_probs > 0.5).astype(int) # Convert probabilities to binary predictions
 
-    print("\n--- Classification Report (Threshold > 0.5) ---")
-    # Use target_names for a more readable report
-    report = classification_report(y_test, y_pred_binary, target_names=ALL_DRUM_TYPES, zero_division=0)
-    print(report)
+    # Invert label_map to get drum type names from indices for the report
+    idx_to_label = {i: drum_type for drum_type, i in label_map.items()}
+    target_names = [idx_to_label[i] for i in sorted(idx_to_label.keys())] # Ensure order matches y columns
 
-    # Save the trained model, scaler, and label map
-    print("\n--- Saving Model Components ---")
-    model.save(model_save_path) # Saves Keras model
-    joblib.dump(scaler, scaler_save_path) # Saves StandardScaler
-    with open(label_map_save_path, 'w') as f:
-        json.dump(label_map, f) # Saves label mapping
+    print("\nClassification Report:")
+    print(classification_report(y_test, y_pred, target_names=target_names, zero_division=0))
 
-    print(f"Model saved to: {model_save_path}")
-    print(f"Scaler saved to: {scaler_save_path}")
-    print(f"Label map saved to: {label_map_save_path}")
-
-    # --- New: Save and Plot Training History ---
-    # Determine the output directory for logs and plots
-    current_script_dir = os.path.dirname(os.path.abspath(__file__))
-    project_root = os.path.abspath(os.path.join(current_script_dir, os.pardir))
-    output_logs_dir = os.path.join(project_root, "outputs", "training_logs")
-    save_and_plot_training_history(history, output_logs_dir, model_name="multi_label_drum_classifier")
-
+    print("\nMulti-label model training and evaluation finished.")
     print("\n---------------------------------------------------")
-    print("--- Model Training and Evaluation finished. ---")
-    print("---------------------------------------------------\n")
-    print("Interpretation of Results:")
-    print("--------------------------")
-    print("1.  **Test Metrics:**")
-    print(f"    - **Binary Accuracy ({binary_accuracy:.4f}):** This is the proportion of correctly predicted labels (considering each drum type independently). A higher value is better.")
-    print(f"    - **Precision ({precision:.4f}):** When the model predicts a drum type, how often is it correct? (True Positives / (True Positives + False Positives)). High precision means fewer false alarms.")
-    print(f"    - **Recall ({recall:.4f}):** Of all the actual occurrences of a drum type, how many did the model correctly identify? (True Positives / (True Positives + False Negatives)). High recall means fewer missed drum hits.")
-    print(f"    - **AUC ({auc:.4f}):** Area Under the Receiver Operating Characteristic (ROC) curve. It measures the ability of the model to distinguish between classes. Higher AUC (closer to 1.0) indicates better performance.")
-    print(f"    - **Loss ({loss:.4f}):** A measure of how well the model is performing. Lower loss is better.")
-    print("\n2.  **Classification Report:**")
-    print("    - Provides precision, recall, f1-score, and support for each individual drum type.")
-    print("    - **F1-score:** The harmonic mean of precision and recall. A balanced metric, good for imbalanced datasets.")
-    print("    - **Support:** The number of actual occurrences of each drum type in the test set.")
-    print("    - Look for consistent high F1-scores across all drum types. If some drum types have significantly lower scores, the model might struggle with them (e.g., due to less training data or similar sounds to other drums).")
-    print("\n3.  **Training Plots (in 'outputs/training_logs/'):**")
-    print("    - **Accuracy and Loss Curves:** Examine the 'multi_label_drum_classifier_accuracy_plot.png' and 'multi_label_drum_classifier_loss_plot.png'.")
-    print("    - **Validation vs. Training:**")
-    print("        - If the validation curve closely follows the training curve, the model is generalizing well.")
-    print("        - If the training curve continues to improve but the validation curve plateaus or gets worse, it indicates **overfitting**. You might need to add more dropout, reduce model complexity, or get more diverse training data.")
-    print("        - If both curves are flat and low, it indicates **underfitting**. The model might be too simple, or needs more training epochs or a higher learning rate.")
-    print("    - **AUC Curve:** Provides insight into the model's overall discriminative power during training.")
-    print("\nConsider adjusting hyperparameters (epochs, batch size, learning rate, CNN layers/filters) and model architecture if the performance is not satisfactory.")
 
 
 if __name__ == "__main__":
@@ -371,8 +298,8 @@ if __name__ == "__main__":
         )
     except FileNotFoundError as e:
         print(f"Error: {e}")
-        print("Please make sure you have run `process_enst_dataset.py` to prepare the data in `training_data/ENST_processed`.")
+        print("Please ensure you have run 'process_enst_dataset.py' first to prepare the data.")
     except Exception as e:
-        print(f"An unexpected error occurred: {e}")
+        print(f"An unexpected error occurred during model training: {e}")
         import traceback
-        traceback.print_exc()
+        traceback.print_exc() # Print full traceback for debugging
