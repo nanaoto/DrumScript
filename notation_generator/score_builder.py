@@ -24,140 +24,120 @@ def get_drum_music21_note_info(drum_type: str) -> Dict[str, Any]:
     # and get the MIDI number or display pitch properties for Unpitched notes.
     
     # Use the 'staff_position' string for visual placement and the 'midi_program' for sound.
-    # music21's Unpitched note uses .pitch.midi for positioning/playback.
-    # The 'display_step' and 'display_octave' are derived from the staff_position.
+    # music21's Unpitched objects use displayStep and displayOctave for rendering.
+    
     pitch_obj = music21.pitch.Pitch(drum_map['staff_position'])
     
     return {
-        'midi_pitch': drum_map['midi_program'], # Use midi_program from map for accurate playback
+        'midi_pitch': pitch_obj.midi, 
         'note_head': drum_map['note_head'],
-        'display_step': pitch_obj.step,     # E.g., 'F', 'C' - for visual staff placement
-        'display_octave': pitch_obj.octave  # E.g., 2, 3 - for visual staff placement
+        'staff_position': drum_map['staff_position'] # ADDED THIS LINE
     }
-
 
 def build_and_export_drum_score(
     detected_events: List[Dict[str, Any]],
-    tempo: int = 120,
-    output_filepath: str = "output_drum_sheet.pdf",
-    quantization_subdivision: int = 16 # e.g., 4 for quarter, 8 for eighth, 16 for sixteenth
+    tempo: int,
+    output_filepath: str,
+    quantization_subdivision: int = 16 # Default to 16th notes for quantization
 ):
     """
-    Builds a music21 score from detected multi-label drum events and exports it to PDF.
+    Builds a music21 Score object for drum sheet music from detected events
+    and exports it to a PDF file using LilyPond via MusicXML.
 
     Args:
-        detected_events (List[Dict[str, Any]]): List of detected drum events.
-                                                Each event dict contains 'time' and 'drums' (list of strings).
-                                                e.g., [{'time': 0.1, 'drums': ['kick', 'hi-hat']}, ...]
-        tempo (int): Tempo in BPM for quantization.
-        output_filepath (str): Full path where the PDF file should be saved.
-        quantization_subdivision (int): Rhythmic subdivision to quantize to (e.g., 16 for 16th notes).
+        detected_events (List[Dict[str, Any]]): A list of dictionaries,
+            each containing 'onset_time' (float) and 'drum_type' (str).
+        tempo (int): The tempo of the piece in BPM.
+        output_filepath (str): The full path where the PDF file should be saved.
+        quantization_subdivision (int): The subdivision level for quantization
+                                        (e.g., 4 for quarter, 8 for eighth, 16 for sixteenth).
     """
-    print("Building music21 score...")
+    print(f"Building music21 score with tempo {tempo} BPM...")
 
-    # Create a new Score object
+    # Create a new Score and Part
     score = music21.stream.Score()
     score.metadata = music21.metadata.Metadata()
     score.metadata.title = "Drum Transcription"
     score.metadata.composer = "DrumScript AI"
 
-    # Create a percussion Part
     drum_part = music21.stream.Part()
-    drum_part.id = 'DrumKit'
     drum_part.partName = 'Drum Kit'
     drum_part.partAbbreviation = 'Dms.'
+    
+    # Add a percussion instrument to the part
+    percussion_instrument = music21.instrument.Percussion()
+    # music21.instrument.DrumKit() can also be used, but Percussion is more general.
+    drum_part.insert(0, percussion_instrument) # Insert at offset 0
 
-    # --- ADDED: Percussion Clef and Time Signature for proper notation display ---
-    drum_part.append(music21.clef.PercussionClef())
-    drum_part.append(music21.meter.TimeSignature('4/4')) # Using a default 4/4 time signature
-    # ---------------------------------------------------------------------------
+    # Set initial tempo
+    metronome_mark = music21.tempo.MetronomeMark(number=tempo)
+    drum_part.insert(0, metronome_mark)
+    
+    # Add time signature (assuming 4/4 for now, can be made dynamic later)
+    ts = music21.meter.TimeSignature('4/4')
+    drum_part.insert(0, ts)
 
-    # Add a Percussion instrument to the part (important for music21 to know it's a drum part)
-    drum_part.append(music21.instrument.Percussion())
-
-    # Add a tempo indication
-    metronome = music21.tempo.MetronomeMark(number=tempo)
-    drum_part.append(metronome)
-
-    # Group events by quantized time to handle simultaneous hits
-    # Dictionary to store {quantized_time_beats: [list_of_drum_types_at_that_time]}
-    events_by_quantized_time = defaultdict(list)
-
+    # Group events by quantized time for chords
+    quantized_events = defaultdict(list)
     for event in detected_events:
-        onset_time_seconds = event['time']
-        drum_types = event['drums'] # This is the list of detected drums for this event
-
-        # Convert seconds to beats
-        time_in_beats = (onset_time_seconds / 60.0) * tempo
+        onset_time = event['onset_time']
+        drum_type = event['drum_type']
         
-        # Quantize the time to the nearest musical subdivision
-        quantized_time_beats = round_to_nearest_subdivision(time_in_beats, quantization_subdivision)
-        
-        # Add all drum types for this quantized time
-        events_by_quantized_time[quantized_time_beats].extend(drum_types)
+        # Quantize the onset time to the nearest subdivision
+        quantized_time = round_to_nearest_subdivision(onset_time, tempo, quantization_subdivision)
+        quantized_events[quantized_time].append(drum_type)
 
-    # Sort events by quantized time
-    sorted_quantized_times = sorted(events_by_quantized_time.keys())
+    # Sort quantized times to process chronologically
+    sorted_quantized_times = sorted(quantized_events.keys())
 
-    # Iterate through quantized times and create music21 notes/chords
     last_offset = 0.0
-    for quantized_time_beats in sorted_quantized_times:
-        current_offset = quantized_time_beats # Offset in quarterLength (beats)
-
-        # Handle rests if there's a gap between the last event and the current one
+    for current_offset in sorted_quantized_times:
+        # Add rests if there's a gap between the last event and the current one
         if current_offset > last_offset:
             rest_duration = current_offset - last_offset
-            if rest_duration > 0.001: # Avoid adding tiny, negligible rests
+            if rest_duration > 0:
                 rest = music21.note.Rest()
                 rest.duration.quarterLength = rest_duration
                 drum_part.append(rest)
         
-        drums_at_this_time = events_by_quantized_time[quantized_time_beats]
-        
-        if len(drums_at_this_time) == 1:
-            # Single drum hit at this time
-            drum_type = drums_at_this_time[0]
+        # Create a chord for all drums hitting at this quantized time
+        drums_at_this_time = quantized_events[current_offset]
+        notes_in_chord = []
+
+        # Create individual Unpitched notes for each drum type
+        for drum_type in drums_at_this_time:
             note_info = get_drum_music21_note_info(drum_type)
             
-            # Use music21.note.Unpitched for percussion notes
-            n = music21.note.Unpitched()
-            n.storedInstrument = music21.instrument.Percussion()
-            n.pitch = music21.pitch.Pitch() # Create a dummy pitch object to set properties
-            n.pitch.midi = note_info['midi_pitch'] # Set MIDI pitch for playback/positioning
-            n.notehead = note_info['note_head']
-            n.duration.quarterLength = (4.0 / quantization_subdivision) # Duration of one subdivision (e.g., 16th note)
-            drum_part.append(n)
+            # Create an Unpitched note for each drum type in the chord
+            up = music21.note.Unpitched()
+            up.storedInstrument = music21.instrument.Percussion()
+            
+            # For unpitched notes, use displayStep and displayOctave for visual placement.
+            # The 'staff_position' from your constants.py is already a string like 'F2', 'C3'.
+            # We can parse this into a pitch object to extract its step and octave for display.
+            pitch_for_display = music21.pitch.Pitch(note_info['staff_position'])
+            up.displayStep = pitch_for_display.step
+            up.displayOctave = pitch_for_display.octave
+            
+            # If you still want the MIDI pitch associated with the unpitched note
+            # for internal music21 use or potential MIDI export, you can set it directly on the Unpitched object:
+            up.midi = note_info['midi_pitch'] # Set MIDI directly on Unpitched object
 
-        elif len(drums_at_this_time) > 1:
-            # Multiple drum hits at this time (create a PercussionChord)
-            
-            notes_in_chord = []
-            for drum_type in drums_at_this_time:
-                note_info = get_drum_music21_note_info(drum_type)
-                
-                # Create an Unpitched note for each drum type in the chord
-                up = music21.note.Unpitched()
-                up.storedInstrument = music21.instrument.Percussion()
-                #up.pitch = music21.pitch.Pitch()
-                #up.pitch.midi = note_info['midi_pitch']
-                pitch_for_display = music21.pitch.Pitch(note_info['staff_position'])
-                up.displayStep = pitch_for_display.step
-                up.displayOctave = pitch_for_display.octave
-                up.midi = note_info['midi_pitch']
-                up.notehead = note_info['note_head']
-                notes_in_chord.append(up)
-            
-            # Create a PercussionChord from the list of Unpitched notes
-            p_chord = music21.percussion.PercussionChord(notes_in_chord)
-            p_chord.duration.quarterLength = (4.0 / quantization_subdivision) # Duration of one subdivision
-            drum_part.append(p_chord)
+            up.notehead = note_info['note_head']
+            notes_in_chord.append(up)
+        
+        # Create a PercussionChord from the list of Unpitched notes
+        p_chord = music21.percussion.PercussionChord(notes_in_chord)
+        # Assuming all notes in a chord have the same duration, which is one subdivision
+        p_chord.duration.quarterLength = (4.0 / quantization_subdivision) 
+        drum_part.append(p_chord)
         
         last_offset = current_offset + (4.0 / quantization_subdivision) # Update last offset for rest calculation
 
 
     score.append(drum_part)
 
-    # --- Export to PDF ---
+    # --- Export to PDF ---\
     # The generate_pdf function in pdf_exporter.py already handles music21 Stream to PDF conversion
     # It takes a score-like object and an output filepath.
     generate_pdf(score, output_filepath) # Pass the music21 score directly
@@ -167,4 +147,4 @@ def build_and_export_drum_score(
 
 # You might also want a separate function to just build the score object
 # if you want to inspect it before exporting, but for now, this combined
-# function is straightforward for the main script.
+# function is straightforward for the main workflow.
