@@ -3,20 +3,63 @@
 # Drum part mapping (should align with your model's classification)
 
 DRUM_NOTATION_MAP = {
-    'kick': {'note_head': 'x', 'staff_position': 'F2'}, # F2 for kick (bottom space)
-    'snare': {'note_head': 'normal', 'staff_position': 'C3'}, # C3 for snare (middle space)
-    'hi-hat': {'note_head': 'x', 'staff_position': 'G3'}, # G3 for hi-hat (top line)
-    'crash': {'note_head': 'x', 'staff_position': 'C4'}, # C4 for crash (above staff)
-    'ride': {'note_head': 'x', 'staff_position': 'A3'},  # A3 for ride (space above top line)
-    'tom': {'note_head': 'normal', 'staff_position': 'E3'}, # E3 for tom (space below hi-hat)
+    'kick': {
+        'staff_position': 'F2',  # F2 for kick (bottom space on a 5-line staff)
+        'midi_program': 36,      # General MIDI Kick Drum 1 (MIDI 36)
+        'note_head': 'normal',   # Standard notehead
+        'display_name': 'Bass Drum'
+    },
+    'snare': {
+        'staff_position': 'C3',  # C3 for snare (middle space on a 5-line staff)
+        'midi_program': 38,      # General MIDI Acoustic Snare (MIDI 38)
+        'note_head': 'normal',   # Standard notehead
+        'display_name': 'Snare Drum'
+    },
+    'hi-hat': {
+        'staff_position': 'F#3', # F#3 for hi-hat (top line on a 5-line staff) - often shown with 'x' head
+        'midi_program': 42,      # General MIDI Closed Hi-Hat (MIDI 42)
+        'note_head': 'x',        # 'x' notehead for cymbals/hi-hats
+        'display_name': 'Hi-Hat (Closed)'
+    },
+    'open-hat': {
+        'staff_position': 'A#3', # A#3 for open hi-hat (above staff)
+        'midi_program': 46,      # General MIDI Open Hi-Hat (MIDI 46)
+        'note_head': 'x',        # 'x' notehead
+        'display_name': 'Hi-Hat (Open)'
+    },
+    'crash': {
+        'staff_position': 'C4',  # C4 for crash (above staff, high position)
+        'midi_program': 49,      # General MIDI Crash Cymbal 1 (MIDI 49)
+        'note_head': 'x',        # 'x' notehead
+        'display_name': 'Crash Cymbal'
+    },
+    'ride': {
+        'staff_position': 'G3',  # G3 for ride (space above top line)
+        'midi_program': 51,      # General MIDI Ride Cymbal 1 (MIDI 51)
+        'note_head': 'x',        # 'x' notehead
+        'display_name': 'Ride Cymbal'
+    },
+    'tom-high': {
+        'staff_position': 'D3',  # D3 for high tom (space below hi-hat)
+        'midi_program': 50,      # General MIDI High Tom (MIDI 50)
+        'note_head': 'normal',   # Standard notehead
+        'display_name': 'High Tom'
+    },
+    'tom-mid': {
+        'staff_position': 'B2',  # B2 for mid tom (space below snare)
+        'midi_program': 47,      # General MIDI Mid Tom (MIDI 47)
+        'note_head': 'normal',   # Standard notehead
+        'display_name': 'Mid Tom'
+    },
+    'tom-low': {
+        'staff_position': 'G2',  # G2 for low tom (space below kick)
+        'midi_program': 45,      # General MIDI Low Tom (MIDI 45)
+        'note_head': 'normal',   # Standard notehead
+        'display_name': 'Low Tom'
+    },
     # Add more drum types as classified by your model
-    # Example for other possible drum types:
-    # 'floor_tom': {'note_head': 'normal', 'staff_position': 'A2'}, # A2 for floor tom
-    # 'high_tom': {'note_head': 'normal', 'staff_position': 'D3'}, # D3 for high tom
-    # 'mid_tom': {'note_head': 'normal', 'staff_position': 'B2'}, # B2 for mid tom
 }
 
-# ... (rest of your constants.py file)
 # --- Musical Durations ---
 # Common note durations as fractions of a whole note (1.0)
 WHOLE_NOTE = 1.0
