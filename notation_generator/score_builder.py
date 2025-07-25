@@ -23,13 +23,16 @@ def get_drum_music21_note_info(drum_type: str) -> Dict[str, Any]:
     # We can use music21.pitch.Pitch to parse these string representations
     # and get the MIDI number or display pitch properties for Unpitched notes.
     
+    # Use the 'staff_position' string for visual placement and the 'midi_program' for sound.
+    # music21's Unpitched note uses .pitch.midi for positioning/playback.
+    # The 'display_step' and 'display_octave' are derived from the staff_position.
     pitch_obj = music21.pitch.Pitch(drum_map['staff_position'])
     
     return {
-        'midi_pitch': pitch_obj.midi, # MIDI number
+        'midi_pitch': drum_map['midi_program'], # Use midi_program from map for accurate playback
         'note_head': drum_map['note_head'],
-        'display_step': pitch_obj.step,     # E.g., 'F', 'C'
-        'display_octave': pitch_obj.octave  # E.g., 2, 3
+        'display_step': pitch_obj.step,     # E.g., 'F', 'C' - for visual staff placement
+        'display_octave': pitch_obj.octave  # E.g., 2, 3 - for visual staff placement
     }
 
 
@@ -63,6 +66,11 @@ def build_and_export_drum_score(
     drum_part.id = 'DrumKit'
     drum_part.partName = 'Drum Kit'
     drum_part.partAbbreviation = 'Dms.'
+
+    # --- ADDED: Percussion Clef and Time Signature for proper notation display ---
+    drum_part.append(music21.clef.PercussionClef())
+    drum_part.append(music21.meter.TimeSignature('4/4')) # Using a default 4/4 time signature
+    # ---------------------------------------------------------------------------
 
     # Add a Percussion instrument to the part (important for music21 to know it's a drum part)
     drum_part.append(music21.instrument.Percussion())
@@ -122,11 +130,6 @@ def build_and_export_drum_score(
 
         elif len(drums_at_this_time) > 1:
             # Multiple drum hits at this time (create a PercussionChord)
-            
-            # The music21.chord.Unpitched object is what we want for simultaneous percussion notes.
-            # However, you can't just set multiple pitches directly on Unpitched.
-            # Instead, you create a list of Unpitched notes and then a Chord containing them.
-            # music21.chord.PercussionChord is specifically designed for this.
             
             notes_in_chord = []
             for drum_type in drums_at_this_time:
