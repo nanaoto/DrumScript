@@ -46,7 +46,7 @@ def transcribe_audio_to_sheet_music(input_audio_path: str, output_pdf_path: str)
     current_script_dir = os.path.dirname(os.path.abspath(__file__))
     # Go up one level to the project root, then into the 'models' directory
     project_root = os.path.abspath(os.path.join(current_script_dir, os.pardir))
-    models_dir = os.path.join(project_root, "models")
+    models_dir = os.path.join(project_root, "DrumScript/models")
 
     model_path = os.path.join(models_dir, "multi_label_drum_classifier_model.h5")
     scaler_path = os.path.join(models_dir, "multi_label_scaler.joblib")
