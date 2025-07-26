@@ -1,5 +1,4 @@
 # DrumScript/drum_classifier/model_trainer.py
-# __backup4__sat12jul2025__cnn
 
 import os
 import numpy as np
@@ -37,238 +36,224 @@ def _extract_features(audio_path, sr, segment_length_seconds):
     try:
         audio, _ = librosa.load(audio_path, sr=sr, mono=True)
         # Ensure the segment has the expected length, pad if necessary
-        if len(audio) < int(segment_length_seconds * sr):
-            padding = int(segment_length_seconds * sr) - len(audio)
-            audio = np.pad(audio, (0, padding), mode='constant')
-        elif len(audio) > int(segment_length_seconds * sr):
-            audio = audio[:int(segment_length_seconds * sr)]
+        if len(audio) < int(sr * segment_length_seconds):
+            # Pad with zeros to the expected length
+            pad_length = int(sr * segment_length_seconds) - len(audio)
+            audio = np.pad(audio, (0, pad_length), mode='constant')
+        elif len(audio) > int(sr * segment_length_seconds):
+            # Trim if too long
+            audio = audio[:int(sr * segment_length_seconds)]
 
         # Extract MFCCs
-        # n_mfcc=20 is a common choice for speech/audio classification
-        # hop_length and n_fft impact the number of frames; keep consistent
-        mfccs = librosa.feature.mfcc(y=audio, sr=sr, n_mfcc=20, n_fft=2048, hop_length=512)
-        
-        # Add delta (first derivative) MFCCs
-        delta_mfccs = librosa.feature.delta(mfccs)
-
-        # Other features (often useful for drum classification)
-        chroma = librosa.feature.chroma_stft(y=audio, sr=sr, n_fft=2048, hop_length=512)
-        spectral_centroid = librosa.feature.spectral_centroid(y=audio, sr=sr, n_fft=2048, hop_length=512)
-        spectral_bandwidth = librosa.feature.spectral_bandwidth(y=audio, sr=sr, n_fft=2048, hop_length=512)
-        rolloff = librosa.feature.spectral_rolloff(y=audio, sr=sr, n_fft=2048, hop_length=512)
-        zero_crossing_rate = librosa.feature.zero_crossing_rate(y=audio, frame_length=2048, hop_length=512)
-        rms = librosa.feature.rms(y=audio, frame_length=2048, hop_length=512) # Root Mean Square energy
-
-        # Concatenate all features
-        # Flatten each feature to a 1D array before concatenating
-        # This is suitable for a fully connected layer or for traditional ML models
-        # For CNNs, you'd stack them as 2D arrays (e.g., [n_features, n_frames])
-        
-        # For CNN input, we want features over time.
-        # We need to decide on a fixed number of frames per segment.
-        # Given SEGMENT_LENGTH_SECONDS=0.2 and sr=22050, hop_length=512
-        # num_frames = ceil(0.2 * 22050 / 512) = ceil(4410 / 512) = 9
-        # Ensure all features have consistent number of frames.
-        
-        # Pad or truncate features to ensure consistent shape (e.g., 9 frames)
-        target_frames = int(np.ceil(segment_length_seconds * sr / 512)) # 9 frames for 0.2s, 22050 sr, 512 hop
-        
-        def _pad_or_truncate(feature_array, target_frames_val):
-            if feature_array.shape[1] < target_frames_val:
-                padding = target_frames_val - feature_array.shape[1]
-                return np.pad(feature_array, ((0, 0), (0, padding)), mode='constant')
-            elif feature_array.shape[1] > target_frames_val:
-                return feature_array[:, :target_frames_val]
-            return feature_array
-
-        mfccs = _pad_or_truncate(mfccs, target_frames)
-        delta_mfccs = _pad_or_truncate(delta_mfccs, target_frames)
-        chroma = _pad_or_truncate(chroma, target_frames)
-        spectral_centroid = _pad_or_truncate(spectral_centroid, target_frames)
-        spectral_bandwidth = _pad_or_truncate(spectral_bandwidth, target_frames)
-        rolloff = _pad_or_truncate(rolloff, target_frames)
-        zero_crossing_rate = _pad_or_truncate(zero_crossing_rate, target_frames)
-        rms = _pad_or_truncate(rms, target_frames)
-
-        # Stack features for CNN input: (n_features, n_frames) -> (n_frames, n_features) if time is primary dim
-        # Or (n_features, n_frames, 1) if using Conv1D where last dim is channel
-        
-        # Concatenate along the feature dimension (axis=0)
-        # Resulting shape: (total_features, n_frames)
-        combined_features = np.vstack([
-            mfccs,
-            delta_mfccs,
-            chroma,
-            spectral_centroid,
-            spectral_bandwidth,
-            rolloff,
-            zero_crossing_rate,
-            rms
-        ])
-        
-        # Reshape for Conv1D: (n_frames, n_features_per_frame, 1_channel)
-        # Transpose to (n_frames, n_features) and then add channel dimension
-        return combined_features.T[:, :, np.newaxis] # Shape will be (9, X, 1)
-    
+        mfccs = librosa.feature.mfcc(y=audio, sr=sr, n_mfcc=40)
+        # Flatten MFCCs to a 1D array for initial processing with a Dense layer or simple CNN
+        # If using more complex CNN, we might keep it 2D and add a Conv2D layer
+        # For simplicity, we'll reshape to (num_mfccs, num_frames, 1) for Conv1D
+        mfccs = mfccs.T # Transpose to (time_frames, n_mfccs)
+        return mfccs
     except Exception as e:
         print(f"Error extracting features from {audio_path}: {e}")
-        # Return a zero-filled array of the expected shape if extraction fails
-        # n_mfcc (20) + delta_mfcc (20) + chroma (12) + centroid (1) + bandwidth (1) + rolloff (1) + zcr (1) + rms (1) = 57 features
-        target_frames = int(np.ceil(segment_length_seconds * sr / 512))
-        return np.zeros((target_frames, 57, 1)) # Default feature shape
+        return None
 
-
-# --- Model Definition (CNN) ---
-def build_cnn_model(input_shape, num_labels):
+# --- Data Loading for Multi-Label ---
+def load_multi_label_dataset(data_dir: str, sr: int, segment_length_seconds: float):
     """
-    Builds a Convolutional Neural Network (CNN) model for multi-label classification.
-    Input shape: (n_frames, n_features, 1)
+    Loads multi-label drum event data from the ENST_processed directory and CSV.
+    """
+    processed_dir = os.path.join(data_dir, "ENST_processed")
+    labels_csv_path = os.path.join(processed_dir, "multi_label_events.csv")
+
+    if not os.path.exists(labels_csv_path):
+        raise FileNotFoundError(
+            f"ERROR: multi_label_events.csv not found at {labels_csv_path}. "
+            "Please run process_enst_dataset.py first."
+        )
+
+    print(f"Loading multi-label metadata from: {labels_csv_path}")
+    df = pd.read_csv(labels_csv_path)
+
+    features = []
+    labels = [] # Will store one-hot encoded labels
+
+    print(f"Extracting features from {len(df)} audio segments...")
+    for index, row in tqdm(df.iterrows(), total=len(df), desc="Extracting features"):
+        filename = row['filename']
+        audio_path = os.path.join(processed_dir, filename)
+
+        if not os.path.exists(audio_path):
+            print(f"Warning: Audio file not found for {filename}. Skipping.")
+            continue
+        
+        mfccs = _extract_features(audio_path, sr, segment_length_seconds)
+        if mfccs is not None:
+            features.append(mfccs)
+            # Extract multi-hot encoded labels directly from DataFrame row
+            # Exclude 'filename' column
+            current_labels = row[ALL_DRUM_TYPES].values.astype(np.float32)
+            labels.append(current_labels)
+
+    if not features:
+        raise ValueError("No features were extracted. Check your data paths and audio files.")
+
+    # Convert lists to numpy arrays
+    X = np.array(features)
+    y = np.array(labels)
+
+    # Apply StandardScaler
+    # Reshape X for StandardScaler: (num_samples, num_time_frames * num_mfccs)
+    original_shape = X.shape
+    X_reshaped_for_scaler = X.reshape(original_shape[0], -1) # Flatten each sample's features
+
+    scaler = StandardScaler()
+    X_scaled = scaler.fit_transform(X_reshaped_for_scaler)
+    
+    # Reshape back to (num_samples, num_time_frames, num_mfccs) for CNN input
+    X_final = X_scaled.reshape(original_shape)
+
+    print(f"Loaded {len(X_final)} samples. Features shape: {X_final.shape}, Labels shape: {y.shape}")
+    
+    # The label_map for multi-label is simply the list of all_drum_types
+    label_map = {drum_type: idx for idx, drum_type in enumerate(ALL_DRUM_TYPES)}
+
+    return X_final, y, scaler, label_map
+
+# --- CNN Model Definition ---
+def create_cnn_model(input_shape, num_classes):
+    """
+    Creates a simple Convolutional Neural Network (CNN) model for multi-label classification.
     """
     model = Sequential([
-        # First Conv1D layer
-        Conv1D(filters=64, kernel_size=3, activation='relu', input_shape=input_shape, padding='same'),
-        MaxPooling1D(pool_size=2, padding='same'),
+        # Input layer expects (time_frames, n_mfcc, 1) or (num_mfcc, time_frames, 1)
+        # Our _extract_features returns (time_frames, n_mfcc)
+        # Keras Conv1D expects (batch, timesteps, features)
+        # So we use X.reshape(X.shape[0], X.shape[1], X.shape[2], 1) if MFCCs are 2D
+        # For our (time_frames, n_mfcc) 2D input from MFCCs, we'll add an extra dim.
+        Conv1D(filters=64, kernel_size=5, activation='relu', input_shape=input_shape),
+        MaxPooling1D(pool_size=2),
         Dropout(0.3),
 
-        # Second Conv1D layer
-        Conv1D(filters=128, kernel_size=3, activation='relu', padding='same'),
-        MaxPooling1D(pool_size=2, padding='same'),
+        Conv1D(filters=128, kernel_size=3, activation='relu'),
+        MaxPooling1D(pool_size=2),
         Dropout(0.3),
 
-        Flatten(), # Flatten the output of the convolutional layers
-
+        Flatten(), # Flatten the output for the Dense layers
         Dense(256, activation='relu'),
         Dropout(0.5),
-
-        # Output layer for multi-label classification
-        Dense(num_labels, activation='sigmoid') # Sigmoid for multi-label
+        Dense(num_classes, activation='sigmoid') # Sigmoid for multi-label classification
     ])
 
-    model.compile(optimizer=Adam(learning_rate=0.001),
-                  loss=BinaryCrossentropy(), # Use BinaryCrossentropy for multi-label
-                  metrics=[BinaryAccuracy(), Precision(), Recall(), AUC()])
+    # Adam optimizer is a good default
+    optimizer = Adam(learning_rate=0.001)
+    
+    # BinaryCrossentropy for multi-label classification
+    # Metrics for multi-label evaluation
+    model.compile(optimizer=optimizer,
+                  loss=BinaryCrossentropy(),
+                  metrics=[BinaryAccuracy(), Precision(), Recall(), AUC(multi_label=True)])
+    
+    model.summary()
     return model
 
 
-# --- Training and Evaluation ---
-def train_and_evaluate_model(data_dir: str, model_save_path: str, scaler_save_path: str, label_map_save_path: str):
+# --- Main Training Function ---
+def train_and_evaluate_model(data_dir: str, model_save_path: str, scaler_save_path: str,
+                             label_map_save_path: str, sr: int = SAMPLE_RATE,
+                             segment_length_seconds: float = SEGMENT_LENGTH_SECONDS):
     """
-    Trains and evaluates a multi-label drum classification model.
+    Trains and evaluates a drum classification model using multi-label data.
     """
     print("Starting multi-label model training and evaluation process...")
 
-    # Path to the processed multi-label CSV and audio segments
-    processed_enst_dir = os.path.join(data_dir, "ENST_processed")
-    multi_label_csv_path = os.path.join(processed_enst_dir, "multi_label_events.csv")
-    
-    if not os.path.exists(multi_label_csv_path):
-        raise FileNotFoundError(f"Multi-label metadata CSV not found: {multi_label_csv_path}")
+    # 1. Prepare Data
+    try:
+        X, y, scaler, label_map = load_multi_label_dataset(data_dir, sr=sr, segment_length_seconds=segment_length_seconds)
+    except (FileNotFoundError, ValueError) as e:
+        print(f"Error preparing dataset: {e}")
+        return
 
-    # Load metadata
-    print(f"Loading multi-label metadata from: {multi_label_csv_path}")
-    df = pd.read_csv(multi_label_csv_path)
+    # Check data dimensions
+    if X.ndim != 3: # Expected (num_samples, time_frames, n_mfcc)
+         print(f"Warning: X has {X.ndim} dimensions. Expected 3. Reshaping for CNN.")
+         # If MFCCs are flattened to 1D, reshape back to (samples, 1, features)
+         # For Conv1D, input needs to be (batch, timesteps, features).
+         # If _extract_features returns (num_time_frames, n_mfcc), then X.shape is (num_samples, num_time_frames, n_mfcc)
+         # This is the correct shape for Conv1D. No extra reshaping needed here.
+         pass # No reshaping needed if _extract_features returns (time_frames, n_mfcc)
 
-    # Prepare features and labels
-    X = []
-    y_labels = [] # To store list of labels per event
-    
-    print(f"Extracting features from {len(df)} audio segments...")
-    for index, row in tqdm(df.iterrows(), total=len(df), desc="Feature Extraction"):
-        audio_segment_path = os.path.join(processed_enst_dir, row['audio_segment_filename'])
-        features = _extract_features(audio_segment_path, SAMPLE_RATE, SEGMENT_LENGTH_SECONDS)
-        X.append(features)
-        
-        # Parse multi-label string back to list
-        labels_str = row['labels'].strip("[]").replace("'", "").split(', ')
-        y_labels.append(labels_str)
+    # 2. Split Data
+    # Use stratify if possible (for single label), but for multi-label, it's more complex.
+    # Simple split is often sufficient for large datasets.
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+    print(f"Train set size: {len(X_train)} samples, Test set size: {len(X_test)} samples.")
 
-    X = np.array(X)
+    # 3. Create and Compile Model
+    # Input shape for CNN: (time_frames, n_mfcc)
+    input_shape = (X_train.shape[1], X_train.shape[2])
+    num_classes = y_train.shape[1] # Number of distinct drum types
     
-    # Create a consistent label mapping
-    # This ensures that even if a drum type isn't present in a batch, its column exists.
-    label_map = {drum_type: i for i, drum_type in enumerate(ALL_DRUM_TYPES)}
-    
-    # Convert multi-labels to binary matrix format
-    # Initialize y as a zero matrix of shape (num_samples, num_unique_drum_types)
-    y = np.zeros((len(y_labels), len(ALL_DRUM_TYPES)), dtype=int)
-    for i, labels in enumerate(y_labels):
-        for label in labels:
-            if label in label_map:
-                y[i, label_map[label]] = 1 # Set 1 for present labels
+    model = create_cnn_model(input_shape, num_classes)
 
-    # Save the final label map for inference
+    # 4. Train Model
+    print("\nTraining the CNN model...")
+    history = model.fit(
+        X_train, y_train,
+        epochs=50, # You might need to adjust this (more or less) based on convergence
+        batch_size=32,
+        validation_split=0.1, # Use a small part of training data for validation during training
+        verbose=1
+    )
+
+    # 5. Evaluate Model
+    print("\nEvaluating the model on the test set...")
+    loss, binary_accuracy, precision, recall, auc = model.evaluate(X_test, y_test, verbose=0)
+    
+    print(f"\n--- Test Set Evaluation ---")
+    print(f"Loss: {loss:.4f}")
+    print(f"Binary Accuracy: {binary_accuracy:.4f}")
+    print(f"Precision (macro avg): {precision:.4f}")
+    print(f"Recall (macro avg): {recall:.4f}")
+    print(f"AUC (macro avg): {auc:.4f}")
+
+    # For a more detailed report, you can predict and use sklearn's classification_report
+    y_pred_proba = model.predict(X_test)
+    y_pred = (y_pred_proba > 0.5).astype(int) # Convert probabilities to binary predictions
+
+    print("\nClassification Report (threshold 0.5):")
+    # For multi-label, classification_report needs specific handling, often per-class.
+    # Or, it needs to be adapted. F1-score for multi-label is often micro or macro averaged.
+    # For simplicity, print overall F1, precision, recall using weighted average
+    
+    # Flatten y_test and y_pred for sklearn metrics for a single report
+    # This might not be ideal for per-label insight but gives overall
+    
+    # Option 1: Per-class metrics
+    report = classification_report(y_test, y_pred, target_names=ALL_DRUM_TYPES, zero_division=0)
+    print(report)
+
+    # Option 2: Aggregated metrics
+    f1_micro = f1_score(y_test, y_pred, average='micro', zero_division=0)
+    f1_macro = f1_score(y_test, y_pred, average='macro', zero_division=0)
+    print(f"Micro-averaged F1 Score: {f1_micro:.4f}")
+    print(f"Macro-averaged F1 Score: {f1_macro:.4f}")
+
+
+    # 6. Save Model, Scaler, and Label Map
+    print("\nSaving trained model, scaler, and label map...")
+    
+    # Save TensorFlow Keras model
+    model.save(model_save_path)
+    print(f"CNN model saved to: {model_save_path}")
+
+    # Save StandardScaler
+    joblib.dump(scaler, scaler_save_path)
+    print(f"StandardScaler saved to: {scaler_save_path}")
+
+    # Save label map (which is ALL_DRUM_TYPES list)
     with open(label_map_save_path, 'w') as f:
-        json.dump(label_map, f)
+        json.dump(label_map, f) # label_map is now {drum_type: index}
     print(f"Label map saved to: {label_map_save_path}")
 
-    # Split data
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-
-    # Reshape X for StandardScaler (needs 2D array: samples, features)
-    # The current X is (n_samples, n_frames, n_features_per_frame, 1)
-    # For scaler, we need to flatten the last two dimensions to (n_samples, n_frames * n_features_per_frame)
-    
-    # Store original shape for reshaping back after scaling
-    original_shape_train = X_train.shape
-    original_shape_test = X_test.shape
-
-    X_train_reshaped_for_scaler = X_train.reshape(original_shape_train[0], -1)
-    X_test_reshaped_for_scaler = X_test.reshape(original_shape_test[0], -1)
-
-    # Scale features
-    scaler = StandardScaler()
-    X_train_scaled = scaler.fit_transform(X_train_reshaped_for_scaler)
-    X_test_scaled = scaler.transform(X_test_reshaped_for_scaler)
-
-    # Reshape back to original CNN input shape
-    X_train_scaled = X_train_scaled.reshape(original_shape_train)
-    X_test_scaled = X_test_scaled.reshape(original_shape_test)
-
-    # Save the scaler
-    joblib.dump(scaler, scaler_save_path)
-    print(f"Scaler saved to: {scaler_save_path}")
-
-    # Build and train CNN model
-    input_shape = X_train_scaled.shape[1:] # (n_frames, n_features_per_frame, 1)
-    num_labels = len(ALL_DRUM_TYPES)
-    model = build_cnn_model(input_shape, num_labels)
-    model.summary()
-
-    print("\nTraining the CNN model...")
-    history = model.fit(X_train_scaled, y_train,
-                        epochs=50, # You can adjust the number of epochs
-                        batch_size=32,
-                        validation_split=0.1, # Use a portion of training data for validation
-                        verbose=1)
-
-    # Save the trained model
-    model.save(model_save_path)
-    print(f"Model saved to: {model_save_path}")
-
-    # Evaluate the model
-    print("\nEvaluating the model on the test set...")
-    loss, accuracy, precision, recall, auc = model.evaluate(X_test_scaled, y_test, verbose=0)
-    
-    print(f"\n--- Model Evaluation Results ---")
-    print(f"Test Loss: {loss:.4f}")
-    print(f"Test Binary Accuracy: {accuracy:.4f}")
-    print(f"Test Precision: {precision:.4f}")
-    print(f"Test Recall: {recall:.4f}")
-    print(f"Test AUC: {auc:.4f}")
-
-    # Classification report for more detailed metrics per label
-    y_pred_probs = model.predict(X_test_scaled)
-    y_pred = (y_pred_probs > 0.5).astype(int) # Convert probabilities to binary predictions
-
-    # Invert label_map to get drum type names from indices for the report
-    idx_to_label = {i: drum_type for drum_type, i in label_map.items()}
-    target_names = [idx_to_label[i] for i in sorted(idx_to_label.keys())] # Ensure order matches y columns
-
-    print("\nClassification Report:")
-    print(classification_report(y_test, y_pred, target_names=target_names, zero_division=0))
-
     print("\nMulti-label model training and evaluation finished.")
-    print("\n---------------------------------------------------")
 
 
 if __name__ == "__main__":
@@ -294,12 +279,11 @@ if __name__ == "__main__":
             data_dir=data_directory,
             model_save_path=model_file,
             scaler_save_path=scaler_file,
-            label_map_save_path=label_map_file
+            label_map_save_path=label_map_file,
+            sr=SAMPLE_RATE,
+            segment_length_seconds=SEGMENT_LENGTH_SECONDS
         )
-    except FileNotFoundError as e:
-        print(f"Error: {e}")
-        print("Please ensure you have run 'process_enst_dataset.py' first to prepare the data.")
     except Exception as e:
-        print(f"An unexpected error occurred during model training: {e}")
+        print(f"An error occurred during model training: {e}")
         import traceback
-        traceback.print_exc() # Print full traceback for debugging
+        traceback.print_exc()
