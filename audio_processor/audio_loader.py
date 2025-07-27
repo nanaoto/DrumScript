@@ -78,7 +78,7 @@ if __name__ == "__main__":
     # 2. Go up to the project root (from audio_processor to DRUMSCRIPT)
     project_root = os.path.abspath(os.path.join(current_script_dir, os.pardir, os.pardir))
     # 3. Construct the path to your audio file
-    actual_drum_recording_path = os.path.join(project_root,"DrumScript/tests","test.mp3") # Change .mp3 to .wav if using WAV
+    actual_drum_recording_path = os.path.join(project_root,"DrumScript/test_audio","test.mp3") # Change .mp3 to .wav if using WAV
 
     # --- IMPORTANT: Create a 'data' folder in your project root and place an MP3/WAV there ---
     # For testing, you MUST have 'my_drum_recording.mp3' (or .wav) inside 'DRUMSCRIPT/data/'
@@ -116,7 +116,7 @@ if __name__ == "__main__":
     except FileNotFoundError:
         # ... (your existing error handling) ...
         print(f"\nERROR: The audio file '{actual_drum_recording_path}' was not found.")
-        print("Please ensure you have placed an audio file (e.g., 'test.mp3' or '.wav') inside tests/.")
+        print("Please ensure you have placed an audio file (e.g., 'test.mp3' or '.wav') inside test_audio/.")
     except ImportError:
         print("\nERROR: Required audio backend libraries might be missing.")
         print("Ensure 'soundfile' and 'pydub' are installed via 'uv pip install -r requirements.txt'.")
