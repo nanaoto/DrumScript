@@ -7,6 +7,7 @@ This module will extract relevant features from audio segments for drum classifi
 import librosa
 import numpy as np
 import os # Import os for path manipulation
+import soundfile
 
 def extract_features(audio_segment: np.ndarray, sr: int) -> dict[str, np.ndarray]:
     """
@@ -77,19 +78,19 @@ if __name__ == "__main__":
         #from DrumScript.audio_processor.audio_loader import load_audio, normalise_audio
         #from DrumScript.audio_processor.onset_detector import detect_onsets
 
-        from audio_processor.audio_loader import load_audio, normalise_audio
-        from audio_processor.onset_detector import detect_onsets
+        from audio_loader import load_audio, normalise_audio
+        from onset_detector import detect_onsets
 
         sr = 22050 # Target sample rate for processing
         segment_length_seconds = 0.2 # Length of audio segment around each onset (e.g., 200ms)
 
         # --- Path to your actual drum recording (test.mp3) ---
-        # This dynamic path calculation should correctly point to DRUMSCRIPT/tests/test.mp3
+        # This dynamic path calculation should correctly point to DRUMSCRIPT/test_audio/test.mp3
         current_script_dir = os.path.dirname(os.path.abspath(__file__))
         # Go up two levels from audio_processor/feature_extractor.py to the outer DRUMSCRIPT/ folder
         project_root = os.path.abspath(os.path.join(current_script_dir, os.pardir, os.pardir))
         # Construct the path to test.mp3 within the 'tests' directory
-        test_mp3_path = os.path.join(project_root, "DrumScript/tests", "test.mp3")
+        test_mp3_path = os.path.join(project_root, "DrumScript/test_audio", "test.mp3")
 
 
         print(f"Attempting to load: {test_mp3_path}")
@@ -140,11 +141,11 @@ if __name__ == "__main__":
 
     except FileNotFoundError:
         print(f"\nERROR: The audio file '{test_mp3_path}' was not found.")
-        print("Please ensure you have placed 'test.mp3' inside your 'DrumScript/tests/' directory.")
-    except ImportError:
-        print("\nERROR: Required modules/libraries might be missing.")
-        print("Ensure 'soundfile', 'librosa', 'numpy', and your DrumScript modules are correctly installed and structured.")
-        print("For MP3, 'ffmpeg' must also be installed on your system and accessible in PATH.")
+        print("Please ensure you have placed 'test.mp3' inside your 'DrumScript/test_audio/' directory.")
+    #except ImportError:
+        #print("\nERROR: Required modules/libraries might be missing.")
+        #print("Ensure 'soundfile', 'librosa', 'numpy', and your DrumScript modules are correctly installed and structured.")
+        #print("For MP3, 'ffmpeg' must also be installed on your system and accessible in PATH.")
     except Exception as e:
         print(f"\nAn unexpected error occurred during the example execution: {e}")
         import traceback
