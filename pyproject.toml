@@ -47,7 +47,8 @@ dependencies = [
     "pretty_midi",
     "setuptools",
     "tensorflow",
-    "tdqm"
+    "tdqm",
+    "ipykernel"
     #"lilypond"
     #"pytorch",
     #"tensorflow"
