@@ -1,25 +1,32 @@
+# DrumScript/data_labeller/data_labeller.py
+
+import os
+import sys
+# This ensures the 'DrumScript' root directory is in sys.path
+# allowing for imports like 'from audio_processor import ...'
+# when data_labeller.py is run from DrumScript/data_labeller/
+current_script_dir = os.path.dirname(os.path.abspath(__file__))
+# Go up one level from 'data_labeller/' to reach the 'DrumScript/' root
+project_root = os.path.abspath(os.path.join(current_script_dir, os.pardir))
+
+if project_root not in sys.path:
+    sys.path.insert(0, project_root)
+
+# --- Your existing imports follow ---
 import librosa
 import numpy as np
 import json
 import csv
-import os
 from pathlib import Path
 from typing import List, Dict, Any
 import sounddevice as sd
 import soundfile as sf
 import time
 
-# Import existing DrumScript modules
-# Ensure these imports correctly reference your package structure
-# For example, if audio_loader is in DrumScript/audio_processor/audio_loader.py
-# from DrumScript.audio_processor import audio_loader
-# from DrumScript.audio_processor import onset_detector
-# from DrumScript.audio_processor import feature_extractor
-
-# Assuming relative imports within the DrumScript package for demonstration
-from audio_processor import audio_loader
-from audio_processor import onset_detector
-from audio_processor import feature_extractor
+# Now these imports should work because DrumScript/ (the project root) is on sys.path
+from audio_processor.audio_loader import load_audio, normalise_audio
+from audio_processor.onset_detector import detect_onsets
+from audio_processor.feature_extractor import extract_features
 
 
 def play_audio_segment(y: np.ndarray, sr: int):
@@ -76,15 +83,15 @@ def process_and_label_audio(
     to label each detected drum event. It also saves each segment to an audio file.
     """
     print(f"\n--- Processing '{audio_filepath.name}' for labelling ---")
-    y, sr = audio_loader.load_audio(str(audio_filepath))
-    y = audio_loader.normalise_audio(y)
+    y, sr = load_audio(str(audio_filepath))
+    y = normalise_audio(y)
 
     # Create a subdirectory for audio segments within the main output_dir 
     audio_segments_output_path = output_dir / "audio_segments"
     audio_segments_output_path.mkdir(parents=True, exist_ok=True)
 
     # Use existing onset detection logic, potentially with refined parameters
-    onset_frames = onset_detector.detect_onsets(
+    onset_frames = detect_onsets(
         audio_data=y, sr=sr
         #audio_data=y, sr=sr,
         #pre_max=onset_pre_max, post_max=onset_post_max,
@@ -159,14 +166,19 @@ def generate_labelled_dataset(audio_file_paths: List[str], output_dir: str):
     output_path.mkdir(parents=True, exist_ok=True)
 
     all_labelled_events = []
+    test_audio_path = os.path.join(project_root, "DrumScript/test_audio", "test.wav") # Change .wav to .mp3 if using MP3, or other audio format
 
-    for file_path_str in audio_file_paths:
-        file_path = Path(file_path_str)
+    print(f"test_audio_path: {test_audio_path}")
+    print(f"audio_file_path: {audio_file_paths}")
+
+    for test_audio_path in audio_file_paths:
+        file_path = Path(test_audio_path)
         if not file_path.exists():
-            print(f"Warning: Audio file not found: {file_path_str}. Skipping.")
+            print(f"Warning: Audio file not found: {test_audio_path}. Skipping.")
             continue
         if not file_path.suffix.lower() in ['.mp3', '.wav', '.flac', '.ogg']:
-            print(f"Warning: Unsupported audio format for {file_path_str}. Skipping.")
+
+            print(f"Warning: Unsupported audio format for {test_audio_path}. Skipping.")
             continue
 
         labelled_events_for_file = process_and_label_audio(file_path, output_path)
@@ -235,20 +247,31 @@ def generate_labelled_dataset(audio_file_paths: List[str], output_dir: str):
 
 if __name__ == "__main__":
     # --- IMPORTANT: Replace with your actual paths for testing ---
+    # Example usage: 
+    input_audio_paths = [
+        "../test_audio/test.wav", # Corrected path to point to DrumScript/test_audio/test.wav
+        # If you also have test.mp3 and want to include it later, it would be:
+        # "../test_audio/test.mp3",
+    ]
+#if __name__ == "__main__":
+    # --- IMPORTANT: Replace with your actual paths for testing ---
     # Create example_recordings directory and put your .mp3 or .wav files there.
-    # For initial testing, you can use the provided test.mp3:
-    # "test_audio/reference_audio/test.mp3"
+    # For initial testing, you can use the provided test.mp3/test.wav:
+    # "test_audio/test.mp3" or "test_audio/test.wav"
     
     # Example usage:
-    input_audio_paths = [
-        "test_audio/reference_audio/test.mp3", # Example from your repo
+    #input_audio_paths = [
+        #"test_audio/reference_audio/test.mp3", # Example 
+        #"test_audio/test.mp3", # Change .mp3 to .wav if using WAV, or other audio format
+     #   "test_audio/test.wav" # Change .wav to .mp3if using MP3, or other audio format
         # "path/to/your/groove_1.wav",
         # "path/to/your/double_bass_run.mp3",
         # Add as many audio files as you want to label
-    ]
+    #]
 
     output_dataset_dir = "labelled_datasets" # This directory will be created
 
     print("Starting labelled dataset generation...")
     generate_labelled_dataset(input_audio_paths, output_dataset_dir)
     print("Labelled dataset generation complete.")
+
