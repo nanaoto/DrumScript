@@ -1,155 +1,118 @@
 # DrumScript/drum_classifier/drum_model.py
 
-import joblib # For saving/loading scikit-learn models
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.svm import SVC
-from sklearn.neural_network import MLPClassifier # Multi-layer Perceptron
+import os
 import numpy as np
+import joblib  # For loading StandardScaler
+import json    # For loading label map
+import tensorflow as tf
+from tensorflow.keras.models import load_model # For loading Keras H5 model
 
 class DrumClassifier:
     """
-    A class to encapsulate the drum classification model.
-    Supports different scikit-learn classifiers.
+    A class to encapsulate the drum classification model for CNNs.
+    Loads a pre-trained Keras model, a StandardScaler, and a label map for prediction.
     """
-    def __init__(self, model_type: str = 'random_forest', **kwargs):
+    def __init__(self, model_path: str, scaler_path: str, label_map_path: str):
         """
-        Initializes the drum classifier model.
+        Initializes the DrumClassifier with paths to the pre-trained Keras model,
+        StandardScaler, and label map.
 
         Args:
-            model_type (str): Type of scikit-learn model to use ('random_forest', 'svm', 'mlp').
-            **kwargs: Additional arguments for the chosen scikit-learn classifier.
+            model_path (str): Path to the saved Keras model (.h5 file).
+            scaler_path (str): Path to the saved StandardScaler (.joblib file).
+            label_map_path (str): Path to the saved label map (.json file).
         """
-        self.model = None
-        self.model_type = model_type
+        if not os.path.exists(model_path):
+            raise FileNotFoundError(f"Keras model file not found: {model_path}")
+        if not os.path.exists(scaler_path):
+            raise FileNotFoundError(f"Scaler file not found: {scaler_path}")
+        if not os.path.exists(label_map_path):
+            raise FileNotFoundError(f"Label map file not found: {label_map_path}")
 
-        if model_type == 'random_forest':
-            self.model = RandomForestClassifier(random_state=42, **kwargs)
-        elif model_type == 'svm':
-            self.model = SVC(probability=True, random_state=42, **kwargs)
-        elif model_type == 'mlp':
-            #self.model = MLPClassifier(random_state=42, max_iter=500, **kwargs)
-            self.model = MLPClassifier(random_state=42, **kwargs) # Removed max_iter=500 here due to conflict with line 130: Python sees both max_iter=500 and max_iter=200 being passed to the MLPClassifier constructor simultaneously, which causes the TypeError.
-            
-        else:
-            raise ValueError(f"Unsupported model_type: {model_type}. Choose from 'random_forest', 'svm', 'mlp'.")
+        print(f"Loading Keras model from: {model_path}")
+        self.model = load_model(model_path)
+        print(f"Loading scaler from: {scaler_path}")
+        self.scaler = joblib.load(scaler_path)
+        
+        print(f"Loading label map from: {label_map_path}")
+        with open(label_map_path, 'r') as f:
+            self.label_map = json.load(f)
+        
+        # Invert label map for easy lookup from model output index to drum type
+        # The labels should be sorted consistently with how they were sorted during training
+        # (e.g., from ALL_DRUM_TYPES in model_trainer.py)
+        self.idx_to_label = {idx: label for label, idx in self.label_map.items()}
+        self.sorted_labels = sorted(self.label_map.keys(), key=lambda x: self.label_map[x])
+        self.num_classes = len(self.label_map)
 
-        print(f"Initialised DrumClassifier with model type: {model_type}")
+        print("Model Components Loaded Successfully.")
 
-    def train(self, X: np.ndarray, y: np.ndarray):
+    def predict(self, features: np.ndarray) -> np.ndarray:
         """
-        Trains the classification model.
+        Predicts drum types for given input features using the loaded CNN model.
+
+        The input features are expected to be in the format (n_samples, n_timesteps, n_features_per_timestep).
+        The StandardScaler expects 2D input (n_samples * n_timesteps, n_features_per_timestep),
+        so reshaping is performed before and after scaling.
 
         Args:
-            X (np.ndarray): Feature matrix (samples x features).
-            y (np.ndarray): Label vector (numerical labels).
-        """
-        if self.model is None:
-            raise RuntimeError("Model not initialised. Call __init__ first.")
-        print(f"Training {self.model_type} model...")
-        self.model.fit(X, y)
-        print("Model training complete.")
-
-    def predict(self, X_new: np.ndarray) -> np.ndarray:
-        """
-        Makes predictions on new, unseen feature data.
-
-        Args:
-            X_new (np.ndarray): New feature matrix (samples x features).
+            features (np.ndarray): Input features for prediction.
+                                   Expected shape: (n_samples, n_timesteps, n_features_per_timestep).
 
         Returns:
-            np.ndarray: Predicted labels for the input samples.
+            np.ndarray: Predicted binary labels (0 or 1) for each drum type for each sample.
+                        Shape: (n_samples, num_classes).
         """
-        if self.model is None:
-            raise RuntimeError("Model not trained or loaded.")
-        return self.model.predict(X_new)
+        # Ensure features are float32 for TensorFlow model compatibility
+        features = features.astype(np.float32)
 
-    def predict_proba(self, X_new: np.ndarray) -> np.ndarray:
+        # Store original shape for reshaping back after scaling
+        original_shape = features.shape
+        n_samples = original_shape[0]
+        # n_timesteps = original_shape[1] # Not directly used for the reshape, but good for context
+        n_features_per_timestep = original_shape[2]
+
+        # Reshape for StandardScaler: (n_samples * n_timesteps, n_features_per_timestep)
+        # This flattens the time steps for each sample into a continuous stream for scaling
+        reshaped_features_for_scaling = features.reshape(-1, n_features_per_timestep)
+        
+        # Apply the scaler transformation
+        scaled_features = self.scaler.transform(reshaped_features_for_scaling)
+
+        # Reshape back for the CNN: (n_samples, n_timesteps, n_features_per_timestep)
+        # The number of timesteps must be preserved for the CNN input layer
+        scaled_features_for_cnn = scaled_features.reshape(original_shape)
+
+        # Make predictions (probabilities for multi-label classification)
+        predictions_proba = self.model.predict(scaled_features_for_cnn)
+
+        # Convert probabilities to binary labels (0 or 1) based on a threshold
+        # A threshold of 0.5 is common for multi-label binary classification
+        predictions_binary = (predictions_proba > 0.5).astype(int)
+
+        return predictions_binary
+
+    def get_drum_types_from_predictions(self, binary_predictions: np.ndarray) -> list[list[str]]:
         """
-        Predicts class probabilities for new, unseen feature data.
+        Converts binary predictions (0s and 1s) into human-readable drum type labels.
 
         Args:
-            X_new (np.ndarray): New feature matrix (samples x features).
+            binary_predictions (np.ndarray): A 2D array of binary predictions (n_samples, num_classes).
 
         Returns:
-            np.ndarray: Predicted class probabilities (samples x n_classes).
+            list[list[str]]: A list where each inner list contains the drum types predicted for that sample.
+                             For example: [['kick'], ['snare', 'hi-hat'], []].
         """
-        if self.model is None:
-            raise RuntimeError("Model not trained or loaded.")
-        if hasattr(self.model, 'predict_proba'):
-            return self.model.predict_proba(X_new)
-        else:
-            raise NotImplementedError(f"Model type {self.model_type} does not support predict_proba.")
+        results = []
+        for sample_prediction in binary_predictions:
+            active_drums = []
+            for i, is_active in enumerate(sample_prediction):
+                if is_active == 1:
+                    # Use the sorted_labels list to map index back to drum type
+                    active_drums.append(self.sorted_labels[i])
+            results.append(active_drums)
+        return results
 
-    def save_model(self, file_path: str):
-        """
-        Saves the trained model to a file.
-
-        Args:
-            file_path (str): Path to save the model.
-        """
-        joblib.dump(self.model, file_path)
-        print(f"Model saved to: {file_path}")
-
-    @classmethod
-    def load_model(cls, file_path: str):
-        """
-        Loads a trained model from a file.
-
-        Args:
-            file_path (str): Path to the saved model.
-
-        Returns:
-            DrumClassifier: An instance of DrumClassifier with the loaded model.
-        """
-        instance = cls() # Create a dummy instance to hold the loaded model
-        instance.model = joblib.load(file_path)
-        print(f"Model loaded from: {file_path}")
-        return instance
-
-# Example usage (for testing this module independently if needed)
-if __name__ == "__main__":
-    print("Running drum_model.py example...")
-    # This is a minimal example, usually you'd train with a real dataset
-    # For a full test, run model_trainer.py
-
-    # Create dummy data
-    X_dummy = np.random.rand(10, 50) # 10 samples, 50 features
-    y_dummy = np.array([0, 1, 0, 1, 0, 1, 0, 1, 0, 1]) # Binary labels
-
-    # Test RandomForestClassifier
-    rf_classifier = DrumClassifier(model_type='random_forest')
-    rf_classifier.train(X_dummy, y_dummy)
-    predictions = rf_classifier.predict(X_dummy[:2])
-    print(f"Random Forest predictions for first 2 samples: {predictions}")
-
-    # Test SVM Classifier
-    svm_classifier = DrumClassifier(model_type='svm')
-    svm_classifier.train(X_dummy, y_dummy)
-    predictions = svm_classifier.predict(X_dummy[:2])
-    print(f"SVM predictions for first 2 samples: {predictions}")
-
-    # Test MLP Classifier
-    mlp_classifier = DrumClassifier(model_type='mlp', hidden_layer_sizes=(10,), max_iter=200)
-    mlp_classifier.train(X_dummy, y_dummy)
-    predictions = mlp_classifier.predict(X_dummy[:2])
-    print(f"MLP predictions for first 2 samples: {predictions}")
-
-    # Example of saving and loading
-    try:
-        import os
-        models_dir = "temp_models"
-        os.makedirs(models_dir, exist_ok=True)
-        model_path = os.path.join(models_dir, "test_model.joblib")
-        rf_classifier.save_model(model_path)
-        loaded_model = DrumClassifier.load_model(model_path)
-        assert np.array_equal(loaded_model.predict(X_dummy[:1]), rf_classifier.predict(X_dummy[:1]))
-        print("Model save/load successful!")
-    except Exception as e:
-        print(f"Error during save/load test: {e}")
-    finally:
-        if os.path.exists(models_dir):
-            import shutil
-            shutil.rmtree(models_dir)
-            print(f"Cleaned up {models_dir}")
-
-    print("drum_model.py example finished.")
+    # The 'train', 'save_model', and 'load_model' (static) methods from the RandomForest version
+    # are not needed here, as training and model saving are handled by model_trainer.py
+    # and loading is done in the __init__ method.
