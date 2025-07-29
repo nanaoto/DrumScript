@@ -27,8 +27,12 @@ EXPECTED_N_FRAMES = 1 + (EXPECTED_AUDIO_LEN_SAMPLES - N_FFT) // HOP_LENGTH
 if EXPECTED_N_FRAMES < 1:
     EXPECTED_N_FRAMES = 1 # Ensure at least one frame, even for very short segments
 
+# Define TOTAL_FEATURES_PER_FRAME globally so it's accessible in __main__ block
+# Number of MFCCs + Spectral Centroid + Spectral Rolloff + ZCR + RMS = 20 + 1 + 1 + 1 + 1 = 24
+TOTAL_FEATURES_PER_FRAME = 20 + 1 + 1 + 1 + 1
 
-def extract_features(audio_segment: np.ndarray, sr: int) -> np.ndarray: # Changed return type to np.ndarray
+
+def extract_features(audio_segment: np.ndarray, sr: int) -> np.ndarray:
     """
     Extracts various audio features from a short audio segment,
     ensuring a consistent number of frames (timesteps) for CNN input.
@@ -43,8 +47,6 @@ def extract_features(audio_segment: np.ndarray, sr: int) -> np.ndarray: # Change
         np.ndarray: A 2D NumPy array containing the stacked and shaped features.
                     Shape: (EXPECTED_N_FRAMES, total_number_of_features_per_frame).
     """
-    # Number of MFCCs + Spectral Centroid + Spectral Rolloff + ZCR + RMS = 20 + 1 + 1 + 1 + 1 = 24
-    TOTAL_FEATURES_PER_FRAME = 20 + 1 + 1 + 1 + 1
     if audio_segment.size == 0:
         # Return zeros for all features if segment is empty to maintain consistent shape.
         return np.zeros((EXPECTED_N_FRAMES, TOTAL_FEATURES_PER_FRAME))
