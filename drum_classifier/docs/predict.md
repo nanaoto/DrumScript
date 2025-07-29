@@ -92,5 +92,86 @@ Time: 0.15s - Drums: hi-hat
 ```
 
 ---
+**Updated version Tues 29 Jul 2025**
+
+Here's the content rewritten in a clean Markdown format, ready for your documentation:
+
+-----
+
+# Using `predict.py` to Test Your Drum Classification Model
+
+This guide explains how to use the `predict.py` script to test your trained DrumScript drum classification model on actual audio files. This script is essential for verifying your model's performance in a real-world scenario.
+
+## How to Use `predict.py`
+
+The `predict.py` script is designed to load your trained model components and then process audio files to detect drum events.
+
+### 1\. Ensure Model Files Exist
+
+Before running `predict.py`, confirm that the following trained model files are present in your `DrumScript/models/` directory:
+
+  * `multi_label_drum_classifier_model.h5`
+  * `multi_label_scaler.joblib`
+  * `multi_label_label_map.json`
+
+The `predict.py` script includes a built-in check for these files and will print an error message if any are missing.
+
+### 2\. Place Your Test Audio File
+
+The script is configured by default to look for a test audio file at `DrumScript/test_audio/test.wav`.
+
+  * If you have an audio file you wish to test, place it in the `DrumScript/test_audio/` directory.
+
+  * If your file has a different name or format (e.g., `my_drum_beat.mp3`), you must update the `long_audio_filepath` variable within the `if __name__ == "__main__":` block of `predict.py`.
+
+    **Example:**
+
+    ```python
+    long_audio_filepath = os.path.join(project_root, "test_audio", "my_drum_beat.mp3")
+    ```
+
+### 3\. Run the Script
+
+Navigate to the `DrumScript/drum_classifier/` directory in your terminal and execute the script using Python:
+
+```bash
+cd DrumScript/drum_classifier
+python3 predict.py
+```
+
+## What the Script Does When You Run It
+
+Upon execution, `predict.py` performs the following actions:
+
+1.  **Load Components**: It loads your saved Keras model (`.h5`), the feature scaler (`.joblib`), and the drum label mapping (`.json`).
+
+2.  **Single Segment Example (Optional)**: The script first attempts to run a prediction on a single, short audio segment. This example is configured to use `1_rock-prog_125_beat_4-4.wav` from your `training_data/ENST_processed/` directory. If this file isn't found, the script will prompt you to update the path or skip this part. This section is useful for quickly verifying basic functionality on a known, small input.
+
+3.  **Longer Audio File Prediction**: This is the primary function for comprehensive testing.
+
+      * It loads the audio from the `long_audio_filepath` you specified (e.g., `test.wav`).
+      * The longer audio file is then **segmented** into small, overlapping chunks (0.2 seconds per segment, with a hop of 0.1 seconds).
+      * For each segment, the script:
+          * Extracts **MFCC features**.
+          * **Scales** these features using the `multi_label_scaler.joblib`.
+          * Feeds the scaled features into your **trained CNN model** (`multi_label_drum_classifier_model.h5`) to generate probability predictions for each drum type.
+          * Applies a **threshold (0.5)** to these probabilities. If a drum type's predicted probability is above 0.5 for a given segment, that drum is considered present.
+      * Finally, the script prints a time-stamped list of all detected drum events.
+
+    **Example Output:**
+
+    ```
+    --- Detected Drum Events (Time-stamped) ---
+    Time: 0.00s - Drums: kick, hi-hat
+    Time: 0.10s - Drums: hi-hat
+    Time: 0.20s - Drums: snare
+    ...
+    ```
+
+This detailed output provides a clear, time-aligned representation of the drum events detected by your model, enabling you to visually or audibly compare the predictions with the actual sounds in your test audio.
+
+
+---
+
 
 <!--END-->
