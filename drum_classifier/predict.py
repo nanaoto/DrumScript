@@ -170,6 +170,7 @@ if __name__ == "__main__":
     # This could be an MP3, WAV, etc. (librosa supports various formats)
     #long_audio_filepath = os.path.join(project_root, "test_audio", "test.mp3") 
     long_audio_filepath = os.path.join(project_root, "test_audio", "test.wav") 
+    print(long_audio_filepath)
     
     if not os.path.exists(long_audio_filepath):
         print(f"Error: Long audio file not found at {long_audio_filepath}")
