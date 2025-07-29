@@ -115,38 +115,36 @@ def prepare_dataset(data_dir: str, sr: int, segment_length_seconds: float):
     return X_scaled_for_cnn, y, scaler, label_map
 
 
-# --- CNN Model Definition ---
 def create_cnn_model(input_shape, num_classes):
     """
-    Creates a 1D CNN model for multi-label drum classification.
-    Input shape should be (time_frames, n_mfccs).
+    Creates a 1D CNN model for multi-label drum sound classification.
+
+    Args:
+        input_shape (tuple): The shape of the input features (timesteps, num_features).
+        num_classes (int): The number of drum classes to classify.
+
+    Returns:
+        tf.keras.Model: The compiled Keras CNN model.
     """
     model = Sequential([
-        Conv1D(filters=64, kernel_size=5, activation='relu', input_shape=input_shape),
+        # First Convolutional Block
+        Conv1D(filters=64, kernel_size=3, activation='relu', input_shape=input_shape),
         MaxPooling1D(pool_size=2),
-        Dropout(0.25),
+        Dropout(0.3),
 
-        # FIX: Changed kernel_size from 3 to 2 because input dimension after pooling is 2.
-        Conv1D(filters=128, kernel_size=2, activation='relu'), 
-        MaxPooling1D(pool_size=2), # This will result in 1 time step
-        Dropout(0.25),
-
+        # Flatten the output for the Dense layers
         Flatten(),
+
+        # Dense Layers
         Dense(256, activation='relu'),
         Dropout(0.5),
         Dense(num_classes, activation='sigmoid') # Sigmoid for multi-label classification
     ])
 
-    # Compile the model for multi-label classification
-    # BinaryCrossentropy for each output, Adam optimizer
+    # Compile the model
     model.compile(optimizer=Adam(learning_rate=0.001),
                   loss=BinaryCrossentropy(),
-                  metrics=[
-                      BinaryAccuracy(name='accuracy'),
-                      Precision(name='precision'),
-                      Recall(name='recall'),
-                      AUC(name='auc')
-                  ])
+                  metrics=[BinaryAccuracy(), Precision(), Recall(), AUC()])
     return model
 
 
