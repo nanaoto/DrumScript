@@ -14,7 +14,7 @@ class DrumClassifier:
     """
     def __init__(self, model_path: str, scaler_path: str, label_map_path: str):
         """
-        Initializes the DrumClassifier with paths to the pre-trained Keras model,
+        Initialises the DrumClassifier with paths to the pre-trained Keras model,
         StandardScaler, and label map.
 
         Args:
