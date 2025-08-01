@@ -2,7 +2,7 @@
 
 
 <!--date_created: sun-15-june-2025-->
-<!--date_updated: weds-30-july-2025-->
+<!--date_updated: fri-01-august-2025-->
 
 ---
 ### **Modular Structure**
@@ -133,8 +133,6 @@ This is the *brain* of the package, identifying **which drum was hit**.
     * **Scientific Principle:** Machine learning models learn complex patterns and relationships between input features (spectral data) and output classes (drum type).
     * **Classes/Functions:**
         * `DrumClassifierModel()`: A class to encapsulate the ML model.
-        * **Possible Models:**
-            * **Traditional ML (Scikit-learn):** `RandomForestClassifier`, `SVC` (Support Vector Classifier). Simpler, good baseline.
             * **Deep Learning (TensorFlow/PyTorch):**
                 * **CNN (Convolutional Neural Network):** Excellent for processing spectral images (spectrograms generated from features). Can learn hierarchical features directly from frequency-time representations.
                 * **RNN/LSTM:** If  want to consider sequential context (e.g., hi-hat patterns).
