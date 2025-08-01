@@ -3,8 +3,7 @@
 The following documentation outlines how to use the `predict.py` script in the `.drum_classifier/` module to test the outputs of a trained model
 
 <!--date_created:mon-14-jul-2025-->
-<!--date_updated:mon-14-jul-2025-->
-
+<!--date_updated:fri-01-aug-2025-->
 -----
 
 # `predict.py` - Multi-Label Drum Event Prediction (CNN Model)
@@ -13,8 +12,7 @@ This script is designed to perform multi-label drum event classification on audi
 
 ## Location
 
-Based on your execution command `python3 drum_classifier/predict.py`, this script is located within the `drum_classifier` module:
-`digital-performance-dashboard/drum_classifier/predict.py`
+Based on your execution command `python3 drum_classifier/predict.py`, this script is located within the `drum_classifier` module: `drum_classifier/predict.py`
 
 ## Prerequisites
 
