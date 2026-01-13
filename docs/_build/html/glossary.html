@@ -3,7 +3,7 @@
   <head><meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="author" title="About these documents" href="about.html"><link rel="index" title="Index" href="genindex.html"><link rel="search" title="Search" href="search.html"><link rel="next" title="API Reference" href="api.html"><link rel="prev" title="How does the estimate_tempo function work in audio_processor.audio_loader.py script?" href="tempo_estimation.html">
+<link rel="author" title="About these documents" href="about.html"><link rel="index" title="Index" href="genindex.html"><link rel="search" title="Search" href="search.html"><link rel="next" title="Contributing to DrumScript" href="contributor_guidance.html"><link rel="prev" title="&lt;no title&gt;" href="advanced_sound_analysis101.html">
         <link rel="prefetch" href="_static/logo.png" as="image">
 
     <!-- Generated with Sphinx 8.2.3 and Furo 2025.12.19 -->
@@ -194,7 +194,28 @@
   <input type="hidden" name="area" value="default">
 </form>
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
-  <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+  <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="how_it_works.html"><strong>How it works</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="tempo_estimation.html">How does the <code class="docutils literal notranslate"><span class="pre">estimate_tempo</span></code> function work in <code class="docutils literal notranslate"><span class="pre">audio_processor.audio_loader.py</span></code> script?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tempo_estimation.html#why-this-method-is-so-effective">Why This Method is So Effective</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#"><strong>Glossary of Terms</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="#python-libraries-classes"><strong>Python Libraries &amp; Classes</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="#definitions">Definitions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributor_guidance.html">Contributing to <code class="docutils literal notranslate"><span class="pre">DrumScript</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="testing_guidance.html"><strong>Testing Documentation</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="code_of_conduct.html">Code of Conduct for <code class="docutils literal notranslate"><span class="pre">DrumScript</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="about.html">About</a></li>
+<li class="toctree-l1"><a class="reference external" href="    git clone https://github.com/victoria-mckinney/DrumScript.git">    git clone https://github.com/victoria-mckinney/DrumScript.git</a></li>
+<li class="toctree-l1"><a class="reference external" href="      * Visit the official LilyPond website: [https://lilypond.org/](https://lilypond.org/) and download the version for your OS.">      * Visit the official LilyPond website: [https://lilypond.org/](https://lilypond.org/) and download the version for your OS.</a></li>
+<li class="toctree-l1"><a class="reference external" href="      * **macOS Users:** You can install via [Homebrew](https://brew.sh/):">      * **macOS Users:** You can install via [Homebrew](https://brew.sh/):</a></li>
+<li class="toctree-l1"><a class="reference external" href="&gt; The `sounddevice` library relies on **[PortAudio](https://www.portaudio.com/)**. You might need to install this system-level library separately:">&gt; The `sounddevice` library relies on **[PortAudio](https://www.portaudio.com/)**. You might need to install this system-level library separately:</a></li>
+<li class="toctree-l1"><a class="reference external" href="&gt; **[`PortAudio` source code](https://github.com/PortAudio/portaudio%5D\(https://github.com/PortAudio/portaudio\))**">&gt; **[`PortAudio` source code](https://github.com/PortAudio/portaudio%5D\(https://github.com/PortAudio/portaudio\))**</a></li>
+<li class="toctree-l1"><a class="reference external" href="&gt;   * **macOS (using [Homebrew](https://brew.sh/))**:">&gt;   * **macOS (using [Homebrew](https://brew.sh/))**:</a></li>
+<li class="toctree-l1"><a class="reference external" href="&gt;     Download the binaries from the **[official website](https://ffmpeg.org/download.html)**, extract the files, and add the `bin` directory to your system's `PATH` environment variable.">&gt;     Download the binaries from the **[official website](https://ffmpeg.org/download.html)**, extract the files, and add the `bin` directory to your system's `PATH` environment variable.</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="about.html">About</a></li>
 <li class="toctree-l1"><a class="reference internal" href="how_it_works.html"><strong>How it works</strong></a></li>
@@ -420,23 +441,23 @@ In `DrumScript`, `MuseScore` is crucial because `music21` can be configured to u
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="api.html">
+          <a class="next-page" href="contributor_guidance.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">API Reference</div>
+                <div class="title">Contributing to <code class="docutils literal notranslate"><span class="pre">DrumScript</span></code></div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="tempo_estimation.html">
+          <a class="prev-page" href="advanced_sound_analysis101.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">How does the <code class="docutils literal notranslate"><span class="pre">estimate_tempo</span></code> function work in <code class="docutils literal notranslate"><span class="pre">audio_processor.audio_loader.py</span></code> script?</div>
+                <div class="title">&lt;no title&gt;</div>
                 
               </div>
             </a>

@@ -3,7 +3,7 @@
   <head><meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="author" title="About these documents" href="about.html"><link rel="index" title="Index" href="genindex.html"><link rel="search" title="Search" href="search.html"><link rel="next" title="About" href="about.html">
+<link rel="author" title="About these documents" href="about.html"><link rel="index" title="Index" href="genindex.html"><link rel="search" title="Search" href="search.html"><link rel="next" title="How it works" href="how_it_works.html">
         <link rel="prefetch" href="_static/logo.png" as="image">
 
     <!-- Generated with Sphinx 8.2.3 and Furo 2025.12.19 -->
@@ -194,7 +194,28 @@
   <input type="hidden" name="area" value="default">
 </form>
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
-  <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+  <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="how_it_works.html"><strong>How it works</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="tempo_estimation.html">How does the <code class="docutils literal notranslate"><span class="pre">estimate_tempo</span></code> function work in <code class="docutils literal notranslate"><span class="pre">audio_processor.audio_loader.py</span></code> script?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tempo_estimation.html#why-this-method-is-so-effective">Why This Method is So Effective</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html"><strong>Glossary of Terms</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html#python-libraries-classes"><strong>Python Libraries &amp; Classes</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html#definitions">Definitions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributor_guidance.html">Contributing to <code class="docutils literal notranslate"><span class="pre">DrumScript</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="testing_guidance.html"><strong>Testing Documentation</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="code_of_conduct.html">Code of Conduct for <code class="docutils literal notranslate"><span class="pre">DrumScript</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="about.html">About</a></li>
+<li class="toctree-l1"><a class="reference external" href="    git clone https://github.com/victoria-mckinney/DrumScript.git">    git clone https://github.com/victoria-mckinney/DrumScript.git</a></li>
+<li class="toctree-l1"><a class="reference external" href="      * Visit the official LilyPond website: [https://lilypond.org/](https://lilypond.org/) and download the version for your OS.">      * Visit the official LilyPond website: [https://lilypond.org/](https://lilypond.org/) and download the version for your OS.</a></li>
+<li class="toctree-l1"><a class="reference external" href="      * **macOS Users:** You can install via [Homebrew](https://brew.sh/):">      * **macOS Users:** You can install via [Homebrew](https://brew.sh/):</a></li>
+<li class="toctree-l1"><a class="reference external" href="&gt; The `sounddevice` library relies on **[PortAudio](https://www.portaudio.com/)**. You might need to install this system-level library separately:">&gt; The `sounddevice` library relies on **[PortAudio](https://www.portaudio.com/)**. You might need to install this system-level library separately:</a></li>
+<li class="toctree-l1"><a class="reference external" href="&gt; **[`PortAudio` source code](https://github.com/PortAudio/portaudio%5D\(https://github.com/PortAudio/portaudio\))**">&gt; **[`PortAudio` source code](https://github.com/PortAudio/portaudio%5D\(https://github.com/PortAudio/portaudio\))**</a></li>
+<li class="toctree-l1"><a class="reference external" href="&gt;   * **macOS (using [Homebrew](https://brew.sh/))**:">&gt;   * **macOS (using [Homebrew](https://brew.sh/))**:</a></li>
+<li class="toctree-l1"><a class="reference external" href="&gt;     Download the binaries from the **[official website](https://ffmpeg.org/download.html)**, extract the files, and add the `bin` directory to your system's `PATH` environment variable.">&gt;     Download the binaries from the **[official website](https://ffmpeg.org/download.html)**, extract the files, and add the `bin` directory to your system's `PATH` environment variable.</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="about.html">About</a></li>
 <li class="toctree-l1"><a class="reference internal" href="how_it_works.html"><strong>How it works</strong></a></li>
@@ -262,6 +283,7 @@
 <hr class="docutils" />
 <ul class="simple">
 <li><p><strong><a class="reference internal" href="#features"><span class="xref myst">Features</span></a></strong></p></li>
+<li><p><strong><a class="reference internal" href="#documentation"><span class="xref myst">Documentation</span></a></strong></p></li>
 <li><p><strong><a class="reference internal" href="#roadmap"><span class="xref myst">Roadmap</span></a></strong></p></li>
 <li><p><strong><a class="reference internal" href="#installation"><span class="xref myst">Installation</span></a></strong></p></li>
 <li><p><strong><a class="reference internal" href="#usage"><span class="xref myst">Usage</span></a></strong></p>
@@ -298,146 +320,52 @@
   <!--* **Automatic Transcription**: Converts raw audio into readable drum scores.-->
   <!--* **Multi-Format Export**: Generates `.pdf` for print and `.xml` for MusicXML compatible software (Guitar Pro, Logic Pro, etc.).-->
   <!--* **Deterministic Engine**: Uses physics-based rules rather than opaque "black box" machine learning for transparent classification.-->
-</section>
-<section id="roadmap">
-<h2>Roadmap<a class="headerlink" href="#roadmap" title="Link to this heading">¶</a></h2>
-<p>Here are some features planned for future releases:</p>
-<ul class="simple">
-<li><p><strong>Advanced Notation:</strong> Add support for accents, ghost notes, and more complex rhythmic figures.</p></li>
-<li><p><strong>Expanded Instrument Range:</strong> Increase the number of percussion instruments the system can detect, including those used in specific genres (e.g., double-bass for metal).</p></li>
-<li><p><strong>UI Integration:</strong> Connect the package to a free-to-use public web interface.</p></li>
-</ul>
-</section>
 <hr class="docutils" />
-<section id="installation">
-<h2>Installation<a class="headerlink" href="#installation" title="Link to this heading">¶</a></h2>
-<p><code class="docutils literal notranslate"><span class="pre">DrumScript</span></code> uses <code class="docutils literal notranslate"><span class="pre">uv</span></code> for efficient dependency management.</p>
-<ol class="arabic">
-<li><p><strong>Clone the repository:</strong></p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/victoria-mckinney/DrumScript.git
-<span class="nb">cd</span><span class="w"> </span>DrumScript
-</pre></div>
-</div>
-</li>
-<li><p><strong>Create a virtual environment and install dependencies:</strong></p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>uv<span class="w"> </span>venv
-<span class="nb">source</span><span class="w"> </span>.venv/bin/activate<span class="w">  </span><span class="c1"># On Windows, use: .venv\Scripts\activate</span>
-uv<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
-</pre></div>
-</div>
-</li>
-</ol>
-<blockquote>
-<div><p><strong>NOTE:</strong> Other <code class="docutils literal notranslate"><span class="pre">Python</span></code> package managers, like <code class="docutils literal notranslate"><span class="pre">pip</span></code> or <code class="docutils literal notranslate"><span class="pre">conda</span></code>, can be used interchangeably with the commands above.</p>
-</div></blockquote>
-<section id="lilypond-installation">
-<h3>LilyPond Installation<a class="headerlink" href="#lilypond-installation" title="Link to this heading">¶</a></h3>
-<p>To generate high-quality PDF sheet music, <code class="docutils literal notranslate"><span class="pre">DrumScript</span></code> uses <code class="docutils literal notranslate"><span class="pre">music21</span></code>, which relies on the music engraving program <strong>LilyPond</strong>. You must install LilyPond separately.</p>
+</section>
+</section>
+<section id="documentation">
+<h1>📚 Documentation<a class="headerlink" href="#documentation" title="Link to this heading">¶</a></h1>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
 <ul>
-<li><p><strong>Download &amp; Install LilyPond:</strong></p>
-<ul>
-<li><p>Visit the official LilyPond website: <a class="reference external" href="https://lilypond.org/">https://lilypond.org/</a> and download the version for your OS.</p></li>
-<li><p><strong>macOS Users:</strong> You can install via <a class="reference external" href="https://brew.sh/">Homebrew</a>:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>brew<span class="w"> </span>install<span class="w"> </span>lilypond
-</pre></div>
-</div>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="how_it_works.html"><strong>How it works</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="tempo_estimation.html">How does the <code class="docutils literal notranslate"><span class="pre">estimate_tempo</span></code> function work in <code class="docutils literal notranslate"><span class="pre">audio_processor.audio_loader.py</span></code> script?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tempo_estimation.html#why-this-method-is-so-effective">Why This Method is So Effective</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html"><strong>Glossary of Terms</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html#python-libraries-classes"><strong>Python Libraries &amp; Classes</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html#definitions">Definitions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributor_guidance.html">Contributing to <code class="docutils literal notranslate"><span class="pre">DrumScript</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="testing_guidance.html"><strong>Testing Documentation</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="code_of_conduct.html">Code of Conduct for <code class="docutils literal notranslate"><span class="pre">DrumScript</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="about.html">About</a></li>
+<li class="toctree-l1"><a class="reference external" href="    git clone https://github.com/victoria-mckinney/DrumScript.git">    git clone https://github.com/victoria-mckinney/DrumScript.git</a></li>
+<li class="toctree-l1"><a class="reference external" href="      * Visit the official LilyPond website: [https://lilypond.org/](https://lilypond.org/) and download the version for your OS.">      * Visit the official LilyPond website: [https://lilypond.org/](https://lilypond.org/) and download the version for your OS.</a></li>
+<li class="toctree-l1"><a class="reference external" href="      * **macOS Users:** You can install via [Homebrew](https://brew.sh/):">      * **macOS Users:** You can install via [Homebrew](https://brew.sh/):</a></li>
+<li class="toctree-l1"><a class="reference external" href="&gt; The `sounddevice` library relies on **[PortAudio](https://www.portaudio.com/)**. You might need to install this system-level library separately:">&gt; The `sounddevice` library relies on **[PortAudio](https://www.portaudio.com/)**. You might need to install this system-level library separately:</a></li>
+<li class="toctree-l1"><a class="reference external" href="&gt; **[`PortAudio` source code](https://github.com/PortAudio/portaudio%5D\(https://github.com/PortAudio/portaudio\))**">&gt; **[`PortAudio` source code](https://github.com/PortAudio/portaudio%5D\(https://github.com/PortAudio/portaudio\))**</a></li>
+<li class="toctree-l1"><a class="reference external" href="&gt;   * **macOS (using [Homebrew](https://brew.sh/))**:">&gt;   * **macOS (using [Homebrew](https://brew.sh/))**:</a></li>
+<li class="toctree-l1"><a class="reference external" href="&gt;     Download the binaries from the **[official website](https://ffmpeg.org/download.html)**, extract the files, and add the `bin` directory to your system's `PATH` environment variable.">&gt;     Download the binaries from the **[official website](https://ffmpeg.org/download.html)**, extract the files, and add the `bin` directory to your system's `PATH` environment variable.</a></li>
 </ul>
-</li>
-<li><p><strong>Verify Installation:</strong>
-Check that LilyPond is installed correctly by running:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>lilypond<span class="w"> </span>--version
-</pre></div>
-</div>
-</li>
-</ul>
-<p><code class="docutils literal notranslate"><span class="pre">music21</span></code> will attempt to find LilyPond automatically. If you encounter errors, you may need to configure the path manually (see <code class="docutils literal notranslate"><span class="pre">DrumScript/notation_generator/pdf_exporter.py</span></code>).</p>
-</section>
-</section>
-<hr class="docutils" />
-<section id="dependencies">
-<h2>Dependencies<a class="headerlink" href="#dependencies" title="Link to this heading">¶</a></h2>
-<p>A full list of dependencies can be found in <strong><a class="reference internal" href="#requirements.txt"><span class="xref myst"><code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code></span></a></strong> and <strong><a class="reference internal" href="#pyproject.toml"><span class="xref myst"><code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code></span></a></strong>.</p>
-<hr class="docutils" />
-<blockquote>
-<div><p><strong>Important note for audio playback (<code class="docutils literal notranslate"><span class="pre">sounddevice</span></code>):</strong></p>
-<p>The <code class="docutils literal notranslate"><span class="pre">sounddevice</span></code> library relies on <strong><a class="reference external" href="https://www.portaudio.com/">PortAudio</a></strong>. You might need to install this system-level library separately:</p>
-<ul class="simple">
-<li><p><strong>macOS:</strong> <code class="docutils literal notranslate"><span class="pre">brew</span> <span class="pre">install</span> <span class="pre">portaudio</span></code></p></li>
-<li><p><strong>Ubuntu/Debian:</strong> <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">apt-get</span> <span class="pre">install</span> <span class="pre">libportaudio2</span></code></p></li>
-<li><p><strong>Windows:</strong> PortAudio is usually bundled with <code class="docutils literal notranslate"><span class="pre">sounddevice</span></code> wheels, but check official documentation if you have issues.</p></li>
-</ul>
-<p><strong><a class="reference external" href="https://github.com/PortAudio/portaudio%5D(https://github.com/PortAudio/portaudio)"><code class="docutils literal notranslate"><span class="pre">PortAudio</span></code> source code</a></strong></p>
-</div></blockquote>
-<hr class="docutils" />
-<blockquote>
-<div><p><strong>Important note for <code class="docutils literal notranslate"><span class="pre">.mp3</span></code> users:</strong></p>
-<p><strong>See also <a class="reference internal" href="#faqs"><span class="xref myst">FAQs</span></a></strong></p>
-<p>To process <code class="docutils literal notranslate"><span class="pre">.mp3</span></code> files, you must first install <strong><code class="docutils literal notranslate"><span class="pre">FFmpeg</span></code></strong>, a command-line tool for handling audio and video.</p>
-<p class="rubric" id="installing-ffmpeg">Installing <code class="docutils literal notranslate"><span class="pre">FFmpeg</span></code></p>
-<p><strong>How to install <code class="docutils literal notranslate"><span class="pre">FFmpeg</span></code> via <code class="docutils literal notranslate"><span class="pre">DrumScript</span></code></strong></p>
-<p>The package includes a helper script for easy installation.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># In your main.py or another script</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">utils.ffmpeg_installer</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ffmpeg_installer</span>
-</pre></div>
-</div>
-</div></blockquote>
-<blockquote>
-<div><p class="rubric" id="this-will-prompt-for-a-password-on-linux-macos-for-system-wide-installation">This will prompt for a password on Linux/macOS for system-wide installation.</p>
-<p>ffmpeg_installer.install_ffmpeg()</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
-**How to install `FFmpeg` manually**
-</pre></div>
-</div>
-<ul>
-<li><p><strong>macOS (using <a class="reference external" href="https://brew.sh/">Homebrew</a>)</strong>:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>brew<span class="w"> </span>install<span class="w"> </span>ffmpeg
-</pre></div>
-</div>
-</li>
-<li><p><strong>Linux (using apt for Debian/Ubuntu)</strong>:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt<span class="w"> </span>update
-sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>ffmpeg
-</pre></div>
-</div>
-</li>
-<li><p><strong>Windows</strong>:
-Download the binaries from the <strong><a class="reference external" href="https://ffmpeg.org/download.html">official website</a></strong>, extract the files, and add the <code class="docutils literal notranslate"><span class="pre">bin</span></code> directory to your system’s <code class="docutils literal notranslate"><span class="pre">PATH</span></code> environment variable.</p></li>
-</ul>
-<!-- end list -->
-</div></blockquote>
-<blockquote>
-<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
-</pre></div>
-</div>
-</div></blockquote>
-</section>
-<hr class="docutils" />
-<section id="usage">
-<h2>Usage<a class="headerlink" href="#usage" title="Link to this heading">¶</a></h2>
-<p>Run <code class="docutils literal notranslate"><span class="pre">DrumScript</span></code> from the command line using <code class="docutils literal notranslate"><span class="pre">main.py</span></code>.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>main.py<span class="w"> </span>&lt;input_audio_file&gt;<span class="w"> </span>&lt;output_sheet_music_path&gt;<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
-</pre></div>
 </div>
 <section id="arguments">
-<h3>Arguments<a class="headerlink" href="#arguments" title="Link to this heading">¶</a></h3>
+<h2>Arguments<a class="headerlink" href="#arguments" title="Link to this heading">¶</a></h2>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">&lt;input_audio_file&gt;</span></code>: Path to your drum audio recording (<code class="docutils literal notranslate"><span class="pre">.wav</span></code>, <code class="docutils literal notranslate"><span class="pre">.mp3</span></code>, etc.).</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">&lt;output_sheet_music_path&gt;</span></code>: Desired path for the generated file (e.g., <code class="docutils literal notranslate"><span class="pre">drum_score.pdf</span></code> or <code class="docutils literal notranslate"><span class="pre">drum_score.xml</span></code>).</p></li>
 </ul>
 </section>
 <section id="options">
-<h3>Options<a class="headerlink" href="#options" title="Link to this heading">¶</a></h3>
+<h2>Options<a class="headerlink" href="#options" title="Link to this heading">¶</a></h2>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">--tempo</span> <span class="pre">&lt;BPM&gt;</span></code>: (Optional) Manually specify the tempo in Beats Per Minute. If not provided, the script will attempt to detect the tempo automatically.</p></li>
 </ul>
 </section>
 <section id="example">
-<h3>Example<a class="headerlink" href="#example" title="Link to this heading">¶</a></h3>
+<h2>Example<a class="headerlink" href="#example" title="Link to this heading">¶</a></h2>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>main.py<span class="w"> </span>my_drum_track.wav<span class="w"> </span>drum_score.pdf<span class="w"> </span>--tempo<span class="w"> </span><span class="m">120</span>
 </pre></div>
 </div>
-</section>
 </section>
 <hr class="docutils" />
 <section id="contributing">
@@ -445,8 +373,8 @@ Download the binaries from the <strong><a class="reference external" href="https
 <p>We welcome contributions! <code class="docutils literal notranslate"><span class="pre">DrumScript</span></code> is intended to be a community-owned project. If you have ideas, bug fixes, or new features, please <strong><a class="reference external" href="https://github.com/victoria-mckinney/DrumScript/issues/new">open an issue</a></strong> or submit a <strong><a class="reference external" href="https://github.com/victoria-mckinney/DrumScript/pulls">pull request</a></strong>.</p>
 </section>
 </section>
-<section id="documentation">
-<h1>Documentation<a class="headerlink" href="#documentation" title="Link to this heading">¶</a></h1>
+<section id="id1">
+<h1>Documentation<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h1>
 <div class="toctree-wrapper compound">
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
@@ -499,7 +427,13 @@ Download the binaries from the <strong><a class="reference external" href="https
 <li class="toctree-l2"><a class="reference internal" href="glossary.html#sample-rate-sr"><code class="docutils literal notranslate"><span class="pre">sample_rate</span></code> (<code class="docutils literal notranslate"><span class="pre">sr</span></code>)</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api.html#core-functions">Core Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#audio-processing">Audio Processing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#classification-notation">Classification &amp; Notation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#utilities">Utilities</a></li>
+</ul>
+</li>
 </ul>
 </div>
 <hr class="docutils" />
@@ -544,12 +478,12 @@ $$</p>
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="about.html">
+          <a class="next-page" href="how_it_works.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">About</div>
+                <div class="title"><strong>How it works</strong></div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
@@ -586,22 +520,16 @@ $$</p>
             <ul>
 <li><a class="reference internal" href="#"><strong>DrumScript</strong></a><ul>
 <li><a class="reference internal" href="#features">Features</a></li>
-<li><a class="reference internal" href="#roadmap">Roadmap</a></li>
-<li><a class="reference internal" href="#installation">Installation</a><ul>
-<li><a class="reference internal" href="#lilypond-installation">LilyPond Installation</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#dependencies">Dependencies</a></li>
-<li><a class="reference internal" href="#usage">Usage</a><ul>
+<li><a class="reference internal" href="#documentation">📚 Documentation</a><ul>
 <li><a class="reference internal" href="#arguments">Arguments</a></li>
 <li><a class="reference internal" href="#options">Options</a></li>
 <li><a class="reference internal" href="#example">Example</a></li>
-</ul>
-</li>
 <li><a class="reference internal" href="#contributing">Contributing</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#documentation">Documentation</a><ul>
+<li><a class="reference internal" href="#id1">Documentation</a><ul>
 <li><a class="reference internal" href="#contact">Contact</a></li>
 <li><a class="reference internal" href="#faqs">FAQs</a></li>
 </ul>
