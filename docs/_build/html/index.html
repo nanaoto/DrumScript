@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en" data-accent-color="violet" data-content_root="./">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>DrumScript 0.1.0 documentation</title><link rel="author" title="About these documents" href="about.html" /><link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="How it works" href="how_it_works.html" /><script>
+    function setColorMode(t){let e=document.documentElement;e.setAttribute("data-color-mode",t);let a=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,s=t;"auto"===t&&(s=a?"dark":"light"),"light"===s?(e.classList.remove("dark"),e.classList.add("light")):(e.classList.remove("light"),e.classList.add("dark"))}
+    setColorMode(localStorage._theme||"auto");
+  </script><link rel="stylesheet" type="text/css" href="_static/pygments.css?v=e1a1ceaf" />
+    <link rel="stylesheet" type="text/css" href="_static/shibuya.css?v=44020203" />
+    <link media="print" rel="stylesheet" type="text/css" href="_static/print.css?v=20ff2c19" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --sy-f-text: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+  --sy-f-heading: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+}
+</style>
+    <meta property="og:type" content="website"/><meta property="og:title" content="DrumScript"/>
+    <meta name="twitter:card" content="summary"/>
+  </head>
+<body><div class="sy-head">
+  <div class="sy-head-blur"></div>
+  <div class="sy-head-inner sy-container mx-auto">
+    <a class="sy-head-brand" href="#">
+      <img class="light-logo" src="logo-light.png" alt="DrumScript" height="28" loading="lazy" />
+      <img class="dark-logo" src="logo-dark.png" alt="DrumScript" height="28" loading="lazy" />
+      <strong>DrumScript</strong>
+    </a>
+    <div class="sy-head-nav" id="head-nav">
+      <nav class="sy-head-links"></nav>
+      <div class="sy-head-extra flex items-center print:hidden"><form class="searchbox flex items-center" action="search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <kbd>/</kbd>
+</form><div class="sy-head-socials"></div></div>
+    </div>
+    <div class="sy-head-actions flex items-center shrink-0 print:hidden"><button class="js-theme theme-switch flex items-center"
+data-aria-auto="Switch to light color mode"
+data-aria-light="Switch to dark color mode"
+data-aria-dark="Switch to auto color mode">
+<i class="i-lucide theme-icon"></i>
+</button><button class="md:hidden flex items-center js-menu" aria-label="Menu" type="button" aria-controls="head-nav" aria-expanded="false">
+        <div class="hamburger">
+          <span class="hamburger_1"></span>
+          <span class="hamburger_2"></span>
+          <span class="hamburger_3"></span>
+        </div>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="sy-page sy-container flex mx-auto">
+  <aside id="lside" class="sy-lside md:w-72 md:shrink-0 print:hidden">
+    <div class="sy-lside-inner md:sticky">
+      <div class="sy-scrollbar p-6">
+        <div class="globaltoc" data-expand-depth="0"><p class="caption" role="heading" aria-level="3"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="how_it_works.html"><strong>How it works</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="tempo_estimation.html">How does the <code class="docutils literal notranslate"><span class="pre">estimate_tempo</span></code> function work in <code class="docutils literal notranslate"><span class="pre">audio_processor.audio_loader.py</span></code> script?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tempo_estimation.html#why-this-method-is-so-effective">Why This Method is So Effective</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html"><strong>Glossary of Terms</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html#python-libraries-classes"><strong>Python Libraries &amp; Classes</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html#definitions">Definitions</a></li>
+</ul>
+<p class="caption" role="heading" aria-level="3"><span class="caption-text">Developer Zone</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="contributor_guidance.html">Contributing to <code class="docutils literal notranslate"><span class="pre">DrumScript</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="testing_guidance.html"><strong>Testing Documentation</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="code_of_conduct.html">Code of Conduct for <code class="docutils literal notranslate"><span class="pre">DrumScript</span></code></a></li>
+</ul>
+<p class="caption" role="heading" aria-level="3"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="about.html">About</a></li>
+</ul>
+<p class="caption" role="heading" aria-level="3"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="how_it_works.html"><strong>How it works</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="testing_guidance.html"><strong>Testing Documentation</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributor_guidance.html">Contributing to <code class="docutils literal notranslate"><span class="pre">DrumScript</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="code_of_conduct.html">Code of Conduct for <code class="docutils literal notranslate"><span class="pre">DrumScript</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="tempo_estimation.html">How does the <code class="docutils literal notranslate"><span class="pre">estimate_tempo</span></code> function work in <code class="docutils literal notranslate"><span class="pre">audio_processor.audio_loader.py</span></code> script?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tempo_estimation.html#why-this-method-is-so-effective">Why This Method is So Effective</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html"><strong>Glossary of Terms</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html#python-libraries-classes"><strong>Python Libraries &amp; Classes</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html#definitions">Definitions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="lside-overlay js-menu" role="button" aria-label="Close left sidebar" aria-controls="lside" aria-expanded="false"></div>
+  <aside id="rside" class="sy-rside pb-3 w-64 shrink-0 order-last">
+    <button class="rside-close js-menu xl:hidden" aria-label="Close Table of Contents" type="button" aria-controls="rside" aria-expanded="false">
+      <i class="i-lucide close"></i>
+    </button>
+    <div class="sy-scrollbar sy-rside-inner px-6 xl:top-16 xl:sticky xl:pl-0 pt-6 pb-4"><div class="localtoc"><h3>On this page</h3><ul>
+<li><a class="reference internal" href="#"><strong>DrumScript</strong></a><ul>
+<li><a class="reference internal" href="#features">Features</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#documentation">📚 Documentation</a><ul>
+<li><a class="reference internal" href="#roadmap">Roadmap</a></li>
+<li><a class="reference internal" href="#installation">Installation</a><ul>
+<li><a class="reference internal" href="#lilypond-installation">LilyPond Installation</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#dependencies">Dependencies</a></li>
+<li><a class="reference internal" href="#usage">Usage</a><ul>
+<li><a class="reference internal" href="#arguments">Arguments</a></li>
+<li><a class="reference internal" href="#options">Options</a></li>
+<li><a class="reference internal" href="#example">Example</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#contributing">Contributing</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id1">Documentation</a><ul>
+<li><a class="reference internal" href="#contact">Contact</a></li>
+<li><a class="reference internal" href="#faqs">FAQs</a></li>
+</ul>
+</li>
+</ul>
+</div><div id="ethical-ad-placement" data-ea-publisher="readthedocs"></div></div>
+  </aside>
+  <div class="rside-overlay js-menu" role="button" aria-label="Close Table of Contents" aria-controls="rside" aria-expanded="false"></div>
+  <main class="sy-main w-full max-sm:max-w-full print:pt-6">
+<div class="sy-breadcrumbs" role="navigation">
+  <div class="sy-breadcrumbs-inner flex items-center">
+    <div class="md:hidden mr-3">
+      <button class="js-menu" aria-label="Menu" type="button" aria-controls="lside" aria-expanded="false">
+        <i class="i-lucide menu"></i>
+      </button>
+    </div>
+    <ol class="flex-1" itemscope itemtype="https://schema.org/BreadcrumbList"><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="#"><span itemprop="name">DrumScript</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="1" />
+      </li><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <strong itemprop="name"><strong>DrumScript</strong></strong>
+        <meta itemprop="position" content="2" />
+      </li></ol>
+    <div class="xl:hidden ml-1">
+      <button class="js-menu" aria-label="Show table of contents" type="button" aria-controls="rside"
+        aria-expanded="false">
+        <i class="i-lucide outdent"></i>
+      </button>
+    </div>
+  </div>
+</div><div class="flex flex-col break-words justify-between">
+      <div class="relative min-w-0 max-w-6xl px-6 pb-6 pt-8 xl:px-12">
+  <article class="yue" role="main">
+          <section id="drumscript">
+<h1><strong>DrumScript</strong><a class="headerlink" href="#drumscript" title="Link to this heading">¶</a></h1>
+<!--date_created: sun-15-june-2025-->
+<!--date_updated: tues-13-jan-2026-->
+<blockquote>
+<div><p><strong>Python 3.12.10</strong></p>
+</div></blockquote>
+<p><code class="docutils literal notranslate"><span class="pre">DrumScript</span></code> is a <code class="docutils literal notranslate"><span class="pre">Python</span></code> package that converts <strong>drum audio</strong> into <strong>sheet music</strong> (drum notation). Born from a drummer’s need for accessible sheet music, this project aims to be a free, open-source tool for the music community.</p>
+<p>It leverages <strong>audio signal processing</strong> and a <strong>rule-based classification engine</strong> to detect individual drum hits, transcribe them into a <strong>musical score</strong>, and export them as <code class="docutils literal notranslate"><span class="pre">.pdf</span></code> or <code class="docutils literal notranslate"><span class="pre">.xml</span></code> files, which you can use directly or import into software like Guitar Pro or Logic Pro.</p>
+<p><em><strong>[hello.drumscript&#64;gmail.com](mailto: hello.drumscript&#64;gmail.com)</strong></em></p>
+<hr class="docutils" />
+<ul class="simple">
+<li><p><strong><a class="reference internal" href="#features"><span class="xref myst">Features</span></a></strong></p></li>
+<li><p><strong><a class="reference internal" href="#documentation"><span class="xref myst">Documentation</span></a></strong></p></li>
+<li><p><strong><a class="reference internal" href="#roadmap"><span class="xref myst">Roadmap</span></a></strong></p></li>
+<li><p><strong><a class="reference internal" href="#installation"><span class="xref myst">Installation</span></a></strong></p></li>
+<li><p><strong><a class="reference internal" href="#usage"><span class="xref myst">Usage</span></a></strong></p>
+<ul>
+<li><p><strong><a class="reference internal" href="#arguments"><span class="xref myst">Arguments</span></a></strong></p></li>
+<li><p><strong><a class="reference internal" href="#options"><span class="xref myst">Options</span></a></strong></p></li>
+<li><p><strong><a class="reference internal" href="#example"><span class="xref myst">Example</span></a></strong></p></li>
+</ul>
+</li>
+<li><p><strong><a class="reference internal" href="#contributing"><span class="xref myst">Contributing</span></a></strong></p></li>
+<li><p><strong><a class="reference internal" href="#contact"><span class="xref myst">Contact</span></a></strong></p></li>
+<li><p><strong><a class="reference internal" href="#faqs"><span class="xref myst">FAQs</span></a></strong></p></li>
+</ul>
+<blockquote>
+<div><p><strong>NOTE:</strong> See <strong><a class="reference internal" href="#docs/how_it_works.md"><span class="xref myst"><code class="docutils literal notranslate"><span class="pre">docs/how_it_works.md</span></code></span></a></strong> if you are interested in the link between <strong>music theory</strong> and <code class="docutils literal notranslate"><span class="pre">DrumScript</span></code>’s structure.</p>
+</div></blockquote>
+<blockquote>
+<div><p><strong>NOTE:</strong> For simplicity, <code class="docutils literal notranslate"><span class="pre">DrumScript</span></code> uses the generic spelling of the word <em><strong>quantize</strong></em>, rather than the British English spelling <em><strong>quantise</strong></em>.</p>
+</div></blockquote>
+<hr class="docutils" />
+<section id="features">
+<h2>Features<a class="headerlink" href="#features" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><strong>Audio Input:</strong> Supports common audio formats like <code class="docutils literal notranslate"><span class="pre">.wav</span></code> and <code class="docutils literal notranslate"><span class="pre">.mp3</span></code>.</p></li>
+<li><p><strong>Automatic Tempo Detection:</strong> Estimates the tempo (BPM) of an audio file automatically.</p></li>
+<li><p><strong>Drum Hit Detection:</strong> Identifies the precise timing of drum strikes using onset detection algorithms.</p></li>
+</ul>
+  <!--* **Multi-Instrument Classification:** Differentiates between various drum kit elements (e.g., kick, snare, hi-hat) and can identify **concurrent hits** (e.g., a kick and crash cymbal played at the same time).-->
+  <!--* **Musical Quantization:** Aligns detected drum hits to a musical grid for clean, accurate notation.-->
+  <!--* **Sheet Music Output:** Generates clear and readable drum notation in both `.pdf` and MusicXML (`.xml`) formats.-->
+<ul class="simple">
+<li><p><strong>Stem Splitting</strong>: Isolate drums from full songs using <code class="docutils literal notranslate"><span class="pre">Demucs</span></code> technology.</p></li>
+</ul>
+  <!--* **Automatic Transcription**: Converts raw audio into readable drum scores.-->
+  <!--* **Multi-Format Export**: Generates `.pdf` for print and `.xml` for MusicXML compatible software (Guitar Pro, Logic Pro, etc.).-->
+  <!--* **Deterministic Engine**: Uses physics-based rules rather than opaque "black box" machine learning for transparent classification.-->
+<hr class="docutils" />
+</section>
+</section>
+<section id="documentation">
+<h1>📚 Documentation<a class="headerlink" href="#documentation" title="Link to this heading">¶</a></h1>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="how_it_works.html"><strong>How it works</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="tempo_estimation.html">How does the <code class="docutils literal notranslate"><span class="pre">estimate_tempo</span></code> function work in <code class="docutils literal notranslate"><span class="pre">audio_processor.audio_loader.py</span></code> script?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tempo_estimation.html#why-this-method-is-so-effective">Why This Method is So Effective</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html"><strong>Glossary of Terms</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html#python-libraries-classes"><strong>Python Libraries &amp; Classes</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html#definitions">Definitions</a></li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Developer Zone</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="contributor_guidance.html">Contributing to <code class="docutils literal notranslate"><span class="pre">DrumScript</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="testing_guidance.html"><strong>Testing Documentation</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="code_of_conduct.html">Code of Conduct for <code class="docutils literal notranslate"><span class="pre">DrumScript</span></code></a></li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="about.html">About</a></li>
+</ul>
+</div>
+<hr class="docutils" />
+<section id="roadmap">
+<h2>Roadmap<a class="headerlink" href="#roadmap" title="Link to this heading">¶</a></h2>
+<p>Here are some features planned for future releases:</p>
+<ul class="simple">
+<li><p><strong>Advanced Notation:</strong> Add support for accents, ghost notes, and more complex rhythmic figures.</p></li>
+<li><p><strong>Expanded Instrument Range:</strong> Increase the number of percussion instruments the system can detect, including those used in specific genres (e.g., double-bass for metal).</p></li>
+<li><p><strong>UI Integration:</strong> Connect the package to a free-to-use public web interface.</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Link to this heading">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">DrumScript</span></code> uses <code class="docutils literal notranslate"><span class="pre">uv</span></code> for efficient dependency management.</p>
+<ol class="arabic">
+<li><p><strong>Clone the repository:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1">git<span class="w"> </span>clone<span class="w"> </span>https://github.com/victoria-mckinney/DrumScript.git
+</span><span data-line="2"><span class="nb">cd</span><span class="w"> </span>DrumScript
+</span></pre></div>
+</div>
+</li>
+<li><p><strong>Create a virtual environment and install dependencies:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1">uv<span class="w"> </span>venv
+</span><span data-line="2"><span class="nb">source</span><span class="w"> </span>.venv/bin/activate<span class="w">  </span><span class="c1"># On Windows, use: .venv\Scripts\activate</span>
+</span><span data-line="3">uv<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
+</span></pre></div>
+</div>
+</li>
+</ol>
+<blockquote>
+<div><p><strong>NOTE:</strong> Other <code class="docutils literal notranslate"><span class="pre">Python</span></code> package managers, like <code class="docutils literal notranslate"><span class="pre">pip</span></code> or <code class="docutils literal notranslate"><span class="pre">conda</span></code>, can be used interchangeably with the commands above.</p>
+</div></blockquote>
+<section id="lilypond-installation">
+<h3>LilyPond Installation<a class="headerlink" href="#lilypond-installation" title="Link to this heading">¶</a></h3>
+<p>To generate high-quality PDF sheet music, <code class="docutils literal notranslate"><span class="pre">DrumScript</span></code> uses <code class="docutils literal notranslate"><span class="pre">music21</span></code>, which relies on the music engraving program <strong>LilyPond</strong>. You must install LilyPond separately.</p>
+<ul>
+<li><p><strong>Download &amp; Install LilyPond:</strong></p>
+<ul>
+<li><p>Visit the official LilyPond website: <a class="reference external" href="https://lilypond.org/">https://lilypond.org/</a> and download the version for your OS.</p></li>
+<li><p><strong>macOS Users:</strong> You can install via <a class="reference external" href="https://brew.sh/">Homebrew</a>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1">brew<span class="w"> </span>install<span class="w"> </span>lilypond
+</span></pre></div>
+</div>
+</li>
+</ul>
+</li>
+<li><p><strong>Verify Installation:</strong>
+Check that LilyPond is installed correctly by running:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1">lilypond<span class="w"> </span>--version
+</span></pre></div>
+</div>
+</li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">music21</span></code> will attempt to find LilyPond automatically. If you encounter errors, you may need to configure the path manually (see <code class="docutils literal notranslate"><span class="pre">DrumScript/notation_generator/pdf_exporter.py</span></code>).</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="dependencies">
+<h2>Dependencies<a class="headerlink" href="#dependencies" title="Link to this heading">¶</a></h2>
+<p>A full list of dependencies can be found in <strong><a class="reference internal" href="#requirements.txt"><span class="xref myst"><code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code></span></a></strong> and <strong><a class="reference internal" href="#pyproject.toml"><span class="xref myst"><code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code></span></a></strong>.</p>
+<hr class="docutils" />
+<blockquote>
+<div><p><strong>Important note for audio playback (<code class="docutils literal notranslate"><span class="pre">sounddevice</span></code>):</strong></p>
+<p>The <code class="docutils literal notranslate"><span class="pre">sounddevice</span></code> library relies on <strong><a class="reference external" href="https://www.portaudio.com/">PortAudio</a></strong>. You might need to install this system-level library separately:</p>
+<ul class="simple">
+<li><p><strong>macOS:</strong> <code class="docutils literal notranslate"><span class="pre">brew</span> <span class="pre">install</span> <span class="pre">portaudio</span></code></p></li>
+<li><p><strong>Ubuntu/Debian:</strong> <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">apt-get</span> <span class="pre">install</span> <span class="pre">libportaudio2</span></code></p></li>
+<li><p><strong>Windows:</strong> PortAudio is usually bundled with <code class="docutils literal notranslate"><span class="pre">sounddevice</span></code> wheels, but check official documentation if you have issues.</p></li>
+</ul>
+<p><strong><a class="reference external" href="https://github.com/PortAudio/portaudio%5D(https://github.com/PortAudio/portaudio)"><code class="docutils literal notranslate"><span class="pre">PortAudio</span></code> source code</a></strong></p>
+</div></blockquote>
+<hr class="docutils" />
+<blockquote>
+<div><p><strong>Important note for <code class="docutils literal notranslate"><span class="pre">.mp3</span></code> users:</strong></p>
+<p><strong>See also <a class="reference internal" href="#faqs"><span class="xref myst">FAQs</span></a></strong></p>
+<p>To process <code class="docutils literal notranslate"><span class="pre">.mp3</span></code> files, you must first install <strong><code class="docutils literal notranslate"><span class="pre">FFmpeg</span></code></strong>, a command-line tool for handling audio and video.</p>
+<p class="rubric" id="installing-ffmpeg">Installing <code class="docutils literal notranslate"><span class="pre">FFmpeg</span></code></p>
+<p><strong>How to install <code class="docutils literal notranslate"><span class="pre">FFmpeg</span></code> via <code class="docutils literal notranslate"><span class="pre">DrumScript</span></code></strong></p>
+<p>The package includes a helper script for easy installation.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="c1"># In your main.py or another script</span>
+</span><span data-line="2"><span class="kn">import</span><span class="w"> </span><span class="nn">utils.ffmpeg_installer</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ffmpeg_installer</span>
+</span></pre></div>
+</div>
+</div></blockquote>
+<blockquote>
+<div><p class="rubric" id="this-will-prompt-for-a-password-on-linux-macos-for-system-wide-installation">This will prompt for a password on Linux/macOS for system-wide installation.</p>
+<p>ffmpeg_installer.install_ffmpeg()</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span data-line="1">
+</span><span data-line="2">**How to install `FFmpeg` manually**
+</span></pre></div>
+</div>
+<ul>
+<li><p><strong>macOS (using <a class="reference external" href="https://brew.sh/">Homebrew</a>)</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1">brew<span class="w"> </span>install<span class="w"> </span>ffmpeg
+</span></pre></div>
+</div>
+</li>
+<li><p><strong>Linux (using apt for Debian/Ubuntu)</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1">sudo<span class="w"> </span>apt<span class="w"> </span>update
+</span><span data-line="2">sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>ffmpeg
+</span></pre></div>
+</div>
+</li>
+<li><p><strong>Windows</strong>:
+Download the binaries from the <strong><a class="reference external" href="https://ffmpeg.org/download.html">official website</a></strong>, extract the files, and add the <code class="docutils literal notranslate"><span class="pre">bin</span></code> directory to your system’s <code class="docutils literal notranslate"><span class="pre">PATH</span></code> environment variable.</p></li>
+</ul>
+<!-- end list -->
+</div></blockquote>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span data-line="1">
+</span></pre></div>
+</div>
+</div></blockquote>
+</section>
+<hr class="docutils" />
+<section id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Link to this heading">¶</a></h2>
+<p>Run <code class="docutils literal notranslate"><span class="pre">DrumScript</span></code> from the command line using <code class="docutils literal notranslate"><span class="pre">main.py</span></code>.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1">python<span class="w"> </span>main.py<span class="w"> </span>&lt;input_audio_file&gt;<span class="w"> </span>&lt;output_sheet_music_path&gt;<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+</span></pre></div>
+</div>
+<section id="arguments">
+<h3>Arguments<a class="headerlink" href="#arguments" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;input_audio_file&gt;</span></code>: Path to your drum audio recording (<code class="docutils literal notranslate"><span class="pre">.wav</span></code>, <code class="docutils literal notranslate"><span class="pre">.mp3</span></code>, etc.).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;output_sheet_music_path&gt;</span></code>: Desired path for the generated file (e.g., <code class="docutils literal notranslate"><span class="pre">drum_score.pdf</span></code> or <code class="docutils literal notranslate"><span class="pre">drum_score.xml</span></code>).</p></li>
+</ul>
+</section>
+<section id="options">
+<h3>Options<a class="headerlink" href="#options" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">--tempo</span> <span class="pre">&lt;BPM&gt;</span></code>: (Optional) Manually specify the tempo in Beats Per Minute. If not provided, the script will attempt to detect the tempo automatically.</p></li>
+</ul>
+</section>
+<section id="example">
+<h3>Example<a class="headerlink" href="#example" title="Link to this heading">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1">python<span class="w"> </span>main.py<span class="w"> </span>my_drum_track.wav<span class="w"> </span>drum_score.pdf<span class="w"> </span>--tempo<span class="w"> </span><span class="m">120</span>
+</span></pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="contributing">
+<h2>Contributing<a class="headerlink" href="#contributing" title="Link to this heading">¶</a></h2>
+<p>We welcome contributions! <code class="docutils literal notranslate"><span class="pre">DrumScript</span></code> is intended to be a community-owned project. If you have ideas, bug fixes, or new features, please <strong><a class="reference external" href="https://github.com/victoria-mckinney/DrumScript/issues/new">open an issue</a></strong> or submit a <strong><a class="reference external" href="https://github.com/victoria-mckinney/DrumScript/pulls">pull request</a></strong>.</p>
+</section>
+</section>
+<section id="id1">
+<h1>Documentation<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h1>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="how_it_works.html"><strong>How it works</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="testing_guidance.html"><strong>Testing Documentation</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributor_guidance.html">Contributing to <code class="docutils literal notranslate"><span class="pre">DrumScript</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="code_of_conduct.html">Code of Conduct for <code class="docutils literal notranslate"><span class="pre">DrumScript</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="tempo_estimation.html">How does the <code class="docutils literal notranslate"><span class="pre">estimate_tempo</span></code> function work in <code class="docutils literal notranslate"><span class="pre">audio_processor.audio_loader.py</span></code> script?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tempo_estimation.html#why-this-method-is-so-effective">Why This Method is So Effective</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html"><strong>Glossary of Terms</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html#python-libraries-classes"><strong>Python Libraries &amp; Classes</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html#definitions">Definitions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a></li>
+</ul>
+</div>
+<hr class="docutils" />
+<section id="contact">
+<h2>Contact<a class="headerlink" href="#contact" title="Link to this heading">¶</a></h2>
+<p>For questions or support, please <strong><a class="reference external" href="https://github.com/victoria-mckinney/DrumScript/issues">open an issue</a></strong> on the GitHub repository or email the maintainers:</p>
+<p><em><strong><a class="reference internal" href="#hello.drumscript%40gmail.com"><span class="xref myst">hello.drumscript&#64;gmail.com</span></a></strong></em></p>
+</section>
+<hr class="docutils" />
+<section id="faqs">
+<h2>FAQs<a class="headerlink" href="#faqs" title="Link to this heading">¶</a></h2>
+<ul>
+<li><p class="rubric" id="why-don-t-you-include-ffmpeg-as-a-dependency">Why don’t you include <code class="docutils literal notranslate"><span class="pre">FFmpeg</span></code> as a dependency?</p>
+<p><code class="docutils literal notranslate"><span class="pre">FFmpeg</span></code> is a system-level program, not a Python library, so it cannot be bundled directly into the package’s dependencies via <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code> or <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code>. It must be installed on the operating system itself.</p>
+</li>
+<li><p class="rubric" id="is-it-safe-to-use-the-install-ffmpeg-helper-script">Is it safe to use the <code class="docutils literal notranslate"><span class="pre">install_ffmpeg()</span></code> helper script?</p>
+<p>Yes. The script is a simple wrapper that runs standard, trusted installation commands for each OS. However, you are always welcome to follow the manual installation instructions instead.</p>
+</li>
+<li><p class="rubric" id="what-normalisation-is-applied-to-loaded-audio">What normalisation is applied to loaded audio?</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">audio_loader.py</span></code> script applies <strong>peak normalisation</strong> after loading an audio file. It first converts the audio to mono and then normalises it using <code class="docutils literal notranslate"><span class="pre">librosa.util.normalize()</span></code>.</p>
+</li>
+<li><p class="rubric" id="what-is-peak-normalisation">What is <code class="docutils literal notranslate"><span class="pre">peak</span> <span class="pre">normalisation</span></code>? 🔊</p>
+<p>Peak normalisation adjusts an audio file’s volume so that its loudest point (the “peak”) is set to a maximum level (1.0) without distortion. This standardises the volume across different recordings, ensuring the classification engine receives a consistent signal. This allows the classification rules to work reliably across different recordings, focusing on the sonic <strong>character</strong> of each drum, not just its loudness.</p>
+</li>
+<li><p class="rubric" id="does-normalisation-remove-audio-detail">Does normalisation remove audio detail?</p>
+<p>No. Peak normalisation is a <strong>linear process</strong>—it multiplies every audio sample by the same constant value, like turning a volume knob. The “shape” of the sound wave, which contains all the sonic details and rhythmic information, is perfectly preserved.</p>
+</li>
+<li><p class="rubric" id="what-is-hop-length">What is <code class="docutils literal notranslate"><span class="pre">hop_length</span></code>?</p>
+<p>When analysing audio, <code class="docutils literal notranslate"><span class="pre">librosa</span></code> slides a small window across the audio file. The <strong><code class="docutils literal notranslate"><span class="pre">hop_length</span></code></strong> is the number of audio samples the window “hops” forward for each step. A smaller <code class="docutils literal notranslate"><span class="pre">hop_length</span></code> results in more analysis windows and a more detailed, time-accurate analysis, which is crucial for capturing fast musical passages. For example, with a sample rate of 44100 Hz and a <code class="docutils literal notranslate"><span class="pre">hop_length</span></code> of 256 samples, the analysis resolution is:
+$$
+$$$$\frac{256 \text{ samples}}{44100 \text{ samples per second}} \approx 0.0058 \text{ seconds (or 5.8 milliseconds)}
+$$</p>
+</li>
+</ul>
+<hr class="docutils" />
+<!--END -->
+</section>
+</section>
+
+        </article><button class="back-to-top" type="button">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+  </svg>
+  <span>Back to top</span>
+</button><div class="navigation flex print:hidden"><div class="navigation-next">
+    <a href="how_it_works.html">
+      <div class="page-info">
+        <span>Next</span>
+        <div class="title"><strong>How it works</strong></div>
+      </div>
+      <i class="i-lucide chevron-right"></i>
+    </a>
+  </div></div></div>
+    </div>
+  </main>
+</div>
+<footer class="sy-foot">
+  <div class="sy-foot-inner sy-container mx-auto">
+    <div class="sy-foot-reserved md:flex justify-between items-center">
+      <div class="sy-foot-copyright"><p>© 2025, DrumScript</p>
+  
+  <p>
+    Made with
+    
+    <a href="https://www.sphinx-doc.org/">Sphinx</a> and
+    
+    <a href="https://shibuya.lepture.com">Shibuya theme</a>.
+  </p>
+</div>
+      <div class="sy-foot-socials"></div>
+    </div>
+  </div>
+</footer>
+      <script src="_static/documentation_options.js?v=01f34227"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/shibuya.js?v=cac61aee"></script></body>
+</html>
