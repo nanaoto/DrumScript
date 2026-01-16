@@ -2,13 +2,13 @@
 <html lang="en" data-accent-color="violet" data-content_root="../">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Bibliography &amp; References - DrumScript 0.1.0 documentation</title><link rel="author" title="About these documents" href="../about.html" /><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Theory Sources" href="sources.html" /><link rel="prev" title="Audio Signal Processing (DSP) Background" href="dsp_background.html" /><script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Bibliography &amp; References - DrumScript 0.1.0 documentation</title><link rel="author" title="About these documents" href="../about.html" /><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="How it works" href="how_it_works.html" /><link rel="prev" title="Audio Signal Processing (DSP) Background" href="dsp_background.html" /><script>
     function setColorMode(t){let e=document.documentElement;e.setAttribute("data-color-mode",t);let a=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,s=t;"auto"===t&&(s=a?"dark":"light"),"light"===s?(e.classList.remove("dark"),e.classList.add("light")):(e.classList.remove("light"),e.classList.add("dark"))}
     setColorMode(localStorage._theme||"auto");
   </script><link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=e1a1ceaf" />
     <link rel="stylesheet" type="text/css" href="../_static/shibuya.css?v=44020203" />
     <link media="print" rel="stylesheet" type="text/css" href="../_static/print.css?v=20ff2c19" />
-    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=15df4f54" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=5885bd2b" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -30,7 +30,7 @@
       <strong>DrumScript</strong>
     </a>
     <div class="sy-head-nav" id="head-nav">
-      <nav class="sy-head-links"><ul><li class="link"><a href="../index.html">Getting Started</a></li><li class="link"><a href="../api.html">API Reference</a></li><li class="link"><a href="../development/contributor_guidance.html">Development</a></li></ul></nav>
+      <nav class="sy-head-links"><ul><li class="link"><a href="../index.html">Getting Started</a></li><li class="link"><a href="../api.html">API Reference</a></li><li class="link"><a href="../development/contributor_guidance.html">Development</a></li><li class="link"><a href="drum_notation_guide.html">Theory</a></li></ul></nav>
       <div class="sy-head-extra flex items-center print:hidden"><form class="searchbox flex items-center" action="../search.html" method="get">
   <input type="text" name="q" placeholder="Search" />
   <kbd>/</kbd>
@@ -64,29 +64,46 @@ data-aria-dark="Switch to auto color mode">
 <li class="toctree-l1"><a class="reference internal" href="../guide/installation.html#standard-installation">Standard Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../guide/installation.html#installing-external-dependencies">Installing External Dependencies</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../guide/usage.html">Usage Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guide/glossary.html"><strong>Glossary of Terms</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guide/glossary.html#python-libraries-classes"><strong>Python Libraries &amp; Classes</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guide/glossary.html#definitions">Definitions</a></li>
 </ul>
 <p class="caption" role="heading" aria-level="3"><span class="caption-text">User Guide</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../guide/configuration.html">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guide/usage.html">Usage Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guide/glossary.html"><strong>Glossary of Terms</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guide/glossary.html#python-libraries-classes"><strong>Python Libraries &amp; Classes</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guide/glossary.html#definitions">Definitions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guide/installation.html">Prerequisites</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guide/installation.html#standard-installation">Standard Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guide/installation.html#installing-external-dependencies">Installing External Dependencies</a></li>
 </ul>
 <p class="caption" role="heading" aria-level="3"><span class="caption-text">Theory</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="drum_notation_guide.html">How to Read Drum Notation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dsp_background.html">Audio Signal Processing (DSP) Background</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Bibliography &amp; References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="how_it_works.html"><strong>How it works</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="percussion_frequencies.html"><strong>Percussion Frequencies</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="sources.html"><strong>Theory Sources</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="tempo_estimation.html">How does the <code class="docutils literal notranslate"><span class="pre">estimate_tempo</span></code> function work in <code class="docutils literal notranslate"><span class="pre">audio_processor.audio_loader.py</span></code> script?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tempo_estimation.html#why-this-method-is-so-effective">Why This Method is So Effective</a></li>
 </ul>
 <p class="caption" role="heading" aria-level="3"><span class="caption-text">API Reference</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../api.html">API Reference</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../generated/drumscript.extract_stems.html">drumscript.extract_stems</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../generated/drumscript.detect_tempo.html">drumscript.detect_tempo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/drumscript.main.html">drumscript.main</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../generated/drumscript.audio_processor.audio_loader.html">drumscript.audio_processor.audio_loader</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../generated/drumscript.audio_processor.stem_splitter.html">drumscript.audio_processor.stem_splitter</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../generated/drumscript.audio_processor.tempo_detector.html">drumscript.audio_processor.tempo_detector</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../generated/drumscript.audio_processor.onset_detector.html">drumscript.audio_processor.onset_detector</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../generated/drumscript.audio_processor.feature_extractor.html">drumscript.audio_processor.feature_extractor</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../generated/drumscript.drum_classifier.classify.html">drumscript.drum_classifier.classify</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/drumscript.notation_generator.constants.html">drumscript.notation_generator.constants</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/drumscript.notation_generator.helpers.html">drumscript.notation_generator.helpers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../generated/drumscript.notation_generator.score_builder.html">drumscript.notation_generator.score_builder</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../generated/drumscript.notation_generator.pdf_exporter.html">drumscript.notation_generator.pdf_exporter</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../generated/drumscript.utils.ffmpeg_installer.html">drumscript.utils.ffmpeg_installer</a></li>
@@ -95,8 +112,8 @@ data-aria-dark="Switch to auto color mode">
 </ul>
 <p class="caption" role="heading" aria-level="3"><span class="caption-text">Development</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../development/testing_guidance.html"><strong>Testing Documentation</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../development/code_of_conduct.html">Code of Conduct for <code class="docutils literal notranslate"><span class="pre">DrumScript</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../development/testing_guidance.html"><strong>Testing Documentation</strong></a></li>
 </ul>
 <p class="caption" role="heading" aria-level="3"><span class="caption-text">Project Info</span></p>
 <ul>
@@ -209,21 +226,34 @@ data-aria-dark="Switch to auto color mode">
 <section id="academic-papers">
 <h2>Academic Papers<a class="headerlink" href="#academic-papers" title="Link to this heading">¶</a></h2>
 <ul class="simple">
-<li><p><a class="reference internal" href="#references/HYBRID_TRANSFORMERS.pdf"><span class="xref myst"><strong>Hybrid Transformers for Music Source Separation</strong></span></a><br />
+<li><p><a class="reference external" href="https://arxiv.org/pdf/2211.08553"><strong>Hybrid Transformers for Music Source Separation</strong></a><br />
 <em>The foundational paper for the Demucs engine.</em></p></li>
-<li><p><a class="reference internal" href="#references/Published_Real-Time_Automatic_Drum_Transcription.pdf"><span class="xref myst"><strong>Real-Time Automatic Drum Transcription</strong></span></a><br />
+<li><p><a class="reference external" href="https://publica-rest.fraunhofer.de/server/api/core/bitstreams/ff50d62d-1f2d-47c6-86b4-1e52c603b630/content"><strong>Real-Time Automatic Drum Transcription</strong></a><br />
 <em>Research on dynamic few-shot learning for drums.</em></p></li>
-<li><p><a class="reference internal" href="#references/Improving_Perceptual_Quality.pdf"><span class="xref myst"><strong>Improving Perceptual Quality of Drum Transcription</strong></span></a><br />
+<li><p><a class="reference external" href="https://arxiv.org/abs/2004.00188"><strong>Improving Perceptual Quality of Drum Transcription</strong></a><br />
 <em>Google Magenta’s research on the Expanded Groove MIDI Dataset.</em></p></li>
+<li><p><a class="reference external" href="https://www.ee.columbia.edu/~dpwe/pubs/MuEKR11-spmus.pdf"><strong>Signal Processing for Music Analysis</strong></a></p></li>
+<li><p><a class="reference external" href="https://perso.telecom-paristech.fr/grichard/Publications/ASLP_Gillet08.pdf"><strong>Transcription and Separation of Drum Signals From Polyphonic Music</strong></a></p></li>
+<li><p><a class="reference external" href="https://www.researchgate.net/publication/228371926_An_algorithm_for_detecting_and_labeling_drum_events_in_polyphonic_music"><strong>An algorithm for detecting and labeling drum events in polyphonic music</strong></a></p></li>
+<li><p><a class="reference external" href="https://openreview.net/pdf?id=iMSjopcOn0p"><strong>MT3: Multi-Task Multi-Track Music Transcription</strong></a>
+<em>Google MT3 Transcription Engine paper</em>s</p></li>
+<li><p><a class="reference external" href="https://markcartwright.com/files/cartwright2018increasing.pdf"><strong>Increasing Drum Transcription Vocabulary Using Data Synthesis</strong></a></p></li>
+<li><p><a class="reference external" href="https://archives.ismir.net/ismir2021/paper/000030.pdf"><strong>Sequence-to-Sequence Piano Transcription with Transformers</strong></a>
+<em>Google Research</em></p></li>
 </ul>
 </section>
 <section id="standards-charts">
 <h2>Standards &amp; Charts<a class="headerlink" href="#standards-charts" title="Link to this heading">¶</a></h2>
 <ul class="simple">
-<li><p><a class="reference internal" href="#references/General_MIDI_Standard_Percussion_Set_Key_Map.pdf"><span class="xref myst"><strong>General MIDI Percussion Key Map</strong></span></a><br />
+<li><p><a class="reference external" href="https://musescore.org/sites/musescore.org/files/General%20MIDI%20Standard%20Percussion%20Set%20Key%20Map.pdf"><strong>General MIDI Percussion Key Map</strong></a><br />
 <em>The standard mapping of notes to drum sounds (e.g., 36 = Kick).</em></p></li>
+<li><p><a class="reference internal" href="#theory/midi_frequency_table.png"><span class="xref myst"><strong>Midi Frequency Table</strong></span></a>
+<em>Source: Note names, MIDI numbers and frequencies(https://www.phys.unsw.edu.au/jw/notes.html)</em></p></li>
 <li><p><a class="reference download internal" download="" href="../_downloads/88bb3f77d11f6b8fda759b3f2dcfea8b/Master-Drum-Key_R2.pdf"><span class="xref download myst"><strong>Master Drum Key</strong></span></a><br />
-<em>A comprehensive guide to standard notation symbols.</em></p></li>
+<em>A comprehensive guide to standard notation symbols.</em>
+<em>Source:<a class="reference external" href="https://cdn.shopify.com/s/files/1/0559/8055/6373/files/Master-Drum-Key_R2.pdf?v=1663945955">Master-Drum-Key_R2</a></em></p></li>
+<li><p><a class="reference external" href="https://muted.io/note-frequencies/"><strong>Note Frequency Chart (Pitch to Note)</strong></a></p></li>
+<li><p><a class="reference external" href="https://www.gear4music.com/blog/drum-music-notation/"><strong>How to Read Drum Music Notation (Gear4music)</strong></a></p></li>
 </ul>
 </section>
 </section>
@@ -240,10 +270,10 @@ data-aria-dark="Switch to auto color mode">
         <span>Previous</span><div class="title">Audio Signal Processing (DSP) Background</div></div>
     </a>
   </div><div class="navigation-next">
-    <a href="sources.html">
+    <a href="how_it_works.html">
       <div class="page-info">
         <span>Next</span>
-        <div class="title"><strong>Theory Sources</strong></div>
+        <div class="title"><strong>How it works</strong></div>
       </div>
       <i class="i-lucide chevron-right"></i>
     </a>

@@ -1,6 +1,6 @@
 # DrumScript Documentation
 
-**DrumScript** is a Python suite that converts drum audio into sheet music, as well as provide a range of tools to assist in sound audio manipulation. It leverages audio signal processing and a rule-based classification engine to detect individual drum hits, transcribe them into a **musical score**, and export them as `.pdf` files. 
+**DrumScript** is a Python suite that converts drum audio into sheet music, as well as provides a range of tools to assist in sound audio manipulation. It leverages audio signal processing and a rule-based classification engine to detect individual drum hits, transcribe them into a **musical score**, and export them as `.pdf` files. 
 
 
 ---
@@ -13,6 +13,7 @@
 
 guide/installation
 guide/usage
+guide/glossary
 
 ```
 
@@ -23,8 +24,9 @@ guide/usage
 :caption: User Guide
 
 guide/configuration
-guide/cli_reference
-
+guide/usage
+guide/glossary
+guide/installation
 ```
 
 ## Theory & Background
@@ -36,7 +38,10 @@ guide/cli_reference
 theory/drum_notation_guide
 theory/dsp_background
 theory/bibliography
+theory/how_it_works
+theory/percussion_frequencies
 theory/sources
+theory/tempo_estimation
 
 ```
 
@@ -56,9 +61,9 @@ api
 :maxdepth: 1
 :caption: Development
 
+development/code_of_conduct
 development/contributing_guidance
 development/testing_guidance
-development/code_of_conduct
 
 ```
 

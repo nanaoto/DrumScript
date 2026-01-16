@@ -8,7 +8,7 @@
   </script><link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=e1a1ceaf" />
     <link rel="stylesheet" type="text/css" href="../_static/shibuya.css?v=44020203" />
     <link media="print" rel="stylesheet" type="text/css" href="../_static/print.css?v=20ff2c19" />
-    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=15df4f54" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=5885bd2b" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -30,7 +30,7 @@
       <strong>DrumScript</strong>
     </a>
     <div class="sy-head-nav" id="head-nav">
-      <nav class="sy-head-links"><ul><li class="link"><a href="../index.html">Getting Started</a></li><li class="link"><a href="../api.html">API Reference</a></li><li class="link"><a href="../development/contributor_guidance.html">Development</a></li></ul></nav>
+      <nav class="sy-head-links"><ul><li class="link"><a href="../index.html">Getting Started</a></li><li class="link"><a href="../api.html">API Reference</a></li><li class="link"><a href="../development/contributor_guidance.html">Development</a></li><li class="link"><a href="#">Theory</a></li></ul></nav>
       <div class="sy-head-extra flex items-center print:hidden"><form class="searchbox flex items-center" action="../search.html" method="get">
   <input type="text" name="q" placeholder="Search" />
   <kbd>/</kbd>
@@ -64,29 +64,46 @@ data-aria-dark="Switch to auto color mode">
 <li class="toctree-l1"><a class="reference internal" href="../guide/installation.html#standard-installation">Standard Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../guide/installation.html#installing-external-dependencies">Installing External Dependencies</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../guide/usage.html">Usage Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guide/glossary.html"><strong>Glossary of Terms</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guide/glossary.html#python-libraries-classes"><strong>Python Libraries &amp; Classes</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guide/glossary.html#definitions">Definitions</a></li>
 </ul>
 <p class="caption" role="heading" aria-level="3"><span class="caption-text">User Guide</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../guide/configuration.html">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guide/usage.html">Usage Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guide/glossary.html"><strong>Glossary of Terms</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guide/glossary.html#python-libraries-classes"><strong>Python Libraries &amp; Classes</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guide/glossary.html#definitions">Definitions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guide/installation.html">Prerequisites</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guide/installation.html#standard-installation">Standard Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guide/installation.html#installing-external-dependencies">Installing External Dependencies</a></li>
 </ul>
 <p class="caption" role="heading" aria-level="3"><span class="caption-text">Theory</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">How to Read Drum Notation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dsp_background.html">Audio Signal Processing (DSP) Background</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bibliography.html">Bibliography &amp; References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="how_it_works.html"><strong>How it works</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="percussion_frequencies.html"><strong>Percussion Frequencies</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="sources.html"><strong>Theory Sources</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="tempo_estimation.html">How does the <code class="docutils literal notranslate"><span class="pre">estimate_tempo</span></code> function work in <code class="docutils literal notranslate"><span class="pre">audio_processor.audio_loader.py</span></code> script?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tempo_estimation.html#why-this-method-is-so-effective">Why This Method is So Effective</a></li>
 </ul>
 <p class="caption" role="heading" aria-level="3"><span class="caption-text">API Reference</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../api.html">API Reference</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../generated/drumscript.extract_stems.html">drumscript.extract_stems</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../generated/drumscript.detect_tempo.html">drumscript.detect_tempo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/drumscript.main.html">drumscript.main</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../generated/drumscript.audio_processor.audio_loader.html">drumscript.audio_processor.audio_loader</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../generated/drumscript.audio_processor.stem_splitter.html">drumscript.audio_processor.stem_splitter</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../generated/drumscript.audio_processor.tempo_detector.html">drumscript.audio_processor.tempo_detector</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../generated/drumscript.audio_processor.onset_detector.html">drumscript.audio_processor.onset_detector</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../generated/drumscript.audio_processor.feature_extractor.html">drumscript.audio_processor.feature_extractor</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../generated/drumscript.drum_classifier.classify.html">drumscript.drum_classifier.classify</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/drumscript.notation_generator.constants.html">drumscript.notation_generator.constants</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/drumscript.notation_generator.helpers.html">drumscript.notation_generator.helpers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../generated/drumscript.notation_generator.score_builder.html">drumscript.notation_generator.score_builder</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../generated/drumscript.notation_generator.pdf_exporter.html">drumscript.notation_generator.pdf_exporter</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../generated/drumscript.utils.ffmpeg_installer.html">drumscript.utils.ffmpeg_installer</a></li>
@@ -95,8 +112,8 @@ data-aria-dark="Switch to auto color mode">
 </ul>
 <p class="caption" role="heading" aria-level="3"><span class="caption-text">Development</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../development/testing_guidance.html"><strong>Testing Documentation</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../development/code_of_conduct.html">Code of Conduct for <code class="docutils literal notranslate"><span class="pre">DrumScript</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../development/testing_guidance.html"><strong>Testing Documentation</strong></a></li>
 </ul>
 <p class="caption" role="heading" aria-level="3"><span class="caption-text">Project Info</span></p>
 <ul>
@@ -116,6 +133,8 @@ data-aria-dark="Switch to auto color mode">
 <li><a class="reference internal" href="#the-drum-key">The Drum Key</a></li>
 <li><a class="reference internal" href="#the-staff-symbols">The Staff &amp; Symbols</a></li>
 <li><a class="reference internal" href="#repeats-and-structure">Repeats and Structure</a></li>
+<li><a class="reference internal" href="#notating-pitch">Notating Pitch</a></li>
+<li><a class="reference internal" href="#other-useful-resources">Other Useful Resources</a></li>
 </ul>
 </div><a class="js-repo-stats repo-stats flex items-center" href="https://github.com/DrumScript/DrumScript"
   data-type="github" data-user="DrumScript" data-repo="DrumScript">
@@ -242,6 +261,18 @@ data-aria-dark="Switch to auto color mode">
 <p><strong>Repeat Signs Guide:</strong>
 <img alt="Repeat Signs" src="../_images/infographic_g4m__repeat_signs.png" />
 <em>Source: <a class="reference external" href="https://www.gear4music.com/blog/drum-music-notation/">Gear4music - How to Read Drum Music Notation</a></em></p>
+</section>
+<section id="notating-pitch">
+<h2>Notating Pitch<a class="headerlink" href="#notating-pitch" title="Link to this heading">¶</a></h2>
+<p><img alt="Notating Pitch" src="../_images/notating_pitch.png" />
+<em>Source: <a class="reference external" href="https://fundamentalsofmusictheory.umasscreate.net/unit-5/">Fundamentals of Music Theory (an Introduction)</a></em></p>
+</section>
+<section id="other-useful-resources">
+<h2>Other Useful Resources<a class="headerlink" href="#other-useful-resources" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><strong><a class="reference external" href="https://ask.video/article/audio/everything-producers-need-to-know-about-drum-maps">Everything Producers Need To Know About Drum Maps</a></strong></p></li>
+<li><p><strong><a class="reference external" href="https://melobytes.com/en/app/midi2sheet">Midi2Sheet Music (Melobytes app)</a></strong></p></li>
+</ul>
 </section>
 </section>
 

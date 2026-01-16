@@ -30,7 +30,7 @@
       <strong>DrumScript</strong>
     </a>
     <div class="sy-head-nav" id="head-nav">
-      <nav class="sy-head-links"><ul><li class="link"><a href="#">Getting Started</a></li><li class="link"><a href="api.html">API Reference</a></li><li class="link"><a href="development/contributor_guidance.html">Development</a></li></ul></nav>
+      <nav class="sy-head-links"><ul><li class="link"><a href="#">Getting Started</a></li><li class="link"><a href="api.html">API Reference</a></li><li class="link"><a href="development/contributor_guidance.html">Development</a></li><li class="link"><a href="theory/drum_notation_guide.html">Theory</a></li></ul></nav>
       <div class="sy-head-extra flex items-center print:hidden"><form class="searchbox flex items-center" action="search.html" method="get">
   <input type="text" name="q" placeholder="Search" />
   <kbd>/</kbd>
@@ -64,29 +64,46 @@ data-aria-dark="Switch to auto color mode">
 <li class="toctree-l1"><a class="reference internal" href="guide/installation.html#standard-installation">Standard Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="guide/installation.html#installing-external-dependencies">Installing External Dependencies</a></li>
 <li class="toctree-l1"><a class="reference internal" href="guide/usage.html">Usage Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide/glossary.html"><strong>Glossary of Terms</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide/glossary.html#python-libraries-classes"><strong>Python Libraries &amp; Classes</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide/glossary.html#definitions">Definitions</a></li>
 </ul>
 <p class="caption" role="heading" aria-level="3"><span class="caption-text">User Guide</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="guide/configuration.html">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide/usage.html">Usage Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide/glossary.html"><strong>Glossary of Terms</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide/glossary.html#python-libraries-classes"><strong>Python Libraries &amp; Classes</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide/glossary.html#definitions">Definitions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide/installation.html">Prerequisites</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide/installation.html#standard-installation">Standard Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide/installation.html#installing-external-dependencies">Installing External Dependencies</a></li>
 </ul>
 <p class="caption" role="heading" aria-level="3"><span class="caption-text">Theory</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="theory/drum_notation_guide.html">How to Read Drum Notation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="theory/dsp_background.html">Audio Signal Processing (DSP) Background</a></li>
 <li class="toctree-l1"><a class="reference internal" href="theory/bibliography.html">Bibliography &amp; References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="theory/how_it_works.html"><strong>How it works</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="theory/percussion_frequencies.html"><strong>Percussion Frequencies</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="theory/sources.html"><strong>Theory Sources</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="theory/tempo_estimation.html">How does the <code class="docutils literal notranslate"><span class="pre">estimate_tempo</span></code> function work in <code class="docutils literal notranslate"><span class="pre">audio_processor.audio_loader.py</span></code> script?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="theory/tempo_estimation.html#why-this-method-is-so-effective">Why This Method is So Effective</a></li>
 </ul>
 <p class="caption" role="heading" aria-level="3"><span class="caption-text">API Reference</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="generated/drumscript.extract_stems.html">drumscript.extract_stems</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/drumscript.detect_tempo.html">drumscript.detect_tempo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/drumscript.main.html">drumscript.main</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/drumscript.audio_processor.audio_loader.html">drumscript.audio_processor.audio_loader</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/drumscript.audio_processor.stem_splitter.html">drumscript.audio_processor.stem_splitter</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/drumscript.audio_processor.tempo_detector.html">drumscript.audio_processor.tempo_detector</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/drumscript.audio_processor.onset_detector.html">drumscript.audio_processor.onset_detector</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/drumscript.audio_processor.feature_extractor.html">drumscript.audio_processor.feature_extractor</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/drumscript.drum_classifier.classify.html">drumscript.drum_classifier.classify</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/drumscript.notation_generator.constants.html">drumscript.notation_generator.constants</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/drumscript.notation_generator.helpers.html">drumscript.notation_generator.helpers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/drumscript.notation_generator.score_builder.html">drumscript.notation_generator.score_builder</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/drumscript.notation_generator.pdf_exporter.html">drumscript.notation_generator.pdf_exporter</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/drumscript.utils.ffmpeg_installer.html">drumscript.utils.ffmpeg_installer</a></li>
@@ -95,8 +112,8 @@ data-aria-dark="Switch to auto color mode">
 </ul>
 <p class="caption" role="heading" aria-level="3"><span class="caption-text">Development</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="development/testing_guidance.html"><strong>Testing Documentation</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="development/code_of_conduct.html">Code of Conduct for <code class="docutils literal notranslate"><span class="pre">DrumScript</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="development/testing_guidance.html"><strong>Testing Documentation</strong></a></li>
 </ul>
 <p class="caption" role="heading" aria-level="3"><span class="caption-text">Project Info</span></p>
 <ul>
@@ -209,7 +226,7 @@ data-aria-dark="Switch to auto color mode">
 </div><article class="yue" role="main">
           <section id="drumscript-documentation">
 <h1>DrumScript Documentation<a class="headerlink" href="#drumscript-documentation" title="Link to this heading">¶</a></h1>
-<p><strong>DrumScript</strong> is a Python suite that converts drum audio into sheet music, as well as provide a range of tools to assist in sound audio manipulation. It leverages audio signal processing and a rule-based classification engine to detect individual drum hits, transcribe them into a <strong>musical score</strong>, and export them as <code class="docutils literal notranslate"><span class="pre">.pdf</span></code> files.</p>
+<p><strong>DrumScript</strong> is a Python suite that converts drum audio into sheet music, as well as provides a range of tools to assist in sound audio manipulation. It leverages audio signal processing and a rule-based classification engine to detect individual drum hits, transcribe them into a <strong>musical score</strong>, and export them as <code class="docutils literal notranslate"><span class="pre">.pdf</span></code> files.</p>
 <hr class="docutils" />
 <section id="getting-started">
 <h2>Getting Started<a class="headerlink" href="#getting-started" title="Link to this heading">¶</a></h2>
@@ -220,6 +237,9 @@ data-aria-dark="Switch to auto color mode">
 <li class="toctree-l1"><a class="reference internal" href="guide/installation.html#standard-installation">Standard Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="guide/installation.html#installing-external-dependencies">Installing External Dependencies</a></li>
 <li class="toctree-l1"><a class="reference internal" href="guide/usage.html">Usage Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide/glossary.html"><strong>Glossary of Terms</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide/glossary.html#python-libraries-classes"><strong>Python Libraries &amp; Classes</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide/glossary.html#definitions">Definitions</a></li>
 </ul>
 </div>
 </section>
@@ -229,6 +249,13 @@ data-aria-dark="Switch to auto color mode">
 <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="guide/configuration.html">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide/usage.html">Usage Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide/glossary.html"><strong>Glossary of Terms</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide/glossary.html#python-libraries-classes"><strong>Python Libraries &amp; Classes</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide/glossary.html#definitions">Definitions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide/installation.html">Prerequisites</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide/installation.html#standard-installation">Standard Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide/installation.html#installing-external-dependencies">Installing External Dependencies</a></li>
 </ul>
 </div>
 </section>
@@ -240,7 +267,11 @@ data-aria-dark="Switch to auto color mode">
 <li class="toctree-l1"><a class="reference internal" href="theory/drum_notation_guide.html">How to Read Drum Notation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="theory/dsp_background.html">Audio Signal Processing (DSP) Background</a></li>
 <li class="toctree-l1"><a class="reference internal" href="theory/bibliography.html">Bibliography &amp; References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="theory/how_it_works.html"><strong>How it works</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="theory/percussion_frequencies.html"><strong>Percussion Frequencies</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="theory/sources.html"><strong>Theory Sources</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="theory/tempo_estimation.html">How does the <code class="docutils literal notranslate"><span class="pre">estimate_tempo</span></code> function work in <code class="docutils literal notranslate"><span class="pre">audio_processor.audio_loader.py</span></code> script?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="theory/tempo_estimation.html#why-this-method-is-so-effective">Why This Method is So Effective</a></li>
 </ul>
 </div>
 </section>
@@ -258,8 +289,8 @@ data-aria-dark="Switch to auto color mode">
 <div class="toctree-wrapper compound">
 <p class="caption" role="heading"><span class="caption-text">Development</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="development/testing_guidance.html"><strong>Testing Documentation</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="development/code_of_conduct.html">Code of Conduct for <code class="docutils literal notranslate"><span class="pre">DrumScript</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="development/testing_guidance.html"><strong>Testing Documentation</strong></a></li>
 </ul>
 </div>
 </section>

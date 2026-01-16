@@ -30,7 +30,7 @@
       <strong>DrumScript</strong>
     </a>
     <div class="sy-head-nav" id="head-nav">
-      <nav class="sy-head-links"><ul><li class="link"><a href="../index.html">Getting Started</a></li><li class="link"><a href="../api.html">API Reference</a></li><li class="link"><a href="../development/contributor_guidance.html">Development</a></li></ul></nav>
+      <nav class="sy-head-links"><ul><li class="link"><a href="../index.html">Getting Started</a></li><li class="link"><a href="../api.html">API Reference</a></li><li class="link"><a href="../development/contributor_guidance.html">Development</a></li><li class="link"><a href="../theory/drum_notation_guide.html">Theory</a></li></ul></nav>
       <div class="sy-head-extra flex items-center print:hidden"><form class="searchbox flex items-center" action="../search.html" method="get">
   <input type="text" name="q" placeholder="Search" />
   <kbd>/</kbd>
@@ -64,29 +64,46 @@ data-aria-dark="Switch to auto color mode">
 <li class="toctree-l1"><a class="reference internal" href="#standard-installation">Standard Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#installing-external-dependencies">Installing External Dependencies</a></li>
 <li class="toctree-l1"><a class="reference internal" href="usage.html">Usage Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html"><strong>Glossary of Terms</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html#python-libraries-classes"><strong>Python Libraries &amp; Classes</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html#definitions">Definitions</a></li>
 </ul>
 <p class="caption" role="heading" aria-level="3"><span class="caption-text">User Guide</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html"><strong>Glossary of Terms</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html#python-libraries-classes"><strong>Python Libraries &amp; Classes</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html#definitions">Definitions</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Prerequisites</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#standard-installation">Standard Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#installing-external-dependencies">Installing External Dependencies</a></li>
 </ul>
 <p class="caption" role="heading" aria-level="3"><span class="caption-text">Theory</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../theory/drum_notation_guide.html">How to Read Drum Notation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../theory/dsp_background.html">Audio Signal Processing (DSP) Background</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../theory/bibliography.html">Bibliography &amp; References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../theory/how_it_works.html"><strong>How it works</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../theory/percussion_frequencies.html"><strong>Percussion Frequencies</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../theory/sources.html"><strong>Theory Sources</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../theory/tempo_estimation.html">How does the <code class="docutils literal notranslate"><span class="pre">estimate_tempo</span></code> function work in <code class="docutils literal notranslate"><span class="pre">audio_processor.audio_loader.py</span></code> script?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../theory/tempo_estimation.html#why-this-method-is-so-effective">Why This Method is So Effective</a></li>
 </ul>
 <p class="caption" role="heading" aria-level="3"><span class="caption-text">API Reference</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../api.html">API Reference</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../generated/drumscript.extract_stems.html">drumscript.extract_stems</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../generated/drumscript.detect_tempo.html">drumscript.detect_tempo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/drumscript.main.html">drumscript.main</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../generated/drumscript.audio_processor.audio_loader.html">drumscript.audio_processor.audio_loader</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../generated/drumscript.audio_processor.stem_splitter.html">drumscript.audio_processor.stem_splitter</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../generated/drumscript.audio_processor.tempo_detector.html">drumscript.audio_processor.tempo_detector</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../generated/drumscript.audio_processor.onset_detector.html">drumscript.audio_processor.onset_detector</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../generated/drumscript.audio_processor.feature_extractor.html">drumscript.audio_processor.feature_extractor</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../generated/drumscript.drum_classifier.classify.html">drumscript.drum_classifier.classify</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/drumscript.notation_generator.constants.html">drumscript.notation_generator.constants</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/drumscript.notation_generator.helpers.html">drumscript.notation_generator.helpers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../generated/drumscript.notation_generator.score_builder.html">drumscript.notation_generator.score_builder</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../generated/drumscript.notation_generator.pdf_exporter.html">drumscript.notation_generator.pdf_exporter</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../generated/drumscript.utils.ffmpeg_installer.html">drumscript.utils.ffmpeg_installer</a></li>
@@ -95,8 +112,8 @@ data-aria-dark="Switch to auto color mode">
 </ul>
 <p class="caption" role="heading" aria-level="3"><span class="caption-text">Development</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../development/testing_guidance.html"><strong>Testing Documentation</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../development/code_of_conduct.html">Code of Conduct for <code class="docutils literal notranslate"><span class="pre">DrumScript</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../development/testing_guidance.html"><strong>Testing Documentation</strong></a></li>
 </ul>
 <p class="caption" role="heading" aria-level="3"><span class="caption-text">Project Info</span></p>
 <ul>
@@ -115,7 +132,12 @@ data-aria-dark="Switch to auto color mode">
     <div class="sy-scrollbar sy-rside-inner px-6 xl:top-16 xl:sticky xl:pl-0 pt-6 pb-4"><div class="localtoc"><h3>On this page</h3><ul>
 <li><a class="reference internal" href="#">Prerequisites</a></li>
 <li><a class="reference internal" href="#standard-installation">Standard Installation</a></li>
-<li><a class="reference internal" href="#installing-external-dependencies">Installing External Dependencies</a></li>
+<li><a class="reference internal" href="#installing-external-dependencies">Installing External Dependencies</a><ul>
+<li><a class="reference internal" href="#macos-installation-of-ffmpeg">macOS Installation of <code class="docutils literal notranslate"><span class="pre">FFmpeg</span></code></a></li>
+<li><a class="reference internal" href="#windows-installation-of-ffmpeg">Windows Installation of <code class="docutils literal notranslate"><span class="pre">FFmpeg</span></code></a></li>
+<li><a class="reference internal" href="#verify-installation-of-ffmpeg">Verify Installation of <code class="docutils literal notranslate"><span class="pre">FFmpeg</span></code></a></li>
+</ul>
+</li>
 </ul>
 </div><a class="js-repo-stats repo-stats flex items-center" href="https://github.com/DrumScript/DrumScript"
   data-type="github" data-user="DrumScript" data-repo="DrumScript">
@@ -209,8 +231,25 @@ data-aria-dark="Switch to auto color mode">
 <h1>Prerequisites<a class="headerlink" href="#prerequisites" title="Link to this heading">¶</a></h1>
 <ul class="simple">
 <li><p><strong>Python:</strong> 3.9 or higher</p></li>
-<li><p><strong>System Tools:</strong> FFmpeg (for audio), LilyPond (for sheet music)</p></li>
+<li><p><strong>System Tools:</strong> <code class="docutils literal notranslate"><span class="pre">FFmpeg</span></code> (for audio)</p></li>
 </ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1">uv<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>drumscript
+</span></pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="c1"># Install dependencies</span>
+</span><span data-line="2">uv<span class="w"> </span>sync<span class="w"> </span>--all-groups
+</span></pre></div>
+</div>
+<p><strong>Dependencies</strong></p>
+<p><code class="docutils literal notranslate"><span class="pre">DrumScript</span></code> manages dependencies using <code class="docutils literal notranslate"><span class="pre">uv</span></code> and <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code>. A full list of project- and optional dependencies can be found in the <strong><a class="reference external" href="https://github.com/DrumScript/DrumScript/blob/main/pyproject.toml"><code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code></a></strong>.</p>
+<blockquote>
+<div><p>For installation of <code class="docutils literal notranslate"><span class="pre">uv</span></code> go to <strong><a class="reference external" href="https://docs.astral.sh/uv/getting-started/installation/">the official <code class="docutils literal notranslate"><span class="pre">uv</span></code> website</a></strong>.</p>
+<p>Alternatively, users familiar with <strong><a class="reference external" href="https://docs.brew.sh/Installation"><code class="docutils literal notranslate"><span class="pre">Homebrew</span></code></a></strong> can also use the command <code class="docutils literal notranslate"><span class="pre">brew</span> <span class="pre">install</span> <span class="pre">uv</span></code></p>
+</div></blockquote>
+<p><code class="docutils literal notranslate"><span class="pre">DrumScript</span></code> does not use a [<code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code>], or a [<code class="docutils literal notranslate"><span class="pre">requirements.in</span></code>] file. <strong>All dependencies</strong> are declared in the <strong><a class="reference external" href="https://github.com/DrumScript/DrumScript/blob/main/pyproject.toml"><code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code></a></strong>.</p>
+<blockquote>
+<div><p>If you are contributing to <code class="docutils literal notranslate"><span class="pre">DrumScript</span></code> please check the <strong><a class="reference external" href="https://github.com/DrumScript/DrumScript/blob/main/docs/development/contributor_guidance.md">Contributor Guidance</a></strong> for more help on how to install the package in <code class="docutils literal notranslate"><span class="pre">editable</span></code> mode and the <code class="docutils literal notranslate"><span class="pre">[dev]</span></code> dependency group.</p>
+</div></blockquote>
 </section>
 <section id="standard-installation">
 <h1>Standard Installation<a class="headerlink" href="#standard-installation" title="Link to this heading">¶</a></h1>
@@ -221,26 +260,45 @@ data-aria-dark="Switch to auto color mode">
 </section>
 <section id="installing-external-dependencies">
 <h1>Installing External Dependencies<a class="headerlink" href="#installing-external-dependencies" title="Link to this heading">¶</a></h1>
-<p>DrumScript requires FFmpeg for audio processing.</p>
-<p><strong>MacOS:</strong></p>
-<div class="highlight-zsh notranslate"><div class="highlight"><pre><span></span><span data-line="1">brew<span class="w"> </span>install<span class="w"> </span>ffmpeg<span class="w"> </span>lilypond
+<p><strong>DrumScript requires <code class="docutils literal notranslate"><span class="pre">FFmpeg</span></code> for audio processing</strong></p>
+<section id="macos-installation-of-ffmpeg">
+<h2>macOS Installation of <code class="docutils literal notranslate"><span class="pre">FFmpeg</span></code><a class="headerlink" href="#macos-installation-of-ffmpeg" title="Link to this heading">¶</a></h2>
+<p>The standard way to install FFmpeg on macOS is using <strong>Homebrew</strong>, which automatically sets up the system path for you.</p>
+<ol class="arabic">
+<li><p>Open your <strong>Terminal</strong>.</p></li>
+<li><p>Run the following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1">brew<span class="w"> </span>install<span class="w"> </span>ffmpeg
 </span></pre></div>
 </div>
+</li>
+<li><p><em>Note: If you do not have Homebrew installed, visit <a class="reference external" href="https://brew.sh">brew.sh</a> to install it first.</em></p></li>
+</ol>
 <p><strong>Windows:</strong>
 <a class="reference external" href="https://ffmpeg.org">Download FFmpeg here</a> and add it to your PATH.</p>
-<blockquote>
-<div><p><code class="docutils literal notranslate"><span class="pre">DrumScript</span></code> manages dependencies using <code class="docutils literal notranslate"><span class="pre">uv</span></code> and <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code>.</p>
-</div></blockquote>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1">uv<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>drumscript
+</section>
+<section id="windows-installation-of-ffmpeg">
+<h2>Windows Installation of <code class="docutils literal notranslate"><span class="pre">FFmpeg</span></code><a class="headerlink" href="#windows-installation-of-ffmpeg" title="Link to this heading">¶</a></h2>
+<ol class="arabic simple">
+<li><p><strong>Download:</strong> Visit the <a class="reference external" href="https://ffmpeg.org/download.html">official <code class="docutils literal notranslate"><span class="pre">FFmpeg</span></code> website</a> (hover over the Windows logo and select a build link, like <strong>gyan.dev</strong>). Download the “full” or “essentials” build.</p></li>
+<li><p><strong>Extract:</strong> Unzip the downloaded folder and move it to a simple location, like <code class="docutils literal notranslate"><span class="pre">C:\ffmpeg</span></code>.</p></li>
+<li><p><strong>Add to Path:</strong></p>
+<ul class="simple">
+<li><p>Press the <strong>Windows Key</strong>, type <strong>“Edit the system environment variables”</strong>, and hit Enter.</p></li>
+<li><p>Click the <strong>Environment Variables…</strong> button.</p></li>
+<li><p>Under <strong>System variables</strong> (the bottom box), find the variable named <strong>Path</strong> and click <strong>Edit</strong>.</p></li>
+<li><p>Click <strong>New</strong> and paste the path to the <code class="docutils literal notranslate"><span class="pre">bin</span></code> folder inside your<code class="docutils literal notranslate"><span class="pre">FFmpeg</span></code> folder (e.g., <code class="docutils literal notranslate"><span class="pre">C:\ffmpeg\bin</span></code>).</p></li>
+<li><p>Click <strong>OK</strong> on all open windows to save.</p></li>
+</ul>
+</li>
+</ol>
+</section>
+<section id="verify-installation-of-ffmpeg">
+<h2>Verify Installation of <code class="docutils literal notranslate"><span class="pre">FFmpeg</span></code><a class="headerlink" href="#verify-installation-of-ffmpeg" title="Link to this heading">¶</a></h2>
+<p>To confirm <code class="docutils literal notranslate"><span class="pre">FFmpeg</span></code> is correctly added to your system path, open a new Terminal (or Command Prompt for Windows users) and run:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1">ffmpeg<span class="w"> </span>-version
 </span></pre></div>
 </div>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="c1"># Install dependencies</span>
-</span><span data-line="2">uv<span class="w"> </span>sync<span class="w"> </span>--all-groups
-</span></pre></div>
-</div>
-<p><strong>Dependencies</strong></p>
-<p>A full list of project- and optional dependencies can be found in the <strong><a class="reference internal" href="#pyproject.toml"><span class="xref myst"><code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code></span></a></strong>.</p>
-<p><code class="docutils literal notranslate"><span class="pre">DrumScript</span></code> does not use a <a class="reference internal" href="#requirements.txt"><span class="xref myst"><code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code></span></a>, or a <a class="reference internal" href="#requirements.in"><span class="xref myst"><code class="docutils literal notranslate"><span class="pre">requirements.in</span></code></span></a> file. <strong>All dependencies</strong> are declared in the <strong><a class="reference internal" href="#pyproject.toml"><span class="xref myst"><code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code></span></a></strong>.</p>
+</section>
 </section>
 
         </article><button class="back-to-top" type="button">
