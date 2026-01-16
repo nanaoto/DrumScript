@@ -1,4 +1,4 @@
-# Audio Signal Processing (DSP)
+# Digital Signal Processing (DSP)
 
 DrumScript relies on three major pillars of Music Information Retrieval (MIR): Source Separation, Onset Detection, and Tempo Estimation.
 
