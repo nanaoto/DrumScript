@@ -8,7 +8,7 @@
   </script><link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=e1a1ceaf" />
     <link rel="stylesheet" type="text/css" href="../_static/shibuya.css?v=44020203" />
     <link media="print" rel="stylesheet" type="text/css" href="../_static/print.css?v=20ff2c19" />
-    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=15df4f54" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=5885bd2b" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -231,13 +231,11 @@ data-aria-dark="Switch to auto color mode">
 <blockquote>
 <div><p><code class="docutils literal notranslate"><span class="pre">DrumScript</span></code> manages dependencies using <code class="docutils literal notranslate"><span class="pre">uv</span></code> and <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code>.</p>
 </div></blockquote>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1">pip<span class="w"> </span>install<span class="w"> </span>drumscript
-</span><span data-line="2"><span class="c1"># or</span>
-</span><span data-line="3">uv<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>drumscript
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1">uv<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>drumscript
 </span></pre></div>
 </div>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="c1"># Install dependencies</span>
-</span><span data-line="2">uv<span class="w"> </span>sync
+</span><span data-line="2">uv<span class="w"> </span>sync<span class="w"> </span>--all-groups
 </span></pre></div>
 </div>
 <p><strong>Dependencies</strong></p>
