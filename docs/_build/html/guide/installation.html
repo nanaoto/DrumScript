@@ -2,7 +2,7 @@
 <html lang="en" data-accent-color="violet" data-content_root="../">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Installation - DrumScript 0.1.0 documentation</title><link rel="author" title="About these documents" href="../about.html" /><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Usage Guide" href="usage.html" /><link rel="prev" title="DrumScript Documentation" href="../index.html" /><script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Prerequisites - DrumScript 0.1.0 documentation</title><link rel="author" title="About these documents" href="../about.html" /><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Usage Guide" href="usage.html" /><link rel="prev" title="DrumScript Documentation" href="../index.html" /><script>
     function setColorMode(t){let e=document.documentElement;e.setAttribute("data-color-mode",t);let a=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,s=t;"auto"===t&&(s=a?"dark":"light"),"light"===s?(e.classList.remove("dark"),e.classList.add("light")):(e.classList.remove("light"),e.classList.add("dark"))}
     setColorMode(localStorage._theme||"auto");
   </script><link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=e1a1ceaf" />
@@ -18,7 +18,7 @@
   --sy-f-heading: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
 }
 </style>
-    <meta property="og:type" content="website"/><meta property="og:title" content="Installation"/>
+    <meta property="og:type" content="website"/><meta property="og:title" content="Prerequisites"/>
     <meta name="twitter:card" content="summary"/>
   </head>
 <body><div class="sy-head">
@@ -60,7 +60,9 @@ data-aria-dark="Switch to auto color mode">
       <div class="sy-scrollbar p-6">
         <div class="globaltoc" data-expand-depth="0"><p class="caption" role="heading" aria-level="3"><span class="caption-text">Getting Started</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Installation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Prerequisites</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#standard-installation">Standard Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#installing-external-dependencies">Installing External Dependencies</a></li>
 <li class="toctree-l1"><a class="reference internal" href="usage.html">Usage Guide</a></li>
 </ul>
 <p class="caption" role="heading" aria-level="3"><span class="caption-text">User Guide</span></p>
@@ -111,7 +113,7 @@ data-aria-dark="Switch to auto color mode">
       <i class="i-lucide close"></i>
     </button>
     <div class="sy-scrollbar sy-rside-inner px-6 xl:top-16 xl:sticky xl:pl-0 pt-6 pb-4"><div class="localtoc"><h3>On this page</h3><ul>
-<li><a class="reference internal" href="#prerequisites">Prerequisites</a></li>
+<li><a class="reference internal" href="#">Prerequisites</a></li>
 <li><a class="reference internal" href="#standard-installation">Standard Installation</a></li>
 <li><a class="reference internal" href="#installing-external-dependencies">Installing External Dependencies</a></li>
 </ul>
@@ -154,7 +156,7 @@ data-aria-dark="Switch to auto color mode">
         <span>/</span>
         <meta itemprop="position" content="1" />
       </li><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-        <strong itemprop="name">Installation</strong>
+        <strong itemprop="name">Prerequisites</strong>
         <meta itemprop="position" content="2" />
       </li></ol>
     <div class="xl:hidden ml-1">
@@ -203,9 +205,29 @@ data-aria-dark="Switch to auto color mode">
   </div>
 </div><article class="yue" role="main">
           <p># Installation</p>
-<!--date_created:fri-16-jan-2026-->
-<!--date_updated:fri-16-jan-2026-->
-<!------->
+<section id="prerequisites">
+<h1>Prerequisites<a class="headerlink" href="#prerequisites" title="Link to this heading">¶</a></h1>
+<ul class="simple">
+<li><p><strong>Python:</strong> 3.9 or higher</p></li>
+<li><p><strong>System Tools:</strong> FFmpeg (for audio), LilyPond (for sheet music)</p></li>
+</ul>
+</section>
+<section id="standard-installation">
+<h1>Standard Installation<a class="headerlink" href="#standard-installation" title="Link to this heading">¶</a></h1>
+<p>The easiest way to install DrumScript is via pip:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span><span data-line="1">uv pip install drumscript
+</span></pre></div>
+</div>
+</section>
+<section id="installing-external-dependencies">
+<h1>Installing External Dependencies<a class="headerlink" href="#installing-external-dependencies" title="Link to this heading">¶</a></h1>
+<p>DrumScript requires FFmpeg for audio processing.</p>
+<p><strong>MacOS:</strong></p>
+<div class="highlight-zsh notranslate"><div class="highlight"><pre><span></span><span data-line="1">brew<span class="w"> </span>install<span class="w"> </span>ffmpeg<span class="w"> </span>lilypond
+</span></pre></div>
+</div>
+<p><strong>Windows:</strong>
+<a class="reference external" href="https://ffmpeg.org">Download FFmpeg here</a> and add it to your PATH.</p>
 <blockquote>
 <div><p><code class="docutils literal notranslate"><span class="pre">DrumScript</span></code> manages dependencies using <code class="docutils literal notranslate"><span class="pre">uv</span></code> and <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code>.</p>
 </div></blockquote>
@@ -221,33 +243,6 @@ data-aria-dark="Switch to auto color mode">
 <p><strong>Dependencies</strong></p>
 <p>A full list of project- and optional dependencies can be found in the <strong><a class="reference internal" href="#pyproject.toml"><span class="xref myst"><code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code></span></a></strong>.</p>
 <p><code class="docutils literal notranslate"><span class="pre">DrumScript</span></code> does not use a <a class="reference internal" href="#requirements.txt"><span class="xref myst"><code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code></span></a>, or a <a class="reference internal" href="#requirements.in"><span class="xref myst"><code class="docutils literal notranslate"><span class="pre">requirements.in</span></code></span></a> file. <strong>All dependencies</strong> are declared in the <strong><a class="reference internal" href="#pyproject.toml"><span class="xref myst"><code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code></span></a></strong>.</p>
-<section id="installation">
-<h1>Installation<a class="headerlink" href="#installation" title="Link to this heading">¶</a></h1>
-<section id="prerequisites">
-<h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Link to this heading">¶</a></h2>
-<ul class="simple">
-<li><p><strong>Python:</strong> 3.9 or higher</p></li>
-<li><p><strong>System Tools:</strong> FFmpeg (for audio), LilyPond (for sheet music)</p></li>
-</ul>
-</section>
-<section id="standard-installation">
-<h2>Standard Installation<a class="headerlink" href="#standard-installation" title="Link to this heading">¶</a></h2>
-<p>The easiest way to install DrumScript is via pip:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span><span data-line="1">uv pip install drumscript
-</span></pre></div>
-</div>
-</section>
-<section id="installing-external-dependencies">
-<h2>Installing External Dependencies<a class="headerlink" href="#installing-external-dependencies" title="Link to this heading">¶</a></h2>
-<p>DrumScript requires FFmpeg for audio processing.</p>
-<p><strong>MacOS:</strong></p>
-<div class="highlight-zsh notranslate"><div class="highlight"><pre><span></span><span data-line="1">brew<span class="w"> </span>install<span class="w"> </span>ffmpeg<span class="w"> </span>lilypond
-</span></pre></div>
-</div>
-<p><strong>Windows:</strong>
-<a class="reference external" href="https://ffmpeg.org">Download FFmpeg here</a> and add it to your PATH.</p>
-<!------->
-<!--END--></section>
 </section>
 
         </article><button class="back-to-top" type="button">
