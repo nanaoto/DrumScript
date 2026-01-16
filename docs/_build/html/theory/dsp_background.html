@@ -2,7 +2,7 @@
 <html lang="en" data-accent-color="violet" data-content_root="../">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Audio Signal Processing (DSP) Background - DrumScript 0.1.0 documentation</title><link rel="author" title="About these documents" href="../about.html" /><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Bibliography &amp; References" href="bibliography.html" /><link rel="prev" title="How to Read Drum Notation" href="drum_notation_guide.html" /><script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Audio Signal Processing (DSP) - DrumScript 0.1.0 documentation</title><link rel="author" title="About these documents" href="../about.html" /><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Bibliography &amp; References" href="bibliography.html" /><link rel="prev" title="How to Read Drum Notation" href="drum_notation_guide.html" /><script>
     function setColorMode(t){let e=document.documentElement;e.setAttribute("data-color-mode",t);let a=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,s=t;"auto"===t&&(s=a?"dark":"light"),"light"===s?(e.classList.remove("dark"),e.classList.add("light")):(e.classList.remove("light"),e.classList.add("dark"))}
     setColorMode(localStorage._theme||"auto");
   </script><link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=e1a1ceaf" />
@@ -18,7 +18,7 @@
   --sy-f-heading: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
 }
 </style>
-    <meta property="og:type" content="website"/><meta property="og:title" content="Audio Signal Processing (DSP) Background"/>
+    <meta property="og:type" content="website"/><meta property="og:title" content="Audio Signal Processing (DSP)"/>
     <meta name="twitter:card" content="summary"/>
   </head>
 <body><div class="sy-head">
@@ -63,32 +63,25 @@ data-aria-dark="Switch to auto color mode">
 <li class="toctree-l1"><a class="reference internal" href="../guide/installation.html">Prerequisites</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../guide/installation.html#standard-installation">Standard Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../guide/installation.html#installing-external-dependencies">Installing External Dependencies</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../guide/usage.html">Usage Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../guide/glossary.html"><strong>Glossary of Terms</strong></a></li>
-<li class="toctree-l1"><a class="reference internal" href="../guide/glossary.html#python-libraries-classes"><strong>Python Libraries &amp; Classes</strong></a></li>
-<li class="toctree-l1"><a class="reference internal" href="../guide/glossary.html#definitions">Definitions</a></li>
 </ul>
 <p class="caption" role="heading" aria-level="3"><span class="caption-text">User Guide</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../guide/configuration.html">Configuration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../guide/usage.html">Usage Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../guide/glossary.html"><strong>Glossary of Terms</strong></a></li>
-<li class="toctree-l1"><a class="reference internal" href="../guide/glossary.html#python-libraries-classes"><strong>Python Libraries &amp; Classes</strong></a></li>
-<li class="toctree-l1"><a class="reference internal" href="../guide/glossary.html#definitions">Definitions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../guide/installation.html">Prerequisites</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../guide/installation.html#standard-installation">Standard Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../guide/installation.html#installing-external-dependencies">Installing External Dependencies</a></li>
 </ul>
 <p class="caption" role="heading" aria-level="3"><span class="caption-text">Theory</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="drum_notation_guide.html">How to Read Drum Notation</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Audio Signal Processing (DSP) Background</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Audio Signal Processing (DSP)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bibliography.html">Bibliography &amp; References</a></li>
 <li class="toctree-l1"><a class="reference internal" href="how_it_works.html"><strong>How it works</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="percussion_frequencies.html"><strong>Percussion Frequencies</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="sources.html"><strong>Theory Sources</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="tempo_estimation.html">How does the <code class="docutils literal notranslate"><span class="pre">estimate_tempo</span></code> function work in <code class="docutils literal notranslate"><span class="pre">audio_processor.audio_loader.py</span></code> script?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tempo_estimation.html#why-this-method-is-so-effective">Why This Method is So Effective</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guide/glossary.html"><strong>Glossary of Terms</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guide/glossary.html#python-libraries-classes"><strong>Python Libraries &amp; Classes</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guide/glossary.html#definitions">Definitions</a></li>
 </ul>
 <p class="caption" role="heading" aria-level="3"><span class="caption-text">API Reference</span></p>
 <ul>
@@ -131,8 +124,8 @@ data-aria-dark="Switch to auto color mode">
       <i class="i-lucide close"></i>
     </button>
     <div class="sy-scrollbar sy-rside-inner px-6 xl:top-16 xl:sticky xl:pl-0 pt-6 pb-4"><div class="localtoc"><h3>On this page</h3><ul>
-<li><a class="reference internal" href="#source-separation-demucs">1. Source Separation (Demucs)</a></li>
-<li><a class="reference internal" href="#onset-detection-the-hit">2. Onset Detection (The &#8220;Hit&#8221;)</a></li>
+<li><a class="reference internal" href="#source-separation-demucs">1. Source Separation (<code class="docutils literal notranslate"><span class="pre">Demucs</span></code>)</a></li>
+<li><a class="reference internal" href="#onset-detection">2. Onset Detection</a></li>
 <li><a class="reference internal" href="#classification">3. Classification</a></li>
 </ul>
 </div><a class="js-repo-stats repo-stats flex items-center" href="https://github.com/DrumScript/DrumScript"
@@ -174,7 +167,7 @@ data-aria-dark="Switch to auto color mode">
         <span>/</span>
         <meta itemprop="position" content="1" />
       </li><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-        <strong itemprop="name">Audio Signal Processing (DSP) Background</strong>
+        <strong itemprop="name">Audio Signal Processing (DSP)</strong>
         <meta itemprop="position" content="2" />
       </li></ol>
     <div class="xl:hidden ml-1">
@@ -222,11 +215,11 @@ data-aria-dark="Switch to auto color mode">
     </div>
   </div>
 </div><article class="yue" role="main">
-          <section id="audio-signal-processing-dsp-background">
-<h1>Audio Signal Processing (DSP) Background<a class="headerlink" href="#audio-signal-processing-dsp-background" title="Link to this heading">¶</a></h1>
+          <section id="audio-signal-processing-dsp">
+<h1>Audio Signal Processing (DSP)<a class="headerlink" href="#audio-signal-processing-dsp" title="Link to this heading">¶</a></h1>
 <p>DrumScript relies on three major pillars of Music Information Retrieval (MIR): Source Separation, Onset Detection, and Tempo Estimation.</p>
 <section id="source-separation-demucs">
-<h2>1. Source Separation (Demucs)<a class="headerlink" href="#source-separation-demucs" title="Link to this heading">¶</a></h2>
+<h2>1. Source Separation (<code class="docutils literal notranslate"><span class="pre">Demucs</span></code>)<a class="headerlink" href="#source-separation-demucs" title="Link to this heading">¶</a></h2>
 <p>Before transcription begins, we often need to isolate the drums from the rest of the band (guitars, vocals, etc.).</p>
 <p>We utilise the <strong>Demucs</strong> model, a state-of-the-art Hybrid Transformer architecture. Unlike older spectral masking techniques, Demucs operates in the waveform domain to cleanly separate instruments with minimal “bleeding.”</p>
 <ul class="simple">
@@ -234,8 +227,8 @@ data-aria-dark="Switch to auto color mode">
 <li><p><strong>Implementation:</strong> See <code class="docutils literal notranslate"><span class="pre">drumscript.audio_processor.stem_splitter</span></code>.</p></li>
 </ul>
 </section>
-<section id="onset-detection-the-hit">
-<h2>2. Onset Detection (The “Hit”)<a class="headerlink" href="#onset-detection-the-hit" title="Link to this heading">¶</a></h2>
+<section id="onset-detection">
+<h2>2. Onset Detection<a class="headerlink" href="#onset-detection" title="Link to this heading">¶</a></h2>
 <p>To transcribe a drum, we first need to know <em>when</em> it was hit. This is called <strong>Onset Detection</strong>.</p>
 <p>We analyze the <strong>Spectral Flux</strong>—essentially measuring how quickly the energy in the audio signal changes. A sudden spike in high-frequency energy usually indicates a percussive strike (a transient).</p>
 <ul class="simple">
