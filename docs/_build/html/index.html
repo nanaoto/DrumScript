@@ -73,8 +73,8 @@ data-aria-dark="Switch to auto color mode">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="theory/drum_notation_guide.html">How to Read Drum Notation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="theory/digital_signal_processing.html">Digital Signal Processing (DSP)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="theory/tempo_estimation.html">How does the <code class="docutils literal notranslate"><span class="pre">estimate_tempo</span></code> function work in <code class="docutils literal notranslate"><span class="pre">audio_processor.audio_loader.py</span></code> script?</a></li>
-<li class="toctree-l1"><a class="reference internal" href="theory/tempo_estimation.html#why-this-method-is-so-effective">Why This Method is So Effective</a></li>
+<li class="toctree-l1"><a class="reference internal" href="theory/tempo_estimation.html">Automatic Tempo Detection (ATD)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="theory/stem_splitting.html">Stem-Splitter</a></li>
 <li class="toctree-l1"><a class="reference internal" href="theory/how_it_works.html"><strong>How it works</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="theory/percussion_frequencies.html"><strong>Percussion Frequencies</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="theory/bibliography.html">Bibliography &amp; References</a></li>
@@ -170,7 +170,7 @@ data-aria-dark="Switch to auto color mode">
         <span>/</span>
         <meta itemprop="position" content="1" />
       </li><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-        <strong itemprop="name">DrumScript Documentation</strong>
+        <strong itemprop="name"><code class="docutils literal notranslate"><span class="pre">DrumScript</span></code> Documentation</strong>
         <meta itemprop="position" content="2" />
       </li></ol>
     <div class="xl:hidden ml-1">
@@ -219,8 +219,16 @@ data-aria-dark="Switch to auto color mode">
   </div>
 </div><article class="yue" role="main">
           <section id="drumscript-documentation">
-<h1>DrumScript Documentation<a class="headerlink" href="#drumscript-documentation" title="Link to this heading">¶</a></h1>
-<p><strong>DrumScript</strong> is a Python suite that converts drum audio into sheet music, as well as provides a range of tools to assist in sound audio manipulation. It leverages audio signal processing and a rule-based classification engine to detect individual drum hits, transcribe them into a <strong>musical score</strong>, and export them as <code class="docutils literal notranslate"><span class="pre">.pdf</span></code> files.</p>
+<h1><code class="docutils literal notranslate"><span class="pre">DrumScript</span></code> Documentation<a class="headerlink" href="#drumscript-documentation" title="Link to this heading">¶</a></h1>
+<!--**`DrumScript`** is a Python suite that converts drum audio into sheet music, as well as provides a range of tools to assist in sound audio manipulation. It leverages audio signal processing and a rule-based classification engine to detect individual drum hits, transcribe them into a **musical score**, and export them as `.pdf` files. -->
+<p><code class="docutils literal notranslate"><span class="pre">DrumScript</span></code> is an open-source Python library that converts drum audio (in <code class="docutils literal notranslate"><span class="pre">.mp3</span></code>, or <code class="docutils literal notranslate"><span class="pre">.wav</span></code>) to <code class="docutils literal notranslate"><span class="pre">.pdf</span></code> sheet music. It contains functions for you to <strong>automatically measure tempo of drum-only audio using Tempogram-first principles</strong>. <code class="docutils literal notranslate"><span class="pre">DrumScript</span></code> is unique to any other library because <strong>we do not use machine learning or AI</strong>. Our classification approach is a <strong>deterministic</strong> one.</p>
+<p><code class="docutils literal notranslate"><span class="pre">DrumScript</span></code> also <strong>extracts</strong> drum audio from <strong>any</strong> <code class="docutils literal notranslate"><span class="pre">.mp3</span></code> or <code class="docutils literal notranslate"><span class="pre">.wav</span></code> audio file for you. Give it your favourite track, and it will do the job of extracting <strong>just the drum audio</strong> and then transcribe into handy <code class="docutils literal notranslate"><span class="pre">.pdf</span></code> sheet music. There <strong>stem-splitter</strong> functionality also extracts, optionally, the <strong>non-drum-parts</strong> of an audio track and provides it as a <strong>backing track</strong> for all you aspiring drummers and percussionists to play along to.</p>
+<blockquote>
+<div><p>We are currently working on academic papers related to the deterministic method(s) used and will publish here in future
+There is also the plan to integrate the <strong>backing track extraction</strong>, <strong>drum only extraction</strong>, <strong>tempo detection</strong> and <strong>classification</strong> functions to a free-to-use UI that does not require login or store any of your uploads, nor their resultant outputs. More information will be provided soon!
+In the meantime, if you would like to be involved, get in touch! 🥁🚀</p>
+</div></blockquote>
+<p><code class="docutils literal notranslate"><span class="pre">DrumScript</span></code> was built for drummers, by drummers. It is - and always will be - a community-owned tool.</p>
 <hr class="docutils" />
 <section id="getting-started">
 <h2>Getting Started<a class="headerlink" href="#getting-started" title="Link to this heading">¶</a></h2>
@@ -250,8 +258,8 @@ data-aria-dark="Switch to auto color mode">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="theory/drum_notation_guide.html">How to Read Drum Notation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="theory/digital_signal_processing.html">Digital Signal Processing (DSP)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="theory/tempo_estimation.html">How does the <code class="docutils literal notranslate"><span class="pre">estimate_tempo</span></code> function work in <code class="docutils literal notranslate"><span class="pre">audio_processor.audio_loader.py</span></code> script?</a></li>
-<li class="toctree-l1"><a class="reference internal" href="theory/tempo_estimation.html#why-this-method-is-so-effective">Why This Method is So Effective</a></li>
+<li class="toctree-l1"><a class="reference internal" href="theory/tempo_estimation.html">Automatic Tempo Detection (ATD)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="theory/stem_splitting.html">Stem-Splitter</a></li>
 <li class="toctree-l1"><a class="reference internal" href="theory/how_it_works.html"><strong>How it works</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="theory/percussion_frequencies.html"><strong>Percussion Frequencies</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="theory/bibliography.html">Bibliography &amp; References</a></li>
