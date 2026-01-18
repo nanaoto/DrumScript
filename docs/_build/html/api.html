@@ -2,7 +2,7 @@
 <html lang="en" data-accent-color="violet" data-content_root="./">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>API Reference - DrumScript 0.1.0 documentation</title><link rel="author" title="About these documents" href="about.html" /><link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="drumscript.extract_stems" href="generated/drumscript.extract_stems.html" /><link rel="prev" title="How does the estimate_tempo function work in audio_processor.audio_loader.py script?" href="theory/tempo_estimation.html" /><script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>API Reference - DrumScript 0.1.0 documentation</title><link rel="author" title="About these documents" href="about.html" /><link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="drumscript.notation_generator.constants" href="generated/drumscript.notation_generator.constants.html" /><link rel="prev" title="Theory Sources" href="theory/sources.html" /><script>
     function setColorMode(t){let e=document.documentElement;e.setAttribute("data-color-mode",t);let a=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,s=t;"auto"===t&&(s=a?"dark":"light"),"light"===s?(e.classList.remove("dark"),e.classList.add("light")):(e.classList.remove("light"),e.classList.add("dark"))}
     setColorMode(localStorage._theme||"auto");
   </script><link rel="stylesheet" type="text/css" href="_static/pygments.css?v=e1a1ceaf" />
@@ -63,36 +63,30 @@ data-aria-dark="Switch to auto color mode">
 <li class="toctree-l1"><a class="reference internal" href="guide/installation.html">Prerequisites</a></li>
 <li class="toctree-l1"><a class="reference internal" href="guide/installation.html#standard-installation">Standard Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="guide/installation.html#installing-external-dependencies">Installing External Dependencies</a></li>
-<li class="toctree-l1"><a class="reference internal" href="guide/usage.html">Usage Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="guide/glossary.html"><strong>Glossary of Terms</strong></a></li>
-<li class="toctree-l1"><a class="reference internal" href="guide/glossary.html#python-libraries-classes"><strong>Python Libraries &amp; Classes</strong></a></li>
-<li class="toctree-l1"><a class="reference internal" href="guide/glossary.html#definitions">Definitions</a></li>
 </ul>
 <p class="caption" role="heading" aria-level="3"><span class="caption-text">User Guide</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="guide/configuration.html">Configuration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="guide/usage.html">Usage Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="guide/glossary.html"><strong>Glossary of Terms</strong></a></li>
-<li class="toctree-l1"><a class="reference internal" href="guide/glossary.html#python-libraries-classes"><strong>Python Libraries &amp; Classes</strong></a></li>
-<li class="toctree-l1"><a class="reference internal" href="guide/glossary.html#definitions">Definitions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="guide/installation.html">Prerequisites</a></li>
-<li class="toctree-l1"><a class="reference internal" href="guide/installation.html#standard-installation">Standard Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="guide/installation.html#installing-external-dependencies">Installing External Dependencies</a></li>
 </ul>
 <p class="caption" role="heading" aria-level="3"><span class="caption-text">Theory</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="theory/drum_notation_guide.html">How to Read Drum Notation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="theory/dsp_background.html">Audio Signal Processing (DSP) Background</a></li>
-<li class="toctree-l1"><a class="reference internal" href="theory/bibliography.html">Bibliography &amp; References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="theory/digital_signal_processing.html">Digital Signal Processing (DSP)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="theory/tempo_estimation.html">Automatic Tempo Detection (ATD)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="theory/stem_splitting.html">Stem-Splitter</a></li>
 <li class="toctree-l1"><a class="reference internal" href="theory/how_it_works.html"><strong>How it works</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="theory/percussion_frequencies.html"><strong>Percussion Frequencies</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="theory/bibliography.html">Bibliography &amp; References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide/glossary.html"><strong>Glossary of Terms</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide/glossary.html#python-libraries-classes"><strong>Python Libraries &amp; Classes</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide/glossary.html#definitions">Definitions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="theory/sources.html"><strong>Theory Sources</strong></a></li>
-<li class="toctree-l1"><a class="reference internal" href="theory/tempo_estimation.html">How does the <code class="docutils literal notranslate"><span class="pre">estimate_tempo</span></code> function work in <code class="docutils literal notranslate"><span class="pre">audio_processor.audio_loader.py</span></code> script?</a></li>
-<li class="toctree-l1"><a class="reference internal" href="theory/tempo_estimation.html#why-this-method-is-so-effective">Why This Method is So Effective</a></li>
 </ul>
 <p class="caption" role="heading" aria-level="3"><span class="caption-text">API Reference</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/drumscript.notation_generator.constants.html">drumscript.notation_generator.constants</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/drumscript.extract_stems.html">drumscript.extract_stems</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/drumscript.detect_tempo.html">drumscript.detect_tempo</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/drumscript.main.html">drumscript.main</a></li>
@@ -114,6 +108,7 @@ data-aria-dark="Switch to auto color mode">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="development/code_of_conduct.html">Code of Conduct for <code class="docutils literal notranslate"><span class="pre">DrumScript</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="development/contributor_guidance.html">Contributing to <code class="docutils literal notranslate"><span class="pre">DrumScript</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="development/documentation.html">Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="development/testing_guidance.html"><strong>Testing Documentation</strong></a></li>
 </ul>
 <p class="caption" role="heading" aria-level="3"><span class="caption-text">Project Info</span></p>
@@ -131,6 +126,7 @@ data-aria-dark="Switch to auto color mode">
       <i class="i-lucide close"></i>
     </button>
     <div class="sy-scrollbar sy-rside-inner px-6 xl:top-16 xl:sticky xl:pl-0 pt-6 pb-4"><div class="localtoc"><h3>On this page</h3><ul>
+<li><a class="reference internal" href="#configuration-constants">Configuration &amp; Constants</a></li>
 <li><a class="reference internal" href="#core-functions">Core Functions</a></li>
 <li><a class="reference internal" href="#audio-processing">Audio Processing</a></li>
 <li><a class="reference internal" href="#classification-notation">Classification &amp; Notation</a></li>
@@ -226,6 +222,26 @@ data-aria-dark="Switch to auto color mode">
           <section id="api-reference">
 <span id="api"></span><h1>API Reference<a class="headerlink" href="#api-reference" title="Link to this heading">¶</a></h1>
 <p>This is the auto-generated API reference for DrumScript.</p>
+<blockquote>
+<div><p>The examples below assume you have imported the package as:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">import</span><span class="w"> </span><span class="nn">drumscript</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ds</span>
+</span></pre></div>
+</div>
+</div></blockquote>
+<section id="configuration-constants">
+<h2>Configuration &amp; Constants<a class="headerlink" href="#configuration-constants" title="Link to this heading">¶</a></h2>
+<p>DrumScript uses a set of global constants to ensure audio processing consistency.
+These are <strong>not</strong> hidden magic numbers; they are exposed here for transparency.</p>
+<div class="table-wrapper autosummary longtable docutils container">
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/drumscript.notation_generator.constants.html#module-drumscript.notation_generator.constants" title="drumscript.notation_generator.constants"><code class="xref py py-obj docutils literal notranslate"><span class="pre">drumscript.notation_generator.constants</span></code></a></p></td>
+<td><p>This script defines ALL parameters used throughout modules in DrumScript</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
 <section id="core-functions">
 <h2>Core Functions<a class="headerlink" href="#core-functions" title="Link to this heading">¶</a></h2>
 <div class="table-wrapper autosummary longtable docutils container">
@@ -312,16 +328,16 @@ data-aria-dark="Switch to auto color mode">
   </svg>
   <span>Back to top</span>
 </button><div class="navigation flex print:hidden"><div class="navigation-prev">
-    <a href="theory/tempo_estimation.html">
+    <a href="theory/sources.html">
       <i class="i-lucide chevron-left"></i>
       <div class="page-info">
-        <span>Previous</span><div class="title">How does the <code class="docutils literal notranslate"><span class="pre">estimate_tempo</span></code> function work in <code class="docutils literal notranslate"><span class="pre">audio_processor.audio_loader.py</span></code> script?</div></div>
+        <span>Previous</span><div class="title"><strong>Theory Sources</strong></div></div>
     </a>
   </div><div class="navigation-next">
-    <a href="generated/drumscript.extract_stems.html">
+    <a href="generated/drumscript.notation_generator.constants.html">
       <div class="page-info">
         <span>Next</span>
-        <div class="title">drumscript.extract_stems</div>
+        <div class="title">drumscript.notation_generator.constants</div>
       </div>
       <i class="i-lucide chevron-right"></i>
     </a>

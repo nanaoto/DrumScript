@@ -86,6 +86,7 @@ data-aria-dark="Switch to auto color mode">
 <p class="caption" role="heading" aria-level="3"><span class="caption-text">API Reference</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/drumscript.notation_generator.constants.html">drumscript.notation_generator.constants</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/drumscript.extract_stems.html">drumscript.extract_stems</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/drumscript.detect_tempo.html">drumscript.detect_tempo</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/drumscript.main.html">drumscript.main</a></li>
@@ -107,6 +108,7 @@ data-aria-dark="Switch to auto color mode">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="development/code_of_conduct.html">Code of Conduct for <code class="docutils literal notranslate"><span class="pre">DrumScript</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="development/contributor_guidance.html">Contributing to <code class="docutils literal notranslate"><span class="pre">DrumScript</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="development/documentation.html">Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="development/testing_guidance.html"><strong>Testing Documentation</strong></a></li>
 </ul>
 <p class="caption" role="heading" aria-level="3"><span class="caption-text">Project Info</span></p>
@@ -124,6 +126,12 @@ data-aria-dark="Switch to auto color mode">
       <i class="i-lucide close"></i>
     </button>
     <div class="sy-scrollbar sy-rside-inner px-6 xl:top-16 xl:sticky xl:pl-0 pt-6 pb-4"><div class="localtoc"><h3>On this page</h3><ul>
+<li><a class="reference internal" href="#what-can-drumscript-do">What can DrumScript do?</a><ul>
+<li><a class="reference internal" href="#audio-to-sheet-music-transcription">1. Audio-to-Sheet Music (Transcription)</a></li>
+<li><a class="reference internal" href="#stem-splitting-the-de-mixer">2. Stem Splitting (The &#8220;De-Mixer&#8221;)</a></li>
+<li><a class="reference internal" href="#backing-track-generator">3. Backing Track Generator</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#getting-started">Getting Started</a></li>
 <li><a class="reference internal" href="#user-guide">User Guide</a></li>
 <li><a class="reference internal" href="#theory">Theory</a></li>
@@ -220,7 +228,36 @@ data-aria-dark="Switch to auto color mode">
 </div><article class="yue" role="main">
           <section id="drumscript-documentation">
 <h1><code class="docutils literal notranslate"><span class="pre">DrumScript</span></code> Documentation<a class="headerlink" href="#drumscript-documentation" title="Link to this heading">¶</a></h1>
-<!--**`DrumScript`** is a Python suite that converts drum audio into sheet music, as well as provides a range of tools to assist in sound audio manipulation. It leverages audio signal processing and a rule-based classification engine to detect individual drum hits, transcribe them into a **musical score**, and export them as `.pdf` files. -->
+<p><a class="reference external" href="https://colab.research.google.com/github/DrumScript/DrumScript/docs/notebooks/DrumScript_Demo.ipynb"><img alt="Open In Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p>
+<p><strong>DrumScript</strong> is an open-source Python library and CLI tool designed for drummers and audio engineers.</p>
+<p>While its core mission is <strong>Automatic Drum Transcription (ADT)</strong> (converting drum recordings into sheet music), it also functions as a powerful <strong>Audio Toolbox</strong> for isolating instruments, creating backing tracks, and analysing rhythm.</p>
+<section id="what-can-drumscript-do">
+<h2>What can DrumScript do?<a class="headerlink" href="#what-can-drumscript-do" title="Link to this heading">¶</a></h2>
+<section id="audio-to-sheet-music-transcription">
+<h3>1. Audio-to-Sheet Music (Transcription)<a class="headerlink" href="#audio-to-sheet-music-transcription" title="Link to this heading">¶</a></h3>
+<p>Give DrumScript a recording of a drum beat, and it will generate a <strong>PDF Score</strong>.</p>
+<ul class="simple">
+<li><p><strong>Smart Detection:</strong> Uses signal processing to detect Kicks, Snares, and Hi-Hats.</p></li>
+<li><p><strong>Tempo Aware:</strong> Automatically calculates BPM.</p></li>
+<li><p><strong>Customizable:</strong> Supports custom time signatures (e.g., <code class="docutils literal notranslate"><span class="pre">3/4</span></code>, <code class="docutils literal notranslate"><span class="pre">6/8</span></code>).</p></li>
+</ul>
+</section>
+<section id="stem-splitting-the-de-mixer">
+<h3>2. Stem Splitting (The “De-Mixer”)<a class="headerlink" href="#stem-splitting-the-de-mixer" title="Link to this heading">¶</a></h3>
+<p>Powered by <strong>Demucs</strong> (Hybrid Transformer Source Separation), DrumScript can un-mix a full song.</p>
+<ul class="simple">
+<li><p><strong>Isolate Drums:</strong> Extract <em>just</em> the drum track from a full mix to study the groove.</p></li>
+<li><p><strong>Isolate Bass:</strong> Extract <em>just</em> the bass line to practice locking in.</p></li>
+<li><p><strong>Separate Everything:</strong> Explode a song into 4 stems: <code class="docutils literal notranslate"><span class="pre">Drums</span></code>, <code class="docutils literal notranslate"><span class="pre">Bass</span></code>, <code class="docutils literal notranslate"><span class="pre">Vocals</span></code>, <code class="docutils literal notranslate"><span class="pre">Other</span></code>.</p></li>
+</ul>
+</section>
+<section id="backing-track-generator">
+<h3>3. Backing Track Generator<a class="headerlink" href="#backing-track-generator" title="Link to this heading">¶</a></h3>
+<p>Want to play along to your favorite song but the drums are in the way?</p>
+<ul class="simple">
+<li><p><strong>Drumless Tracks:</strong> Automatically remove the drums from any <code class="docutils literal notranslate"><span class="pre">.mp3</span></code> or <code class="docutils literal notranslate"><span class="pre">.wav</span></code> to create a play-along track.</p></li>
+<li><p><strong>Bassless Tracks:</strong> Mute the bass to practice your low-end theory.</p></li>
+</ul>
 <p><code class="docutils literal notranslate"><span class="pre">DrumScript</span></code> is an open-source Python library that converts drum audio (in <code class="docutils literal notranslate"><span class="pre">.mp3</span></code>, or <code class="docutils literal notranslate"><span class="pre">.wav</span></code>) to <code class="docutils literal notranslate"><span class="pre">.pdf</span></code> sheet music. It contains functions for you to <strong>automatically measure tempo of drum-only audio using Tempogram-first principles</strong>. <code class="docutils literal notranslate"><span class="pre">DrumScript</span></code> is unique to any other library because <strong>we do not use machine learning or AI</strong>. Our classification approach is a <strong>deterministic</strong> one.</p>
 <p><code class="docutils literal notranslate"><span class="pre">DrumScript</span></code> also <strong>extracts</strong> drum audio from <strong>any</strong> <code class="docutils literal notranslate"><span class="pre">.mp3</span></code> or <code class="docutils literal notranslate"><span class="pre">.wav</span></code> audio file for you. Give it your favourite track, and it will do the job of extracting <strong>just the drum audio</strong> and then transcribe into handy <code class="docutils literal notranslate"><span class="pre">.pdf</span></code> sheet music. There <strong>stem-splitter</strong> functionality also extracts, optionally, the <strong>non-drum-parts</strong> of an audio track and provides it as a <strong>backing track</strong> for all you aspiring drummers and percussionists to play along to.</p>
 <blockquote>
@@ -229,6 +266,8 @@ There is also the plan to integrate the <strong>backing track extraction</strong
 In the meantime, if you would like to be involved, get in touch! 🥁🚀</p>
 </div></blockquote>
 <p><code class="docutils literal notranslate"><span class="pre">DrumScript</span></code> was built for drummers, by drummers. It is - and always will be - a community-owned tool.</p>
+</section>
+</section>
 <hr class="docutils" />
 <section id="getting-started">
 <h2>Getting Started<a class="headerlink" href="#getting-started" title="Link to this heading">¶</a></h2>
@@ -286,6 +325,7 @@ In the meantime, if you would like to be involved, get in touch! 🥁🚀</p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="development/code_of_conduct.html">Code of Conduct for <code class="docutils literal notranslate"><span class="pre">DrumScript</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="development/contributor_guidance.html">Contributing to <code class="docutils literal notranslate"><span class="pre">DrumScript</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="development/documentation.html">Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="development/testing_guidance.html"><strong>Testing Documentation</strong></a></li>
 </ul>
 </div>
