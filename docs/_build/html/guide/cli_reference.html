@@ -125,7 +125,15 @@ data-aria-dark="Switch to auto color mode">
     <button class="rside-close js-menu xl:hidden" aria-label="Close Table of Contents" type="button" aria-controls="rside" aria-expanded="false">
       <i class="i-lucide close"></i>
     </button>
-    <div class="sy-scrollbar sy-rside-inner px-6 xl:top-16 xl:sticky xl:pl-0 pt-6 pb-4"><a class="js-repo-stats repo-stats flex items-center" href="https://github.com/DrumScript/DrumScript"
+    <div class="sy-scrollbar sy-rside-inner px-6 xl:top-16 xl:sticky xl:pl-0 pt-6 pb-4"><div class="localtoc"><h3>On this page</h3><ul>
+<li><a class="reference internal" href="#main-command">Main Command</a></li>
+<li><a class="reference internal" href="#arguments">Arguments</a><ul>
+<li><a class="reference internal" href="#positional-arguments">Positional Arguments</a></li>
+<li><a class="reference internal" href="#options">Options</a></li>
+</ul>
+</li>
+</ul>
+</div><a class="js-repo-stats repo-stats flex items-center" href="https://github.com/DrumScript/DrumScript"
   data-type="github" data-user="DrumScript" data-repo="DrumScript">
   <span class="w-8 flex items-center justify-around shrink-0 text-3xl">
     <iconify-icon icon="simple-icons:github"></iconify-icon>
@@ -214,7 +222,42 @@ data-aria-dark="Switch to auto color mode">
 </div><article class="yue" role="main">
           <section id="cli-reference">
 <h1>CLI Reference<a class="headerlink" href="#cli-reference" title="Link to this heading">¶</a></h1>
-<!--TO DO: Add content to this--></section>
+<p>This page details all available arguments and flags for the <code class="docutils literal notranslate"><span class="pre">drumscript</span></code> command-line tool.</p>
+<section id="main-command">
+<h2>Main Command<a class="headerlink" href="#main-command" title="Link to this heading">¶</a></h2>
+<p><strong>Usage:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1">python<span class="w"> </span>-m<span class="w"> </span>drumscript.main<span class="w"> </span><span class="o">[</span>INPUT_AUDIO<span class="o">]</span><span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+</span></pre></div>
+</div>
+</section>
+<section id="arguments">
+<h2>Arguments<a class="headerlink" href="#arguments" title="Link to this heading">¶</a></h2>
+<section id="positional-arguments">
+<h3>Positional Arguments<a class="headerlink" href="#positional-arguments" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">input_audio_path</span></code></strong>
+Path to the input audio file (<code class="docutils literal notranslate"><span class="pre">.wav</span></code> or <code class="docutils literal notranslate"><span class="pre">.mp3</span></code>).</p></li>
+</ul>
+</section>
+<section id="options">
+<h3>Options<a class="headerlink" href="#options" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">--full</span></code></strong>
+Transcribe the full song. Automatically separates drums from the mix before transcription.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">--drumless</span></code></strong>
+Generate a drumless backing track (removes drums from the mix).</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">--ts</span> <span class="pre">&lt;SIGNATURE&gt;</span></code></strong>
+Set the time signature (default: <code class="docutils literal notranslate"><span class="pre">4/4</span></code>).</p></li>
+<li><p><em>Example:</em> <code class="docutils literal notranslate"><span class="pre">--ts</span> <span class="pre">3/4</span></code></p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">--all-stems</span></code></strong>
+Export all individual stems (Drums, Bass, Vocals, Other).</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">--mute</span> <span class="pre">&lt;STEM&gt;</span></code></strong>
+Mute a specific stem. Can be used multiple times.</p></li>
+<li><p><em>Example:</em> <code class="docutils literal notranslate"><span class="pre">--mute</span> <span class="pre">bass</span> <span class="pre">--mute</span> <span class="pre">vocals</span></code></p></li>
+</ul>
+</section>
+</section>
+</section>
 
         </article><button class="back-to-top" type="button">
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
