@@ -110,5 +110,4 @@ about
 :maxdepth: 1
 :caption: Versions
 
-0.1.0
 ```
