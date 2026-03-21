@@ -190,16 +190,17 @@ data-aria-dark="Switch to auto color mode">
         <article class="yue" role="main">
           <section id="module-drumscript.drum_classifier.classify">
 <span id="drumscript-drum-classifier-classify"></span><h1>drumscript.drum_classifier.classify<a class="headerlink" href="#module-drumscript.drum_classifier.classify" title="Link to this heading">¶</a></h1>
-<p>This script determines the classification rules by which the parameters in py are applied to audio_file_path.</p>
+<p>This script determines the classification rules by which the parameters in py are applied to audio_file_path.
+It fuses high-resolution acoustic DNA extraction with simultaneous HFER/LFER physics rules.</p>
 <p class="rubric">Functions</p>
 <div class="table-wrapper autosummary longtable docutils container">
 <table class="autosummary longtable docutils align-default">
 <tbody>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">classify_event</span></code>(audio_segment, sr)</p></td>
-<td><p>Stage 1: Class Separation (Skin vs Metal)</p></td>
+<td><p>Stage 1: Evaluates both Skins and Metals simultaneously.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">classify_events</span></code>(audio_data, sr, onsets)</p></td>
-<td><p>Wrapper to route detected onsets through the Physics-First Classification Engine.</p></td>
+<td><p>Wrapper to route detected onsets through the new Physics-First Classification Engine.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">classify_idiophone</span></code>(p)</p></td>
 <td><p>Stage 2B: Sorts Metals (Hats, Cymbals).</p></td>
@@ -207,8 +208,11 @@ data-aria-dark="Switch to auto color mode">
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">classify_membranophone</span></code>(p)</p></td>
 <td><p>Stage 2A: Sorts Skins (Kick, Snare, Toms).</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_physics_profile</span></code>(y, sr)</p></td>
-<td><p>Extracts the 'DNA' of the drum hit:  Pitch, Decay, Brightness, and Energy Ratios.</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">extract_features</span></code>(audio_slice, sr)</p></td>
+<td><p>Analyses the audio slice and extracts the physical DSP features.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_audio_slice</span></code>(audio_data, onset_time, sr)</p></td>
+<td><p>Cuts a specific millisecond slice of audio starting exactly at the onset time.</p></td>
 </tr>
 </tbody>
 </table>
