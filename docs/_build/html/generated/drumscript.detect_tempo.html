@@ -231,12 +231,12 @@ data-aria-dark="Switch to auto color mode">
 <dl class="py function">
 <dt class="sig sig-object py" id="drumscript.detect_tempo">
 <span class="sig-name descname"><span class="pre">detect_tempo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">audio_input</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">full</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/drumscript.html#detect_tempo"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#drumscript.detect_tempo" title="Link to this definition">¶</a></dt>
-<dd><p>Public wrapper for tempo detection.</p>
+<dd><p>Estimates the tempo (BPM) of a given audio file or audio array.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>audio_input</strong> (<em>str</em><em> or </em><em>np.ndarray</em>) – File path OR loaded audio data.</p></li>
-<li><p><strong>full</strong> (<em>bool</em><em>, </em><em>optional</em>) – Return detailed stats if True.</p></li>
+<li><p><strong>audio_input</strong> (<em>str</em><em> or </em><em>np.ndarray</em>) – File path OR loaded audio data array.</p></li>
+<li><p><strong>full</strong> (<em>bool</em><em>, </em><em>optional</em>) – Return detailed stats dictionary if True.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
