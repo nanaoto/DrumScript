@@ -87,9 +87,9 @@ data-aria-dark="Switch to auto color mode">
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">API Reference</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="generated/drumscript.notation_generator.constants.html">drumscript.notation_generator.constants</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/drumscript.main.html">drumscript.main</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/drumscript.extract_stems.html">drumscript.extract_stems</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/drumscript.detect_tempo.html">drumscript.detect_tempo</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/drumscript.main.html">drumscript.main</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/drumscript.audio_processor.audio_loader.html">drumscript.audio_processor.audio_loader</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/drumscript.audio_processor.stem_splitter.html">drumscript.audio_processor.stem_splitter</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/drumscript.audio_processor.tempo_detector.html">drumscript.audio_processor.tempo_detector</a></li>
@@ -100,6 +100,8 @@ data-aria-dark="Switch to auto color mode">
 <li class="toctree-l2"><a class="reference internal" href="generated/drumscript.notation_generator.helpers.html">drumscript.notation_generator.helpers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/drumscript.notation_generator.score_builder.html">drumscript.notation_generator.score_builder</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/drumscript.notation_generator.pdf_exporter.html">drumscript.notation_generator.pdf_exporter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/drumscript.notation_generator.midi_exporter.html">drumscript.notation_generator.midi_exporter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/drumscript.notation_generator.xml_exporter.html">drumscript.notation_generator.xml_exporter</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/drumscript.utils.ffmpeg_installer.html">drumscript.utils.ffmpeg_installer</a></li>
 </ul>
 </li>
@@ -119,6 +121,7 @@ data-aria-dark="Switch to auto color mode">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="release_notes/index.html">Release Notes</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="release_notes/0.1.0.html">0.1.0 (Alpha)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="release_notes/0.1.2.html">v0.1.2 (Alpha)</a></li>
 </ul>
 </li>
 </ul>
@@ -232,7 +235,7 @@ data-aria-dark="Switch to auto color mode">
 <blockquote>
 <div><p>The examples below can also be used as:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">import</span><span class="w"> </span><span class="nn">drumscript</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ds</span>
-</span><span data-line="2"><span class="n">ds</span><span class="o">.</span><span class="n">notation_generator</span><span class="o">.</span><span class="n">constants</span>
+</span><span data-line="2"><span class="n">ds</span><span class="o">.</span><span class="n">detect_tempo</span><span class="p">()</span>
 </span></pre></div>
 </div>
 </div></blockquote>
@@ -255,14 +258,14 @@ These are <strong>not</strong> hidden magic numbers; they are exposed here for t
 <div class="table-wrapper autosummary longtable docutils container">
 <table class="autosummary longtable docutils align-default">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="generated/drumscript.extract_stems.html#drumscript.extract_stems" title="drumscript.extract_stems"><code class="xref py py-obj docutils literal notranslate"><span class="pre">drumscript.extract_stems</span></code></a></p></td>
-<td><p>Public wrapper for stem splitting.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="generated/drumscript.detect_tempo.html#drumscript.detect_tempo" title="drumscript.detect_tempo"><code class="xref py py-obj docutils literal notranslate"><span class="pre">drumscript.detect_tempo</span></code></a></p></td>
-<td><p>Public wrapper for tempo detection.</p></td>
-</tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="generated/drumscript.main.html#module-drumscript.main" title="drumscript.main"><code class="xref py py-obj docutils literal notranslate"><span class="pre">drumscript.main</span></code></a></p></td>
 <td><p>This job of this script is to orchestrate the End-to-End running of DrumScript modules</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/drumscript.extract_stems.html#drumscript.extract_stems" title="drumscript.extract_stems"><code class="xref py py-obj docutils literal notranslate"><span class="pre">drumscript.extract_stems</span></code></a></p></td>
+<td><p>Extracts drum stems and optionally separates the full track.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/drumscript.detect_tempo.html#drumscript.detect_tempo" title="drumscript.detect_tempo"><code class="xref py py-obj docutils literal notranslate"><span class="pre">drumscript.detect_tempo</span></code></a></p></td>
+<td><p>Estimates the tempo (BPM) of a given audio file or audio array.</p></td>
 </tr>
 </tbody>
 </table>
@@ -311,6 +314,12 @@ These are <strong>not</strong> hidden magic numbers; they are exposed here for t
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="generated/drumscript.notation_generator.pdf_exporter.html#module-drumscript.notation_generator.pdf_exporter" title="drumscript.notation_generator.pdf_exporter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">drumscript.notation_generator.pdf_exporter</span></code></a></p></td>
 <td><p>Module for rendering the drum score to PDF using ReportLab.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/drumscript.notation_generator.midi_exporter.html#module-drumscript.notation_generator.midi_exporter" title="drumscript.notation_generator.midi_exporter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">drumscript.notation_generator.midi_exporter</span></code></a></p></td>
+<td><p>This module takes classified drum events and renders them into a standard MIDI file.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/drumscript.notation_generator.xml_exporter.html#module-drumscript.notation_generator.xml_exporter" title="drumscript.notation_generator.xml_exporter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">drumscript.notation_generator.xml_exporter</span></code></a></p></td>
+<td><p>Module for rendering the drum score to MusicXML format.</p></td>
 </tr>
 </tbody>
 </table>

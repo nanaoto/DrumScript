@@ -87,9 +87,9 @@ data-aria-dark="Switch to auto color mode">
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="../api.html">API Reference</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="drumscript.notation_generator.constants.html">drumscript.notation_generator.constants</a></li>
+<li class="toctree-l2"><a class="reference internal" href="drumscript.main.html">drumscript.main</a></li>
 <li class="toctree-l2"><a class="reference internal" href="drumscript.extract_stems.html">drumscript.extract_stems</a></li>
 <li class="toctree-l2"><a class="reference internal" href="drumscript.detect_tempo.html">drumscript.detect_tempo</a></li>
-<li class="toctree-l2"><a class="reference internal" href="drumscript.main.html">drumscript.main</a></li>
 <li class="toctree-l2"><a class="reference internal" href="drumscript.audio_processor.audio_loader.html">drumscript.audio_processor.audio_loader</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">drumscript.audio_processor.stem_splitter</a></li>
 <li class="toctree-l2"><a class="reference internal" href="drumscript.audio_processor.tempo_detector.html">drumscript.audio_processor.tempo_detector</a></li>
@@ -100,6 +100,8 @@ data-aria-dark="Switch to auto color mode">
 <li class="toctree-l2"><a class="reference internal" href="drumscript.notation_generator.helpers.html">drumscript.notation_generator.helpers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="drumscript.notation_generator.score_builder.html">drumscript.notation_generator.score_builder</a></li>
 <li class="toctree-l2"><a class="reference internal" href="drumscript.notation_generator.pdf_exporter.html">drumscript.notation_generator.pdf_exporter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="drumscript.notation_generator.midi_exporter.html">drumscript.notation_generator.midi_exporter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="drumscript.notation_generator.xml_exporter.html">drumscript.notation_generator.xml_exporter</a></li>
 <li class="toctree-l2"><a class="reference internal" href="drumscript.utils.ffmpeg_installer.html">drumscript.utils.ffmpeg_installer</a></li>
 </ul>
 </li>
@@ -119,6 +121,7 @@ data-aria-dark="Switch to auto color mode">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../release_notes/index.html">Release Notes</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../release_notes/0.1.0.html">0.1.0 (Alpha)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../release_notes/0.1.2.html">v0.1.2 (Alpha)</a></li>
 </ul>
 </li>
 </ul>
@@ -232,7 +235,7 @@ It supports generating ‘drumless’ tracks, isolating specific instruments, an
 <div class="table-wrapper autosummary longtable docutils container">
 <table class="autosummary longtable docutils align-default">
 <tbody>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">extract_drum_stem</span></code>(input_audio_path)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">extract_drum_stem</span></code>(input_audio_path[, output_dir])</p></td>
 <td><p>Legacy wrapper for the transcription pipeline.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">mix_stems</span></code>(stems_dict, stems_to_mix, output_path)</p></td>
