@@ -228,9 +228,9 @@ data-aria-dark="Switch to auto color mode">
 </div><article class="yue" role="main">
           <section id="module-drumscript.audio_processor.stem_splitter">
 <span id="drumscript-audio-processor-stem-splitter"></span><h1>drumscript.audio_processor.stem_splitter<a class="headerlink" href="#module-drumscript.audio_processor.stem_splitter" title="Link to this heading">¶</a></h1>
-<p>This module uses the demucs library () to extract stemms from multi-layer audio files
-Running: <cite>python3 -m drumscript.audio_processor.stem_splitter path_to_audio_file</cite>
-It supports generating ‘drumless’ tracks, isolating specific instruments, and format conversion.</p>
+<p>This module uses the demucs library () to extract stems from multi-layer audio files. It also contains functionality for re-mixing stems to create drumless backing tracks for user export, using the –drumless cli flag
+Running: <cite>python3 -m drumscript.audio_processor.stem_splitter path_to_audio_file, &lt;output_path&gt;</cite>
+It supports generating ‘drumless’ tracks, isolating specific instruments, and format conversion on demand.</p>
 <p class="rubric">Functions</p>
 <div class="table-wrapper autosummary longtable docutils container">
 <table class="autosummary longtable docutils align-default">
