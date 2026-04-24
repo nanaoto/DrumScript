@@ -2,7 +2,7 @@
 <html lang="en" data-accent-color="violet" data-content_root="../">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>drumscript.audio_processor.stem_splitter - DrumScript 0.1.2 documentation</title><link rel="author" title="About these documents" href="../about.html" /><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="drumscript.audio_processor.tempo_detector" href="drumscript.audio_processor.tempo_detector.html" /><link rel="prev" title="drumscript.audio_processor.audio_loader" href="drumscript.audio_processor.audio_loader.html" /><script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>drumscript.audio_processor.stem_splitter - DrumScript 0.1.2 documentation</title><link rel="author" title="About these documents" href="../about.html" /><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="drumscript.audio_processor.stem_splitter.extract_drum_stem" href="drumscript.audio_processor.stem_splitter.extract_drum_stem.html" /><link rel="prev" title="drumscript.audio_processor.audio_loader" href="drumscript.audio_processor.audio_loader.html" /><script>
     function setColorMode(t){let e=document.documentElement;e.setAttribute("data-color-mode",t);let a=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,s=t;"auto"===t&&(s=a?"dark":"light"),"light"===s?(e.classList.remove("dark"),e.classList.add("light")):(e.classList.remove("light"),e.classList.add("dark"))}
     setColorMode(localStorage._theme||"auto");
   </script><link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=e1a1ceaf" />
@@ -95,6 +95,8 @@ data-aria-dark="Switch to auto color mode">
 <li class="toctree-l2"><a class="reference internal" href="drumscript.export_xml.html">drumscript.export_xml</a></li>
 <li class="toctree-l2"><a class="reference internal" href="drumscript.audio_processor.audio_loader.html">drumscript.audio_processor.audio_loader</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">drumscript.audio_processor.stem_splitter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="drumscript.audio_processor.stem_splitter.extract_drum_stem.html">drumscript.audio_processor.stem_splitter.extract_drum_stem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="drumscript.audio_processor.stem_splitter.mix_stems.html">drumscript.audio_processor.stem_splitter.mix_stems</a></li>
 <li class="toctree-l2"><a class="reference internal" href="drumscript.audio_processor.tempo_detector.html">drumscript.audio_processor.tempo_detector</a></li>
 <li class="toctree-l2"><a class="reference internal" href="drumscript.audio_processor.onset_detector.html">drumscript.audio_processor.onset_detector</a></li>
 <li class="toctree-l2"><a class="reference internal" href="drumscript.audio_processor.feature_extractor.html">drumscript.audio_processor.feature_extractor</a></li>
@@ -102,6 +104,10 @@ data-aria-dark="Switch to auto color mode">
 <li class="toctree-l2"><a class="reference internal" href="drumscript.drum_classifier.classify.classify_rudiment_events.html">drumscript.drum_classifier.classify.classify_rudiment_events</a></li>
 <li class="toctree-l2"><a class="reference internal" href="drumscript.drum_classifier.classify.classify_event.html">drumscript.drum_classifier.classify.classify_event</a></li>
 <li class="toctree-l2"><a class="reference internal" href="drumscript.drum_classifier.classify.classify_events.html">drumscript.drum_classifier.classify.classify_events</a></li>
+<li class="toctree-l2"><a class="reference internal" href="drumscript.drum_classifier.classify.classify_idiophone.html">drumscript.drum_classifier.classify.classify_idiophone</a></li>
+<li class="toctree-l2"><a class="reference internal" href="drumscript.drum_classifier.classify.classify_membranophone.html">drumscript.drum_classifier.classify.classify_membranophone</a></li>
+<li class="toctree-l2"><a class="reference internal" href="drumscript.drum_classifier.classify.extract_features.html">drumscript.drum_classifier.classify.extract_features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="drumscript.drum_classifier.classify.get_audio_slice.html">drumscript.drum_classifier.classify.get_audio_slice</a></li>
 <li class="toctree-l2"><a class="reference internal" href="drumscript.notation_generator.constants.html">drumscript.notation_generator.constants</a></li>
 <li class="toctree-l2"><a class="reference internal" href="drumscript.notation_generator.helpers.html">drumscript.notation_generator.helpers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="drumscript.notation_generator.score_builder.html">drumscript.notation_generator.score_builder</a></li>
@@ -241,10 +247,10 @@ It supports generating ‘drumless’ tracks, isolating specific instruments, an
 <div class="table-wrapper autosummary longtable docutils container">
 <table class="autosummary longtable docutils align-default">
 <tbody>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">extract_drum_stem</span></code>(input_audio_path[, output_dir])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="drumscript.audio_processor.stem_splitter.extract_drum_stem.html#drumscript.audio_processor.stem_splitter.extract_drum_stem" title="drumscript.audio_processor.stem_splitter.extract_drum_stem"><code class="xref py py-obj docutils literal notranslate"><span class="pre">extract_drum_stem</span></code></a>(input_audio_path[, output_dir])</p></td>
 <td><p>Legacy wrapper for the transcription pipeline.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">mix_stems</span></code>(stems_dict, stems_to_mix, output_path)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="drumscript.audio_processor.stem_splitter.mix_stems.html#drumscript.audio_processor.stem_splitter.mix_stems" title="drumscript.audio_processor.stem_splitter.mix_stems"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mix_stems</span></code></a>(stems_dict, stems_to_mix, output_path)</p></td>
 <td><p>Helper function to mix multiple audio files into one.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">separate_audio</span></code>(input_audio_path[, ...])</p></td>
@@ -267,10 +273,10 @@ It supports generating ‘drumless’ tracks, isolating specific instruments, an
         <span>Previous</span><div class="title">drumscript.audio_processor.audio_loader</div></div>
     </a>
   </div><div class="navigation-next">
-    <a href="drumscript.audio_processor.tempo_detector.html">
+    <a href="drumscript.audio_processor.stem_splitter.extract_drum_stem.html">
       <div class="page-info">
         <span>Next</span>
-        <div class="title">drumscript.audio_processor.tempo_detector</div>
+        <div class="title">drumscript.audio_processor.stem_splitter.extract_drum_stem</div>
       </div>
       <i class="i-lucide chevron-right"></i>
     </a>
