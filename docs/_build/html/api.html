@@ -99,6 +99,13 @@ data-aria-dark="Switch to auto color mode">
 <li class="toctree-l2"><a class="reference internal" href="generated/drumscript.audio_processor.onset_detector.html">drumscript.audio_processor.onset_detector</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/drumscript.audio_processor.feature_extractor.html">drumscript.audio_processor.feature_extractor</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/drumscript.drum_classifier.classify.html">drumscript.drum_classifier.classify</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/drumscript.drum_classifier.classify.classify_rudiment_events.html">drumscript.drum_classifier.classify.classify_rudiment_events</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/drumscript.drum_classifier.classify.classify_event.html">drumscript.drum_classifier.classify.classify_event</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/drumscript.drum_classifier.classify.classify_events.html">drumscript.drum_classifier.classify.classify_events</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/drumscript.drum_classifier.classify.classify_idiophone.html">drumscript.drum_classifier.classify.classify_idiophone</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/drumscript.drum_classifier.classify.classify_membranophone.html">drumscript.drum_classifier.classify.classify_membranophone</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/drumscript.drum_classifier.classify.extract_features.html">drumscript.drum_classifier.classify.extract_features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/drumscript.drum_classifier.classify.get_audio_slice.html">drumscript.drum_classifier.classify.get_audio_slice</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/drumscript.notation_generator.constants.html">drumscript.notation_generator.constants</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/drumscript.notation_generator.helpers.html">drumscript.notation_generator.helpers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/drumscript.notation_generator.score_builder.html">drumscript.notation_generator.score_builder</a></li>
@@ -142,7 +149,8 @@ data-aria-dark="Switch to auto color mode">
 <li><a class="reference internal" href="#configuration-constants">Configuration &amp; Constants</a></li>
 <li><a class="reference internal" href="#core-functions">Core Functions</a></li>
 <li><a class="reference internal" href="#audio-processing">Audio Processing</a></li>
-<li><a class="reference internal" href="#classification-notation">Classification &amp; Notation</a></li>
+<li><a class="reference internal" href="#classification">Classification</a></li>
+<li><a class="reference internal" href="#score-builders">Score Builders</a></li>
 <li><a class="reference internal" href="#utilities">Utilities</a></li>
 </ul>
 </div><a class="js-repo-stats repo-stats flex items-center" href="https://github.com/DrumScript/DrumScript"
@@ -307,30 +315,60 @@ These are <strong>not</strong> hidden magic numbers; they are exposed here for t
 </table>
 </div>
 </section>
-<section id="classification-notation">
-<h2>Classification &amp; Notation<a class="headerlink" href="#classification-notation" title="Link to this heading">¶</a></h2>
+<section id="classification">
+<h2>Classification<a class="headerlink" href="#classification" title="Link to this heading">¶</a></h2>
 <div class="table-wrapper autosummary longtable docutils container">
 <table class="autosummary longtable docutils align-default">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="generated/drumscript.drum_classifier.classify.html#module-drumscript.drum_classifier.classify" title="drumscript.drum_classifier.classify"><code class="xref py py-obj docutils literal notranslate"><span class="pre">drumscript.drum_classifier.classify</span></code></a></p></td>
 <td><p>This script determines the classification rules by which the parameters in py are applied to audio_file_path.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="generated/drumscript.notation_generator.constants.html#module-drumscript.notation_generator.constants" title="drumscript.notation_generator.constants"><code class="xref py py-obj docutils literal notranslate"><span class="pre">drumscript.notation_generator.constants</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/drumscript.drum_classifier.classify.classify_rudiment_events.html#drumscript.drum_classifier.classify.classify_rudiment_events" title="drumscript.drum_classifier.classify.classify_rudiment_events"><code class="xref py py-obj docutils literal notranslate"><span class="pre">drumscript.drum_classifier.classify.classify_rudiment_events</span></code></a>(...)</p></td>
+<td><p>Dedicated classification engine for single beats, paradiddles, and rudiments.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/drumscript.drum_classifier.classify.classify_event.html#drumscript.drum_classifier.classify.classify_event" title="drumscript.drum_classifier.classify.classify_event"><code class="xref py py-obj docutils literal notranslate"><span class="pre">drumscript.drum_classifier.classify.classify_event</span></code></a>(physics)</p></td>
+<td><p>Stage 1: Evaluates both skins and Metals simultaneously.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/drumscript.drum_classifier.classify.classify_events.html#drumscript.drum_classifier.classify.classify_events" title="drumscript.drum_classifier.classify.classify_events"><code class="xref py py-obj docutils literal notranslate"><span class="pre">drumscript.drum_classifier.classify.classify_events</span></code></a>(...)</p></td>
+<td><p>Wrapper to route validated onsets through the Physics-First Classification Engine.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/drumscript.drum_classifier.classify.classify_idiophone.html#drumscript.drum_classifier.classify.classify_idiophone" title="drumscript.drum_classifier.classify.classify_idiophone"><code class="xref py py-obj docutils literal notranslate"><span class="pre">drumscript.drum_classifier.classify.classify_idiophone</span></code></a>(p)</p></td>
+<td><p>Stage 2B: Sorts Metals (Hats, Cymbals).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/drumscript.drum_classifier.classify.classify_membranophone.html#drumscript.drum_classifier.classify.classify_membranophone" title="drumscript.drum_classifier.classify.classify_membranophone"><code class="xref py py-obj docutils literal notranslate"><span class="pre">drumscript.drum_classifier.classify.classify_membranophone</span></code></a>(p)</p></td>
+<td><p>Stage 2A: Sorts skins (kick, snare, toms).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/drumscript.drum_classifier.classify.extract_features.html#drumscript.drum_classifier.classify.extract_features" title="drumscript.drum_classifier.classify.extract_features"><code class="xref py py-obj docutils literal notranslate"><span class="pre">drumscript.drum_classifier.classify.extract_features</span></code></a>(...)</p></td>
+<td><p>Analyses the audio slice and extracts the physical DSP features.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/drumscript.drum_classifier.classify.get_audio_slice.html#drumscript.drum_classifier.classify.get_audio_slice" title="drumscript.drum_classifier.classify.get_audio_slice"><code class="xref py py-obj docutils literal notranslate"><span class="pre">drumscript.drum_classifier.classify.get_audio_slice</span></code></a>(...)</p></td>
+<td><p>Cuts a specific millisecond slice of audio starting exactly at the onset time.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="score-builders">
+<h2>Score Builders<a class="headerlink" href="#score-builders" title="Link to this heading">¶</a></h2>
+<div class="table-wrapper autosummary longtable docutils container">
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/drumscript.notation_generator.constants.html#module-drumscript.notation_generator.constants" title="drumscript.notation_generator.constants"><code class="xref py py-obj docutils literal notranslate"><span class="pre">drumscript.notation_generator.constants</span></code></a></p></td>
 <td><p>This script defines ALL parameters used throughout modules in DrumScript</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="generated/drumscript.notation_generator.helpers.html#module-drumscript.notation_generator.helpers" title="drumscript.notation_generator.helpers"><code class="xref py py-obj docutils literal notranslate"><span class="pre">drumscript.notation_generator.helpers</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/drumscript.notation_generator.helpers.html#module-drumscript.notation_generator.helpers" title="drumscript.notation_generator.helpers"><code class="xref py py-obj docutils literal notranslate"><span class="pre">drumscript.notation_generator.helpers</span></code></a></p></td>
 <td><p>Helper functions for musical calculations.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="generated/drumscript.notation_generator.score_builder.html#module-drumscript.notation_generator.score_builder" title="drumscript.notation_generator.score_builder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">drumscript.notation_generator.score_builder</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/drumscript.notation_generator.score_builder.html#module-drumscript.notation_generator.score_builder" title="drumscript.notation_generator.score_builder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">drumscript.notation_generator.score_builder</span></code></a></p></td>
 <td><p>Module to build the final score from classified events.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="generated/drumscript.notation_generator.pdf_exporter.html#module-drumscript.notation_generator.pdf_exporter" title="drumscript.notation_generator.pdf_exporter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">drumscript.notation_generator.pdf_exporter</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/drumscript.notation_generator.pdf_exporter.html#module-drumscript.notation_generator.pdf_exporter" title="drumscript.notation_generator.pdf_exporter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">drumscript.notation_generator.pdf_exporter</span></code></a></p></td>
 <td><p>Module for rendering the drum score to PDF using ReportLab.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="generated/drumscript.notation_generator.midi_exporter.html#module-drumscript.notation_generator.midi_exporter" title="drumscript.notation_generator.midi_exporter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">drumscript.notation_generator.midi_exporter</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/drumscript.notation_generator.midi_exporter.html#module-drumscript.notation_generator.midi_exporter" title="drumscript.notation_generator.midi_exporter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">drumscript.notation_generator.midi_exporter</span></code></a></p></td>
 <td><p>This module takes classified drum events and renders them into a standard MIDI file.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="generated/drumscript.notation_generator.xml_exporter.html#module-drumscript.notation_generator.xml_exporter" title="drumscript.notation_generator.xml_exporter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">drumscript.notation_generator.xml_exporter</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/drumscript.notation_generator.xml_exporter.html#module-drumscript.notation_generator.xml_exporter" title="drumscript.notation_generator.xml_exporter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">drumscript.notation_generator.xml_exporter</span></code></a></p></td>
 <td><p>Module for rendering the drum score to MusicXML format.</p></td>
 </tr>
 </tbody>
