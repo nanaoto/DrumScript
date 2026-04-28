@@ -305,21 +305,41 @@ data-aria-dark="Switch to auto color mode">
 <dl class="py function">
 <dt class="sig sig-object py" id="drumscript.detect_tempo">
 <span class="sig-name descname"><span class="pre">detect_tempo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">audio_input</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">full</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/drumscript.html#detect_tempo"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#drumscript.detect_tempo" title="Link to this definition">¶</a></dt>
-<dd><p>Estimates the tempo (BPM) of a given audio file or audio array.</p>
+<dd><p>Estimates the global tempo (BPM) of a given audio file or pre-loaded audio array.</p>
+<p>This function utilizes spectral onset envelope detection to accurately
+estimate the global tempo of a percussive track.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>audio_input</strong> (<em>str</em><em> or </em><em>np.ndarray</em>) – File path OR loaded audio data array.</p></li>
-<li><p><strong>full</strong> (<em>bool</em><em>, </em><em>optional</em>) – Return detailed stats dictionary if True.</p></li>
+<li><p><strong>audio_input</strong> (<em>str</em><em> or </em><em>np.ndarray</em>) – File path (str) OR a pre-loaded audio data array (np.ndarray).</p></li>
+<li><p><strong>full</strong> (<em>bool</em><em>, </em><em>optional</em>) – Return a detailed stats dictionary instead of just the float if True.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The estimated BPM (float) or a dictionary of stats.</p>
+<dd class="field-even"><p>The estimated BPM, or a dictionary containing the BPM and sample rate.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>float or dict</p>
 </dd>
 </dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Passing a pre-loaded <code class="docutils literal notranslate"><span class="pre">np.ndarray</span></code> is significantly faster if you are running
+multiple analysis functions on the exact same audio file.</p>
+</div>
+<p><strong>Examples:</strong></p>
+<p>Detect tempo directly from a file:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">import</span><span class="w"> </span><span class="nn">drumscript</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ds</span>
+</span><span data-line="2"><span class="n">bpm</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">detect_tempo</span><span class="p">(</span><span class="s2">&quot;drum_loop.wav&quot;</span><span class="p">)</span>
+</span><span data-line="3"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Tempo: </span><span class="si">{</span><span class="n">bpm</span><span class="si">}</span><span class="s2"> BPM&quot;</span><span class="p">)</span>
+</span></pre></div>
+</div>
+<p>Detect tempo from a pre-loaded array:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">y</span><span class="p">,</span> <span class="n">sr</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">load_audio</span><span class="p">(</span><span class="s2">&quot;drum_loop.wav&quot;</span><span class="p">)</span>
+</span><span data-line="2"><span class="n">stats</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">detect_tempo</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">full</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span data-line="3"><span class="nb">print</span><span class="p">(</span><span class="n">stats</span><span class="p">[</span><span class="s1">&#39;bpm&#39;</span><span class="p">])</span>
+</span></pre></div>
+</div>
 </dd></dl>
 
 </section>

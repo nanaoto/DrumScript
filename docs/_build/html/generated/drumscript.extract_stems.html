@@ -305,26 +305,50 @@ data-aria-dark="Switch to auto color mode">
 <dl class="py function">
 <dt class="sig sig-object py" id="drumscript.extract_stems">
 <span class="sig-name descname"><span class="pre">extract_stems</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">audio_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'wav'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">drumless</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mute</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">all_stems</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">full</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/drumscript.html#extract_stems"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#drumscript.extract_stems" title="Link to this definition">¶</a></dt>
-<dd><p>Extracts drum stems and optionally separates the full track.</p>
+<dd><p>Extracts drum stems and optionally separates the full track into constituent parts.</p>
+<p>This function serves as a high-level wrapper around the Demucs source separation model.
+It allows for quick isolation of drum tracks for transcription, or the creation of
+“drumless” backing tracks for practice.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>audio_path</strong> (<em>str</em>) – Path to the audio file.</p></li>
+<li><p><strong>audio_path</strong> (<em>str</em>) – Path to the input audio file.</p></li>
 <li><p><strong>output_dir</strong> (<em>str</em><em>, </em><em>optional</em>) – Directory to save the output files. Defaults to current working directory.</p></li>
-<li><p><strong>output_format</strong> (<em>str</em><em>, </em><em>optional</em>) – ‘wav’ or ‘mp3’, defaults to ‘wav’.</p></li>
-<li><p><strong>drumless</strong> (<em>bool</em><em>, </em><em>optional</em>) – Extract a track with NO drums (plus the isolated drum track).</p></li>
-<li><p><strong>mute</strong> (<em>list</em><em>, </em><em>optional</em>) – List of stems to mute (e.g., [‘bass’]).</p></li>
-<li><p><strong>all_stems</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, export all separated stems individually.</p></li>
-<li><p><strong>full</strong> (<em>bool</em><em>, </em><em>optional</em>) – Returns detailed dictionary if True.</p></li>
+<li><p><strong>output_format</strong> (<em>str</em><em>, </em><em>optional</em>) – Export format, ‘wav’ or ‘mp3’. Defaults to ‘wav’.</p></li>
+<li><p><strong>drumless</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, extracts a track with NO drums (plus the isolated drum track).</p></li>
+<li><p><strong>mute</strong> (<em>list</em><em>, </em><em>optional</em>) – List of specific stems to mute (e.g., [‘bass’, ‘vocals’]).</p></li>
+<li><p><strong>all_stems</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, exports all separated stems individually.</p></li>
+<li><p><strong>full</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, returns a detailed dictionary of all output paths.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Path to the extracted file or a dictionary of results if full=True.</p>
+<dd class="field-even"><p>Path to the extracted file, or a dictionary of results if full=True.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>str or dict</p>
 </dd>
 </dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Source separation is computationally heavy. On a standard CPU, extracting stems
+from a 3-minute song may take a few minutes.</p>
+</div>
+<p><strong>Examples:</strong></p>
+<p>Extract just the drum stem to the current directory:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">import</span><span class="w"> </span><span class="nn">drumscript</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ds</span>
+</span><span data-line="2"><span class="n">drum_path</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">extract_stems</span><span class="p">(</span><span class="s2">&quot;my_song.mp3&quot;</span><span class="p">)</span>
+</span></pre></div>
+</div>
+<p>Create a drumless backing track in MP3 format:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">results</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">extract_stems</span><span class="p">(</span>
+</span><span data-line="2">    <span class="s2">&quot;my_song.mp3&quot;</span><span class="p">,</span>
+</span><span data-line="3">    <span class="n">drumless</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span data-line="4">    <span class="n">output_format</span><span class="o">=</span><span class="s2">&quot;mp3&quot;</span><span class="p">,</span>
+</span><span data-line="5">    <span class="n">full</span><span class="o">=</span><span class="kc">True</span>
+</span><span data-line="6"><span class="p">)</span>
+</span><span data-line="7"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Backing track saved to: </span><span class="si">{</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;mix&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span></pre></div>
+</div>
 </dd></dl>
 
 </section>
