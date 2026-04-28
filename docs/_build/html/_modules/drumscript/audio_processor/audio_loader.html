@@ -277,15 +277,15 @@ data-aria-dark="Switch to auto color mode">
 </span><span data-line="10"><span class="sd">&quot;&quot;&quot;</span>
 </span><span data-line="11"><span class="c1"># Import packages: ------------------------------------------------------------------------------------------------</span>
 </span><span data-line="12">
-</span><span data-line="13"><span class="kn">import</span><span class="w"> </span><span class="nn">librosa</span>
-</span><span data-line="14"><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-</span><span data-line="15"><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
-</span><span data-line="16"><span class="kn">import</span><span class="w"> </span><span class="nn">sounddevice</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sd</span>
-</span><span data-line="17"><span class="kn">import</span><span class="w"> </span><span class="nn">threading</span>
-</span><span data-line="18"><span class="kn">import</span><span class="w"> </span><span class="nn">argparse</span> <span class="c1"># for command-line argument parsing</span>
-</span><span data-line="19"><span class="kn">from</span><span class="w"> </span><span class="nn">drumscript.notation_generator.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">SAMPLE_RATE</span> <span class="c1"># Other args avl: SEGMENT_LENGTH_SECONDS, N_FFT, NOISE_THRESH_SNARE, DRUM_NOTATION_MAP, ONSET_SLICE_DURATION_MS, HOP_LENGTH</span>
-</span><span data-line="20"><span class="kn">from</span><span class="w"> </span><span class="nn">drumscript.audio_processor</span><span class="w"> </span><span class="kn">import</span> <span class="n">tempo_detector</span>
-</span><span data-line="21"><span class="kn">from</span><span class="w"> </span><span class="nn">drumscript.audio_processor.tempo_detector</span><span class="w"> </span><span class="kn">import</span> <span class="n">estimate_tempo</span>
+</span><span data-line="13"><span class="kn">import</span><span class="w"> </span><span class="nn">argparse</span>  <span class="c1"># for command-line argument parsing</span>
+</span><span data-line="14">
+</span><span data-line="15"><span class="kn">import</span><span class="w"> </span><span class="nn">librosa</span>
+</span><span data-line="16"><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+</span><span data-line="17">
+</span><span data-line="18"><span class="kn">from</span><span class="w"> </span><span class="nn">drumscript.audio_processor.tempo_detector</span><span class="w"> </span><span class="kn">import</span> <span class="n">estimate_tempo</span>
+</span><span data-line="19"><span class="kn">from</span><span class="w"> </span><span class="nn">drumscript.notation_generator.constants</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+</span><span data-line="20">    <span class="n">SAMPLE_RATE</span><span class="p">,</span>  <span class="c1"># Other args avl: SEGMENT_LENGTH_SECONDS, N_FFT, NOISE_THRESH_SNARE, DRUM_NOTATION_MAP, ONSET_SLICE_DURATION_MS, HOP_LENGTH</span>
+</span><span data-line="21"><span class="p">)</span>
 </span><span data-line="22">
 </span><span data-line="23"><span class="c1"># from datetime import datetime</span>
 </span><span data-line="24">
@@ -392,11 +392,11 @@ data-aria-dark="Switch to auto color mode">
 </span><span data-line="119">    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Load and process an audio file for DrumScript.&quot;</span><span class="p">)</span>
 </span><span data-line="120">    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;audio_file_path&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
 </span><span data-line="121">                        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Path to the audio file to be processed.&quot;</span><span class="p">)</span>
-</span><span data-line="122">    
+</span><span data-line="122">
 </span><span data-line="123">    <span class="c1"># Parse the command-line arguments</span>
 </span><span data-line="124">    <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
 </span><span data-line="125">    <span class="n">actual_drum_recording_path</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">audio_file_path</span>
-</span><span data-line="126">    
+</span><span data-line="126">
 </span><span data-line="127">    <span class="k">try</span><span class="p">:</span>
 </span><span data-line="128">        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Attempting to load: </span><span class="si">{</span><span class="n">actual_drum_recording_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </span><span data-line="129">        <span class="n">audio</span><span class="p">,</span> <span class="n">sr</span> <span class="o">=</span> <span class="n">load_audio</span><span class="p">(</span><span class="n">actual_drum_recording_path</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">SAMPLE_RATE</span><span class="p">)</span>

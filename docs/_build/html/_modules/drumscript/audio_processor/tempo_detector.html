@@ -272,13 +272,13 @@ data-aria-dark="Switch to auto color mode">
 </span><span data-line="5"><span class="sd">&quot;&quot;&quot;</span>
 </span><span data-line="6"><span class="c1"># Import packages: ------------------------------------------------------------------------------------------------</span>
 </span><span data-line="7">
-</span><span data-line="8"><span class="kn">import</span><span class="w"> </span><span class="nn">librosa</span>
-</span><span data-line="9"><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-</span><span data-line="10"><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
-</span><span data-line="11"><span class="kn">import</span><span class="w"> </span><span class="nn">argparse</span>
-</span><span data-line="12"><span class="kn">from</span><span class="w"> </span><span class="nn">drumscript.notation_generator.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">SAMPLE_RATE</span><span class="p">,</span> <span class="n">HOP_LENGTH</span>
+</span><span data-line="8"><span class="kn">import</span><span class="w"> </span><span class="nn">argparse</span>
+</span><span data-line="9"><span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
+</span><span data-line="10">
+</span><span data-line="11"><span class="kn">import</span><span class="w"> </span><span class="nn">librosa</span>
+</span><span data-line="12"><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 </span><span data-line="13">
-</span><span data-line="14"><span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
+</span><span data-line="14"><span class="kn">from</span><span class="w"> </span><span class="nn">drumscript.notation_generator.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">SAMPLE_RATE</span>
 </span><span data-line="15">
 </span><span data-line="16"><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2"># ------------------------------------------------------------------------------------&quot;</span><span class="p">)</span>
 </span><span data-line="17"><span class="n">datetimestamp</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
@@ -303,35 +303,35 @@ data-aria-dark="Switch to auto color mode">
 </span><span data-line="34"><span class="sd">    &quot;&quot;&quot;</span>
 </span><span data-line="35">    <span class="k">if</span> <span class="n">audio_data</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
 </span><span data-line="36">        <span class="k">return</span> <span class="mf">0.0</span>
-</span><span data-line="37">    
+</span><span data-line="37">
 </span><span data-line="38">    <span class="c1"># Check if there are enough hits in the audio</span>
 </span><span data-line="39">    <span class="c1"># Calculating tempo on clips shorter than ~1-2 seconds is unreliable and often produces artifacts (like 235 BPM for a single kick).</span>
 </span><span data-line="40">    <span class="n">duration_seconds</span> <span class="o">=</span> <span class="n">audio_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">sr</span>
 </span><span data-line="41">    <span class="k">if</span> <span class="n">duration_seconds</span> <span class="o">&lt;</span> <span class="mf">1.0</span><span class="p">:</span> <span class="c1"># duration_seconds less than 1 second, ie anything over 1 sec duration is valid</span>
 </span><span data-line="42">        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Audio too short for tempo detection (</span><span class="si">{</span><span class="n">duration_seconds</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">s). Defaulting to 120 BPM.&quot;</span><span class="p">)</span>
 </span><span data-line="43">        <span class="k">return</span> <span class="mf">120.0</span>
-</span><span data-line="44">    
+</span><span data-line="44">
 </span><span data-line="45">    <span class="c1"># oenv = librosa.onset.onset_strength(y=audio_data, sr=sr, hop_length=256)</span>
 </span><span data-line="46">    <span class="n">oenv</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">onset</span><span class="o">.</span><span class="n">onset_strength</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">audio_data</span><span class="p">)</span>
 </span><span data-line="47">    <span class="n">tempogram</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">feature</span><span class="o">.</span><span class="n">tempogram</span><span class="p">(</span><span class="n">onset_envelope</span><span class="o">=</span><span class="n">oenv</span><span class="p">)</span>
 </span><span data-line="48">    <span class="n">tempo_spectrum</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">tempogram</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </span><span data-line="49">    <span class="n">tempo_freqs</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">tempo_frequencies</span><span class="p">(</span><span class="n">tempogram</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-</span><span data-line="50">    
+</span><span data-line="50">
 </span><span data-line="51">    <span class="c1"># --- Fix for extreme BPM error ---</span>
 </span><span data-line="52">    <span class="c1"># Create a mask to only consider tempos in a plausible musical range (e.g., 60-240 BPM)</span>
 </span><span data-line="53">    <span class="n">plausible_tempos_mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">tempo_freqs</span> <span class="o">&gt;=</span> <span class="mi">60</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">tempo_freqs</span> <span class="o">&lt;=</span> <span class="mi">240</span><span class="p">)</span>
-</span><span data-line="54">    
+</span><span data-line="54">
 </span><span data-line="55">    <span class="c1"># Find the index of the peak within the plausible range</span>
 </span><span data-line="56">    <span class="n">plausible_spectrum</span> <span class="o">=</span> <span class="n">tempo_spectrum</span><span class="p">[</span><span class="n">plausible_tempos_mask</span><span class="p">]</span>
 </span><span data-line="57">    <span class="k">if</span> <span class="n">plausible_spectrum</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
 </span><span data-line="58">        <span class="k">return</span> <span class="mf">120.0</span> <span class="c1"># Return default if no energy in plausible range</span>
-</span><span data-line="59">        
+</span><span data-line="59">
 </span><span data-line="60">    <span class="n">peak_idx_in_plausible_range</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">plausible_spectrum</span><span class="p">)</span>
-</span><span data-line="61">    
+</span><span data-line="61">
 </span><span data-line="62">    <span class="c1"># Convert that index back to a BPM value</span>
 </span><span data-line="63">    <span class="n">plausible_tempo_freqs</span> <span class="o">=</span> <span class="n">tempo_freqs</span><span class="p">[</span><span class="n">plausible_tempos_mask</span><span class="p">]</span>
 </span><span data-line="64">    <span class="n">estimated_bpm</span> <span class="o">=</span> <span class="n">plausible_tempo_freqs</span><span class="p">[</span><span class="n">peak_idx_in_plausible_range</span><span class="p">]</span>
-</span><span data-line="65">    
+</span><span data-line="65">
 </span><span data-line="66">    <span class="k">return</span> <span class="n">estimated_bpm</span></div>
 
 </span><span data-line="67"><span class="c1"># =====================================================================================================</span>
@@ -353,7 +353,7 @@ data-aria-dark="Switch to auto color mode">
 </span><span data-line="83">        <span class="c1"># audio, sr = load_audio(actual_drum_recording_path, sr=44100)</span>
 </span><span data-line="84">        <span class="n">audio</span><span class="p">,</span> <span class="n">sr</span> <span class="o">=</span> <span class="n">load_audio</span><span class="p">(</span><span class="n">actual_drum_recording_path</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">)</span>
 </span><span data-line="85">        <span class="n">normalised_audio</span> <span class="o">=</span> <span class="n">normalise_audio</span><span class="p">(</span><span class="n">audio</span><span class="p">)</span>
-</span><span data-line="86">        
+</span><span data-line="86">
 </span><span data-line="87">        <span class="c1"># Estimate the tempo</span>
 </span><span data-line="88">        <span class="n">bpm</span> <span class="o">=</span> <span class="n">estimate_tempo</span><span class="p">(</span><span class="n">normalised_audio</span><span class="p">,</span> <span class="n">sr</span><span class="p">)</span>
 </span><span data-line="89">        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Estimated Tempo: </span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">bpm</span><span class="p">))</span><span class="si">}</span><span class="s2"> BPM&quot;</span><span class="p">)</span>
@@ -361,9 +361,8 @@ data-aria-dark="Switch to auto color mode">
 </span><span data-line="91">    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
 </span><span data-line="92">        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">An unexpected error occurred: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </span><span data-line="93">    <span class="c1"># print(&quot;\n#==================================================================================================&quot;)</span>
-</span><span data-line="94">        
+</span><span data-line="94">
 </span><span data-line="95"><span class="c1">#------------------------------------------------------------------------------------------------------</span>
-</span><span data-line="96">    
 </span></pre></div>
         </article><button class="back-to-top" type="button">
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
