@@ -109,6 +109,7 @@ data-aria-dark="Switch to auto color mode">
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../../generated/drumscript.audio_processor.stem_splitter.extract_drum_stem.html">drumscript.audio_processor.stem_splitter.extract_drum_stem</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../generated/drumscript.audio_processor.stem_splitter.mix_stems.html">drumscript.audio_processor.stem_splitter.mix_stems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../generated/drumscript.audio_processor.stem_splitter.separate_audio.html">drumscript.audio_processor.stem_splitter.separate_audio</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../generated/drumscript.audio_processor.tempo_detector.html">drumscript.audio_processor.tempo_detector</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../../generated/drumscript.audio_processor.tempo_detector.estimate_tempo.html">drumscript.audio_processor.tempo_detector.estimate_tempo</a></li>
 </ul>
@@ -376,26 +377,21 @@ data-aria-dark="Switch to auto color mode">
 <a class="viewcode-back" href="../../../generated/drumscript.notation_generator.helpers.calculate_cents_difference.html#drumscript.notation_generator.helpers.calculate_cents_difference">[docs]</a>
 </span><span data-line="99"><span class="k">def</span><span class="w"> </span><span class="nf">calculate_cents_difference</span><span class="p">(</span><span class="n">freq1</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">freq2</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 </span><span data-line="100"><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span data-line="101"><span class="sd">    Formats a classified drum event into a dictionary containing notation-specific information. Calculates the difference between two frequencies in cents.</span>
-</span><span data-line="102"><span class="sd">    Useful for tuning or pitch analysis:</span>
-</span><span data-line="103"><span class="sd">     - freq1 (float): First frequency in Hz.</span>
-</span><span data-line="104"><span class="sd">     - freq2 (float): Second frequency in Hz.</span>
-</span><span data-line="105"><span class="sd">     - returns float: Difference in cents. Positive if freq2 is higher, negative if lower.</span>
-</span><span data-line="106">
-</span><span data-line="107"><span class="sd">    Calculates the difference between two frequencies in cents.</span>
-</span><span data-line="108"><span class="sd">    Useful for tuning or pitch analysis.</span>
-</span><span data-line="109">
-</span><span data-line="110"><span class="sd">    :param freq1: First frequency in Hz.</span>
-</span><span data-line="111"><span class="sd">    :type freq1: float</span>
-</span><span data-line="112"><span class="sd">    :param freq2: Second frequency in Hz.</span>
-</span><span data-line="113"><span class="sd">    :type freq2: float</span>
-</span><span data-line="114"><span class="sd">    :return: Difference in cents. Positive if freq2 is higher, negative if lower.</span>
-</span><span data-line="115"><span class="sd">    :rtype: float</span>
-</span><span data-line="116"><span class="sd">    &quot;&quot;&quot;</span>
-</span><span data-line="117">
-</span><span data-line="118">    <span class="k">if</span> <span class="n">freq1</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">freq2</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
-</span><span data-line="119">        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Frequencies must be positive.&quot;</span><span class="p">)</span>
-</span><span data-line="120">    <span class="k">return</span> <span class="mi">1200</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">freq2</span> <span class="o">/</span> <span class="n">freq1</span><span class="p">)</span></div>
+</span><span data-line="101"><span class="sd">    Calculates the difference between two frequencies in cents.</span>
+</span><span data-line="102"><span class="sd">    </span>
+</span><span data-line="103"><span class="sd">    Useful for tuning or pitch analysis.</span>
+</span><span data-line="104">
+</span><span data-line="105"><span class="sd">    :param freq1: First frequency in Hz.</span>
+</span><span data-line="106"><span class="sd">    :type freq1: float</span>
+</span><span data-line="107"><span class="sd">    :param freq2: Second frequency in Hz.</span>
+</span><span data-line="108"><span class="sd">    :type freq2: float</span>
+</span><span data-line="109"><span class="sd">    :return: Difference in cents. Positive if freq2 is higher, negative if lower.</span>
+</span><span data-line="110"><span class="sd">    :rtype: float</span>
+</span><span data-line="111"><span class="sd">    &quot;&quot;&quot;</span>
+</span><span data-line="112">
+</span><span data-line="113">    <span class="k">if</span> <span class="n">freq1</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">freq2</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+</span><span data-line="114">        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Frequencies must be positive.&quot;</span><span class="p">)</span>
+</span><span data-line="115">    <span class="k">return</span> <span class="mi">1200</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">freq2</span> <span class="o">/</span> <span class="n">freq1</span><span class="p">)</span></div>
 
 </span></pre></div>
         </article><button class="back-to-top" type="button">

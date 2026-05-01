@@ -109,6 +109,7 @@ data-aria-dark="Switch to auto color mode">
 </li>
 <li class="toctree-l2"><a class="reference internal" href="generated/drumscript.audio_processor.stem_splitter.extract_drum_stem.html">drumscript.audio_processor.stem_splitter.extract_drum_stem</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/drumscript.audio_processor.stem_splitter.mix_stems.html">drumscript.audio_processor.stem_splitter.mix_stems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/drumscript.audio_processor.stem_splitter.separate_audio.html">drumscript.audio_processor.stem_splitter.separate_audio</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/drumscript.audio_processor.tempo_detector.html">drumscript.audio_processor.tempo_detector</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="generated/drumscript.audio_processor.tempo_detector.estimate_tempo.html">drumscript.audio_processor.tempo_detector.estimate_tempo</a></li>
 </ul>
@@ -369,13 +370,16 @@ These are <strong>not</strong> hidden magic numbers; they are exposed here for t
 <tr class="row-even"><td><p><a class="reference internal" href="generated/drumscript.audio_processor.stem_splitter.mix_stems.html#drumscript.audio_processor.stem_splitter.mix_stems" title="drumscript.audio_processor.stem_splitter.mix_stems"><code class="xref py py-obj docutils literal notranslate"><span class="pre">drumscript.audio_processor.stem_splitter.mix_stems</span></code></a>(...)</p></td>
 <td><p>Uses soundfile + numpy so the WAV output path is ffmpeg-free.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="generated/drumscript.audio_processor.tempo_detector.html#module-drumscript.audio_processor.tempo_detector" title="drumscript.audio_processor.tempo_detector"><code class="xref py py-obj docutils literal notranslate"><span class="pre">drumscript.audio_processor.tempo_detector</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/drumscript.audio_processor.stem_splitter.separate_audio.html#drumscript.audio_processor.stem_splitter.separate_audio" title="drumscript.audio_processor.stem_splitter.separate_audio"><code class="xref py py-obj docutils literal notranslate"><span class="pre">drumscript.audio_processor.stem_splitter.separate_audio</span></code></a>(...)</p></td>
+<td><p>Separates a full audio track using Demucs and processes the outputs based on user-input args (optional)</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/drumscript.audio_processor.tempo_detector.html#module-drumscript.audio_processor.tempo_detector" title="drumscript.audio_processor.tempo_detector"><code class="xref py py-obj docutils literal notranslate"><span class="pre">drumscript.audio_processor.tempo_detector</span></code></a></p></td>
 <td><p>This module contains functions for automatic tempo detection from audio data.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="generated/drumscript.audio_processor.onset_detector.html#module-drumscript.audio_processor.onset_detector" title="drumscript.audio_processor.onset_detector"><code class="xref py py-obj docutils literal notranslate"><span class="pre">drumscript.audio_processor.onset_detector</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/drumscript.audio_processor.onset_detector.html#module-drumscript.audio_processor.onset_detector" title="drumscript.audio_processor.onset_detector"><code class="xref py py-obj docutils literal notranslate"><span class="pre">drumscript.audio_processor.onset_detector</span></code></a></p></td>
 <td><p>This module will detect the onset (start) times of drum hits in the audio.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="generated/drumscript.audio_processor.feature_extractor.html#module-drumscript.audio_processor.feature_extractor" title="drumscript.audio_processor.feature_extractor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">drumscript.audio_processor.feature_extractor</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/drumscript.audio_processor.feature_extractor.html#module-drumscript.audio_processor.feature_extractor" title="drumscript.audio_processor.feature_extractor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">drumscript.audio_processor.feature_extractor</span></code></a></p></td>
 <td><p>This module will extract relevant features from audio segments for drum classification.</p></td>
 </tr>
 </tbody>

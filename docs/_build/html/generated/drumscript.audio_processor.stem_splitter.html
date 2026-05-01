@@ -109,6 +109,7 @@ data-aria-dark="Switch to auto color mode">
 </li>
 <li class="toctree-l2"><a class="reference internal" href="drumscript.audio_processor.stem_splitter.extract_drum_stem.html">drumscript.audio_processor.stem_splitter.extract_drum_stem</a></li>
 <li class="toctree-l2"><a class="reference internal" href="drumscript.audio_processor.stem_splitter.mix_stems.html">drumscript.audio_processor.stem_splitter.mix_stems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="drumscript.audio_processor.stem_splitter.separate_audio.html">drumscript.audio_processor.stem_splitter.separate_audio</a></li>
 <li class="toctree-l2"><a class="reference internal" href="drumscript.audio_processor.tempo_detector.html">drumscript.audio_processor.tempo_detector</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="drumscript.audio_processor.tempo_detector.estimate_tempo.html">drumscript.audio_processor.tempo_detector.estimate_tempo</a></li>
 </ul>
@@ -299,7 +300,8 @@ data-aria-dark="Switch to auto color mode">
 </div><article class="yue" role="main">
           <section id="module-drumscript.audio_processor.stem_splitter">
 <span id="drumscript-audio-processor-stem-splitter"></span><h1>drumscript.audio_processor.stem_splitter<a class="headerlink" href="#module-drumscript.audio_processor.stem_splitter" title="Link to this heading">¶</a></h1>
-<p>This module uses the demucs library () to extract stems from multi-layer audio files. It also contains functionality for re-mixing stems to create drumless backing tracks for user export, using the –drumless cli flag
+<p>This module uses the demucs library () to extract stems from multi-layer audio files. It also contains functionality for re-mixing stems
+to create drumless backing tracks for user export.
 Running: <cite>python3 -m drumscript.audio_processor.stem_splitter path_to_audio_file, &lt;output_path&gt;</cite>
 It supports generating ‘drumless’ tracks, isolating specific instruments, and format conversion on demand.</p>
 <p class="rubric">Functions</p>

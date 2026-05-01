@@ -109,6 +109,7 @@ data-aria-dark="Switch to auto color mode">
 </li>
 <li class="toctree-l2"><a class="reference internal" href="drumscript.audio_processor.stem_splitter.extract_drum_stem.html">drumscript.audio_processor.stem_splitter.extract_drum_stem</a></li>
 <li class="toctree-l2"><a class="reference internal" href="drumscript.audio_processor.stem_splitter.mix_stems.html">drumscript.audio_processor.stem_splitter.mix_stems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="drumscript.audio_processor.stem_splitter.separate_audio.html">drumscript.audio_processor.stem_splitter.separate_audio</a></li>
 <li class="toctree-l2"><a class="reference internal" href="drumscript.audio_processor.tempo_detector.html">drumscript.audio_processor.tempo_detector</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="drumscript.audio_processor.tempo_detector.estimate_tempo.html">drumscript.audio_processor.tempo_detector.estimate_tempo</a></li>
 </ul>
@@ -309,17 +310,8 @@ data-aria-dark="Switch to auto color mode">
 <dl class="py function">
 <dt class="sig sig-object py" id="drumscript.notation_generator.helpers.calculate_cents_difference">
 <span class="sig-name descname"><span class="pre">calculate_cents_difference</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">freq1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">freq2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="../_modules/drumscript/notation_generator/helpers.html#calculate_cents_difference"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#drumscript.notation_generator.helpers.calculate_cents_difference" title="Link to this definition">¶</a></dt>
-<dd><p>Formats a classified drum event into a dictionary containing notation-specific information. Calculates the difference between two frequencies in cents.
-Useful for tuning or pitch analysis:</p>
-<blockquote>
-<div><ul class="simple">
-<li><p>freq1 (float): First frequency in Hz.</p></li>
-<li><p>freq2 (float): Second frequency in Hz.</p></li>
-<li><p>returns float: Difference in cents. Positive if freq2 is higher, negative if lower.</p></li>
-</ul>
-</div></blockquote>
-<p>Calculates the difference between two frequencies in cents.
-Useful for tuning or pitch analysis.</p>
+<dd><p>Calculates the difference between two frequencies in cents.</p>
+<p>Useful for tuning or pitch analysis.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">

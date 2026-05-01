@@ -109,6 +109,7 @@ data-aria-dark="Switch to auto color mode">
 </li>
 <li class="toctree-l2"><a class="reference internal" href="drumscript.audio_processor.stem_splitter.extract_drum_stem.html">drumscript.audio_processor.stem_splitter.extract_drum_stem</a></li>
 <li class="toctree-l2"><a class="reference internal" href="drumscript.audio_processor.stem_splitter.mix_stems.html">drumscript.audio_processor.stem_splitter.mix_stems</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">drumscript.audio_processor.stem_splitter.separate_audio</a></li>
 <li class="toctree-l2"><a class="reference internal" href="drumscript.audio_processor.tempo_detector.html">drumscript.audio_processor.tempo_detector</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="drumscript.audio_processor.tempo_detector.estimate_tempo.html">drumscript.audio_processor.tempo_detector.estimate_tempo</a></li>
 </ul>
@@ -323,12 +324,8 @@ data-aria-dark="Switch to auto color mode">
 :type all_stems: bool, optional
 :param output_dir: Destination folder. Defaults to CWD/separated_stems, unless specified by user
 :type output_dir: str, optional
-:return: Dictionary of paths to generated files.
-:rtype: dict
-Returns:</p>
-<blockquote>
-<div><p>dict: Paths to the generated files (e.g., {‘drums’: path, ‘mix’: path}).</p>
-</div></blockquote>
+:return: Dictionary of paths to generated files (e.g., <code class="docutils literal notranslate"><span class="pre">{'drums':</span> <span class="pre">path,</span> <span class="pre">'mix':</span> <span class="pre">path}</span></code>).
+:rtype: dict</p>
 </dd></dl>
 
 </section>
