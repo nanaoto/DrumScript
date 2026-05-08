@@ -272,7 +272,7 @@ data-aria-dark="Switch to auto color mode">
 </span><span data-line="4"><span class="sd">This module will extract relevant features from audio segments for drum classification.</span>
 </span><span data-line="5"><span class="sd">&quot;&quot;&quot;</span>
 </span><span data-line="6">
-</span><span data-line="7"><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span>
+</span><span data-line="7"><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span>
 </span><span data-line="8">
 </span><span data-line="9"><span class="kn">import</span><span class="w"> </span><span class="nn">librosa</span>
 </span><span data-line="10"><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
@@ -311,7 +311,7 @@ data-aria-dark="Switch to auto color mode">
 </span><span data-line="43">
 <div class="viewcode-block" id="extract_features">
 <a class="viewcode-back" href="../../../generated/drumscript.audio_processor.feature_extractor.extract_features.html#drumscript.audio_processor.feature_extractor.extract_features">[docs]</a>
-</span><span data-line="44"><span class="k">def</span><span class="w"> </span><span class="nf">extract_features</span><span class="p">(</span><span class="n">audio_segment</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">sr</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+</span><span data-line="44"><span class="k">def</span><span class="w"> </span><span class="nf">extract_features</span><span class="p">(</span><span class="n">audio_segment</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">sr</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
 </span><span data-line="45"><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 </span><span data-line="46"><span class="sd">    Extracts a dictionary of features from a single audio segment.</span>
 </span><span data-line="47"><span class="sd">    Features are returned as mean values over the segment&#39;s duration.</span>
@@ -385,7 +385,7 @@ data-aria-dark="Switch to auto color mode">
 </span><span data-line="114">
 <div class="viewcode-block" id="extract_features_for_onsets">
 <a class="viewcode-back" href="../../../generated/drumscript.audio_processor.feature_extractor.extract_features_for_onsets.html#drumscript.audio_processor.feature_extractor.extract_features_for_onsets">[docs]</a>
-</span><span data-line="115"><span class="k">def</span><span class="w"> </span><span class="nf">extract_features_for_onsets</span><span class="p">(</span><span class="n">y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">sr</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">onset_times</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
+</span><span data-line="115"><span class="k">def</span><span class="w"> </span><span class="nf">extract_features_for_onsets</span><span class="p">(</span><span class="n">y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">sr</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">onset_times</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
 </span><span data-line="116"><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 </span><span data-line="117"><span class="sd">    Slices an audio array around each onset time and extracts features for each slice.</span>
 </span><span data-line="118">
@@ -437,17 +437,17 @@ data-aria-dark="Switch to auto color mode">
 </span><span data-line="163"><span class="sd">&quot;&quot;&quot;# ALTERNATIVE FEATURE EXTRACTION FCT WITH PADDING TO PREVENT TOO HIGH NFFT ERRORS</span>
 </span><span data-line="164">
 </span><span data-line="165"><span class="sd">def extract_features(audio_segment: np.ndarray, sr: int = SAMPLE_RATE) -&gt; dict:</span>
-</span><span data-line="166"><span class="sd">    </span>
+</span><span data-line="166">
 </span><span data-line="167"><span class="sd">    #Extracts spectral features from a short audio segment (slice).</span>
 </span><span data-line="168"><span class="sd">    #Includes safety padding for very short segments to prevent crashes.</span>
-</span><span data-line="169"><span class="sd">    </span>
-</span><span data-line="170"><span class="sd">    </span>
+</span><span data-line="169">
+</span><span data-line="170">
 </span><span data-line="171"><span class="sd">    # --- SAFETY PADDING (The Fix) ---</span>
 </span><span data-line="172"><span class="sd">    # Ensure the segment is at least as long as N_FFT</span>
 </span><span data-line="173"><span class="sd">    if len(audio_segment) &lt; N_FFT:</span>
 </span><span data-line="174"><span class="sd">        # Calculate how much silence we need to add</span>
 </span><span data-line="175"><span class="sd">        padding_needed = N_FFT - len(audio_segment)</span>
-</span><span data-line="176"><span class="sd">        </span>
+</span><span data-line="176">
 </span><span data-line="177"><span class="sd">        # Pad with zeros (silence) on the right side only</span>
 </span><span data-line="178"><span class="sd">        # (mode=&#39;constant&#39; defaults to 0)</span>
 </span><span data-line="179"><span class="sd">        audio_segment = np.pad(audio_segment, (0, padding_needed), mode=&#39;constant&#39;)</span>
@@ -459,12 +459,12 @@ data-aria-dark="Switch to auto color mode">
 </span><span data-line="185"><span class="sd">        spectral_centroid = librosa.feature.spectral_centroid(</span>
 </span><span data-line="186"><span class="sd">            y=audio_segment, sr=sr, n_fft=N_FFT, hop_length=HOP_LENGTH</span>
 </span><span data-line="187"><span class="sd">        )[0]</span>
-</span><span data-line="188"><span class="sd">        </span>
+</span><span data-line="188">
 </span><span data-line="189"><span class="sd">        # Spectral Bandwidth (Width)</span>
 </span><span data-line="190"><span class="sd">        spectral_bandwidth = librosa.feature.spectral_bandwidth(</span>
 </span><span data-line="191"><span class="sd">            y=audio_segment, sr=sr, n_fft=N_FFT, hop_length=HOP_LENGTH</span>
 </span><span data-line="192"><span class="sd">        )[0]</span>
-</span><span data-line="193"><span class="sd">        </span>
+</span><span data-line="193">
 </span><span data-line="194"><span class="sd">        # Zero Crossing Rate (Noisiness)</span>
 </span><span data-line="195"><span class="sd">        # Note: ZCR usually doesn&#39;t strictly depend on N_FFT but good to keep standard</span>
 </span><span data-line="196"><span class="sd">        zcr = librosa.feature.zero_crossing_rate(</span>
