@@ -2,7 +2,7 @@
 <html lang="en" data-accent-color="violet" data-content_root="../">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>drumscript.notation_generator.pdf_exporter.get_vertical_position - DrumScript 0.1.2 documentation</title><link rel="author" title="About these documents" href="../about.html" /><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="drumscript.notation_generator.midi_exporter" href="drumscript.notation_generator.midi_exporter.html" /><link rel="prev" title="drumscript.notation_generator.pdf_exporter.export_pdf" href="drumscript.notation_generator.pdf_exporter.export_pdf.html" /><script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>drumscript.transcribe - DrumScript 0.1.2 documentation</title><link rel="author" title="About these documents" href="../about.html" /><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="drumscript.extract_stems" href="drumscript.extract_stems.html" /><link rel="prev" title="drumscript.notation_generator.constants" href="drumscript.notation_generator.constants.html" /><script>
     function setColorMode(t){let e=document.documentElement;e.setAttribute("data-color-mode",t);let a=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,s=t;"auto"===t&&(s=a?"dark":"light"),"light"===s?(e.classList.remove("dark"),e.classList.add("light")):(e.classList.remove("light"),e.classList.add("dark"))}
     setColorMode(localStorage._theme||"auto");
   </script><link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=e1a1ceaf" />
@@ -18,7 +18,7 @@
   --sy-f-heading: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
 }
 </style>
-    <meta property="og:type" content="website"/><meta property="og:title" content="drumscript.notation_generator.pdf_exporter.get_vertical_position"/>
+    <meta property="og:type" content="website"/><meta property="og:title" content="drumscript.transcribe"/>
     <meta name="twitter:card" content="summary"/>
   </head>
 <body><div class="sy-head">
@@ -87,7 +87,7 @@ data-aria-dark="Switch to auto color mode">
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="../api.html">API Reference</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="drumscript.notation_generator.constants.html">drumscript.notation_generator.constants</a></li>
-<li class="toctree-l2"><a class="reference internal" href="drumscript.transcribe.html">drumscript.transcribe</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">drumscript.transcribe</a></li>
 <li class="toctree-l2"><a class="reference internal" href="drumscript.extract_stems.html">drumscript.extract_stems</a></li>
 <li class="toctree-l2"><a class="reference internal" href="drumscript.detect_tempo.html">drumscript.detect_tempo</a></li>
 <li class="toctree-l2"><a class="reference internal" href="drumscript.export_pdf.html">drumscript.export_pdf</a></li>
@@ -149,14 +149,14 @@ data-aria-dark="Switch to auto color mode">
 <li class="toctree-l3"><a class="reference internal" href="drumscript.notation_generator.score_builder.build_score.html">drumscript.notation_generator.score_builder.build_score</a></li>
 </ul>
 </li>
-<li class="toctree-l2 current"><a class="reference internal" href="drumscript.notation_generator.pdf_exporter.html">drumscript.notation_generator.pdf_exporter</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="drumscript.notation_generator.pdf_exporter.html">drumscript.notation_generator.pdf_exporter</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="drumscript.notation_generator.pdf_exporter.draw_bar_line.html">drumscript.notation_generator.pdf_exporter.draw_bar_line</a></li>
 <li class="toctree-l3"><a class="reference internal" href="drumscript.notation_generator.pdf_exporter.draw_clef.html">drumscript.notation_generator.pdf_exporter.draw_clef</a></li>
 <li class="toctree-l3"><a class="reference internal" href="drumscript.notation_generator.pdf_exporter.draw_notehead.html">drumscript.notation_generator.pdf_exporter.draw_notehead</a></li>
 <li class="toctree-l3"><a class="reference internal" href="drumscript.notation_generator.pdf_exporter.draw_staff.html">drumscript.notation_generator.pdf_exporter.draw_staff</a></li>
 <li class="toctree-l3"><a class="reference internal" href="drumscript.notation_generator.pdf_exporter.draw_time_signature.html">drumscript.notation_generator.pdf_exporter.draw_time_signature</a></li>
 <li class="toctree-l3"><a class="reference internal" href="drumscript.notation_generator.pdf_exporter.export_pdf.html">drumscript.notation_generator.pdf_exporter.export_pdf</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">drumscript.notation_generator.pdf_exporter.get_vertical_position</a></li>
+<li class="toctree-l3"><a class="reference internal" href="drumscript.notation_generator.pdf_exporter.get_vertical_position.html">drumscript.notation_generator.pdf_exporter.get_vertical_position</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="drumscript.notation_generator.midi_exporter.html">drumscript.notation_generator.midi_exporter</a><ul>
@@ -206,7 +206,7 @@ data-aria-dark="Switch to auto color mode">
       <i class="i-lucide close"></i>
     </button>
     <div class="sy-scrollbar sy-rside-inner px-6 xl:top-16 xl:sticky xl:pl-0 pt-6 pb-4"><div class="localtoc"><h3>On this page</h3><ul>
-<li><a class="reference internal" href="#drumscript.notation_generator.pdf_exporter.get_vertical_position"><code class="docutils literal notranslate"><span class="pre">get_vertical_position()</span></code></a></li>
+<li><a class="reference internal" href="#drumscript.transcribe"><code class="docutils literal notranslate"><span class="pre">transcribe()</span></code></a></li>
 </ul>
 </div><a class="js-repo-stats repo-stats flex items-center" href="https://github.com/DrumScript/DrumScript"
   data-type="github" data-user="DrumScript" data-repo="DrumScript">
@@ -230,7 +230,7 @@ data-aria-dark="Switch to auto color mode">
     </span>
   </span>
 </a><div class="edit-this-page">
-  <a href="https://github.com/DrumScript/DrumScript/blob/main/docs/generated/drumscript.notation_generator.pdf_exporter.get_vertical_position.rst">Edit this page</a>
+  <a href="https://github.com/DrumScript/DrumScript/blob/main/docs/generated/drumscript.transcribe.rst">Edit this page</a>
 </div><div id="ethical-ad-placement" data-ea-publisher="readthedocs"></div></div>
   </aside>
   <div class="rside-overlay js-menu" role="button" aria-label="Close Table of Contents" aria-controls="rside" aria-expanded="false"></div>
@@ -251,12 +251,8 @@ data-aria-dark="Switch to auto color mode">
         <span>/</span>
         <meta itemprop="position" content="2" />
       </li><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-        <a itemprop="item" href="drumscript.notation_generator.pdf_exporter.html"><span itemprop="name">drumscript.notation_generator.pdf_exporter</span></a>
-        <span>/</span>
+        <strong itemprop="name">drumscript.transcribe</strong>
         <meta itemprop="position" content="3" />
-      </li><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-        <strong itemprop="name">drumscript.notation_generator.pdf_exporter.get_vertical_position</strong>
-        <meta itemprop="position" content="4" />
       </li></ol>
     <div class="xl:hidden ml-1">
       <button class="js-menu" aria-label="Show table of contents" type="button" aria-controls="rside"
@@ -272,7 +268,7 @@ data-aria-dark="Switch to auto color mode">
     <button
       type="button"
       class="js-copy px-3 py-1 inline-flex items-center gap-1"
-      data-url="https://raw.githubusercontent.com/DrumScript/DrumScript/refs/heads/main/docs/generated/drumscript.notation_generator.pdf_exporter.get_vertical_position.rst.txt"
+      data-url="https://raw.githubusercontent.com/DrumScript/DrumScript/refs/heads/main/docs/generated/drumscript.transcribe.rst.txt"
     >
       <i class="i-lucide" data-icon="copy"></i>
       <span>Copy page</span>
@@ -286,29 +282,74 @@ data-aria-dark="Switch to auto color mode">
     <div role="presentation">
       <div class="flex flex-col" role="group">
         <button class="js-copy" type="button" role="menuitem"
-          data-url="https://raw.githubusercontent.com/DrumScript/DrumScript/refs/heads/main/docs/generated/drumscript.notation_generator.pdf_exporter.get_vertical_position.rst.txt">
+          data-url="https://raw.githubusercontent.com/DrumScript/DrumScript/refs/heads/main/docs/generated/drumscript.transcribe.rst.txt">
           <span class="iconify-icon">
             <i class="i-lucide" data-icon="copy"></i>
           </span>
           <span>Copy page</span>
         </button>
-        <a role="menuitem" href="https://raw.githubusercontent.com/DrumScript/DrumScript/refs/heads/main/docs/generated/drumscript.notation_generator.pdf_exporter.get_vertical_position.rst.txt" target="_blank" rel="nofollow"><iconify-icon icon="bi:code-slash"></iconify-icon>
-            <span>View Source</span></a><a role="menuitem" href="https://chatgpt.com/?hints=search&q=Read%20https%3A//raw.githubusercontent.com/DrumScript/DrumScript/refs/heads/main/docs/generated/drumscript.notation_generator.pdf_exporter.get_vertical_position.rst.txt%20so%20I%20can%20ask%20questions%20about%20it." target="_blank" rel="nofollow">
+        <a role="menuitem" href="https://raw.githubusercontent.com/DrumScript/DrumScript/refs/heads/main/docs/generated/drumscript.transcribe.rst.txt" target="_blank" rel="nofollow"><iconify-icon icon="bi:code-slash"></iconify-icon>
+            <span>View Source</span></a><a role="menuitem" href="https://chatgpt.com/?hints=search&q=Read%20https%3A//raw.githubusercontent.com/DrumScript/DrumScript/refs/heads/main/docs/generated/drumscript.transcribe.rst.txt%20so%20I%20can%20ask%20questions%20about%20it." target="_blank" rel="nofollow">
           <iconify-icon icon="bi:openai"></iconify-icon>
           <span>Open in ChatGPT</span>
-        </a><a role="menuitem" href="https://claude.ai/new?q=Read%20https%3A//raw.githubusercontent.com/DrumScript/DrumScript/refs/heads/main/docs/generated/drumscript.notation_generator.pdf_exporter.get_vertical_position.rst.txt%20so%20I%20can%20ask%20questions%20about%20it." target="_blank" rel="nofollow">
+        </a><a role="menuitem" href="https://claude.ai/new?q=Read%20https%3A//raw.githubusercontent.com/DrumScript/DrumScript/refs/heads/main/docs/generated/drumscript.transcribe.rst.txt%20so%20I%20can%20ask%20questions%20about%20it." target="_blank" rel="nofollow">
           <iconify-icon icon="bi:claude"></iconify-icon>
           <span>Open in Claude</span>
         </a></div>
     </div>
   </div>
 </div><article class="yue" role="main">
-          <section id="drumscript-notation-generator-pdf-exporter-get-vertical-position">
-<h1>drumscript.notation_generator.pdf_exporter.get_vertical_position<a class="headerlink" href="#drumscript-notation-generator-pdf-exporter-get-vertical-position" title="Link to this heading">¶</a></h1>
+          <section id="drumscript-transcribe">
+<h1>drumscript.transcribe<a class="headerlink" href="#drumscript-transcribe" title="Link to this heading">¶</a></h1>
 <dl class="py function">
-<dt class="sig sig-object py" id="drumscript.notation_generator.pdf_exporter.get_vertical_position">
-<span class="sig-name descname"><span class="pre">get_vertical_position</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">staff_position_str</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">staff_y_base</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="../_modules/drumscript/notation_generator/pdf_exporter.html#get_vertical_position"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#drumscript.notation_generator.pdf_exporter.get_vertical_position" title="Link to this definition">¶</a></dt>
-<dd><p>Calculates the Y-coordinate for a note based on its staff position.</p>
+<dt class="sig sig-object py" id="drumscript.transcribe">
+<span class="sig-name descname"><span class="pre">transcribe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">audio_path</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">full_song</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_signature</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'4/4'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_rudiment</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'outputs'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">full</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/drumscript.html#transcribe"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#drumscript.transcribe" title="Link to this definition">¶</a></dt>
+<dd><p>Run the full DrumScript transcription pipeline end-to-end.</p>
+<p>Loads audio → optionally extracts the drum stem → detects tempo and onsets →
+classifies hits → builds the score → writes PDF output.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>audio_path</strong> (<em>str</em>) – Path to the input audio file (full song or isolated drum stem).</p></li>
+<li><p><strong>full_song</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, run Demucs stem separation first to isolate the drum
+track. Set to False if your input is already an isolated drum stem.</p></li>
+<li><p><strong>time_signature</strong> (<em>str</em><em>, </em><em>optional</em>) – Time signature string in ‘N/D’ form (e.g. ‘4/4’, ‘6/8’).</p></li>
+<li><p><strong>is_rudiment</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, use the simpler classifier optimised for isolated
+single beats and rudiments rather than full polyphonic drum patterns.</p></li>
+<li><p><strong>output_dir</strong> (<em>str</em><em>, </em><em>optional</em>) – Directory to save the PDF output. Created if it doesn’t exist.
+Defaults to ‘outputs/’.</p></li>
+<li><p><strong>output_filename</strong> (<em>str</em><em>, </em><em>optional</em>) – Output filename without extension. Defaults to
+‘&lt;input_stem&gt;_transcription’.</p></li>
+<li><p><strong>full</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, return a dict with all intermediate results (tempo, onsets,
+events, paths) instead of just the PDF path.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Path to the generated PDF, or a dict of full results if full=True.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str or dict</p>
+</dd>
+</dl>
+<p><strong>Examples:</strong></p>
+<p>Quick transcription of an isolated drum stem:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">import</span><span class="w"> </span><span class="nn">drumscript</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ds</span>
+</span><span data-line="2"><span class="n">pdf</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">transcribe</span><span class="p">(</span><span class="s2">&quot;drum_loop.wav&quot;</span><span class="p">)</span>
+</span></pre></div>
+</div>
+<p>Full song with stem separation, custom output, full results:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">result</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">transcribe</span><span class="p">(</span>
+</span><span data-line="2">    <span class="s2">&quot;full_song.mp3&quot;</span><span class="p">,</span>
+</span><span data-line="3">    <span class="n">full_song</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span data-line="4">    <span class="n">time_signature</span><span class="o">=</span><span class="s2">&quot;6/8&quot;</span><span class="p">,</span>
+</span><span data-line="5">    <span class="n">output_dir</span><span class="o">=</span><span class="s2">&quot;./my_transcriptions&quot;</span><span class="p">,</span>
+</span><span data-line="6">    <span class="n">full</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span data-line="7"><span class="p">)</span>
+</span><span data-line="8"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;PDF: </span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;pdf_path&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span data-line="9"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Detected tempo: </span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;tempo&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> BPM&quot;</span><span class="p">)</span>
+</span><span data-line="10"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Onsets: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;onsets&#39;</span><span class="p">])</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span></pre></div>
+</div>
 </dd></dl>
 
 </section>
@@ -319,16 +360,16 @@ data-aria-dark="Switch to auto color mode">
   </svg>
   <span>Back to top</span>
 </button><div class="navigation flex print:hidden"><div class="navigation-prev">
-    <a href="drumscript.notation_generator.pdf_exporter.export_pdf.html">
+    <a href="drumscript.notation_generator.constants.html">
       <i class="i-lucide chevron-left"></i>
       <div class="page-info">
-        <span>Previous</span><div class="title">drumscript.notation_generator.pdf_exporter.export_pdf</div></div>
+        <span>Previous</span><div class="title">drumscript.notation_generator.constants</div></div>
     </a>
   </div><div class="navigation-next">
-    <a href="drumscript.notation_generator.midi_exporter.html">
+    <a href="drumscript.extract_stems.html">
       <div class="page-info">
         <span>Next</span>
-        <div class="title">drumscript.notation_generator.midi_exporter</div>
+        <div class="title">drumscript.extract_stems</div>
       </div>
       <i class="i-lucide chevron-right"></i>
     </a>
