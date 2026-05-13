@@ -398,11 +398,11 @@ data-aria-dark="Switch to auto color mode">
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span data-line="1"># ------------------------------------------------------------------------------------
 </span><span data-line="2">
-</span><span data-line="3">date/time: 2026-05-12 20:21:57.295673
+</span><span data-line="3">date/time: 2026-05-13 14:32:53.278806
 </span><span data-line="4">
 </span><span data-line="5"># ------------------------------------------------------------------------------------
 </span><span data-line="6">
-</span><span data-line="7">date/time: 2026-05-12 20:21:57.311413
+</span><span data-line="7">date/time: 2026-05-13 14:32:53.292929
 </span></pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span data-line="1">--- Starting DrumScript ---
@@ -418,141 +418,143 @@ data-aria-dark="Switch to auto color mode">
 </span><span data-line="6">  y, sr_native = __audioread_load(path, offset, duration, dtype)
 </span><span data-line="7">Error: Audio file not found at demo_beat.wav
 </span><span data-line="8">Error: [Errno 2] No such file or directory: &#39;demo_beat.wav&#39;
-</span><span data-line="9">Traceback (most recent call last):
-</span><span data-line="10">  File &quot;/Users/victoriamckinney/Library/Visual Studio Projects/DrumScript/.venv/lib/python3.12/site-packages/librosa/core/audio.py&quot;, line 176, in load
-</span><span data-line="11">    y, sr_native = __soundfile_load(path, offset, duration, dtype)
-</span><span data-line="12">                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-</span><span data-line="13">  File &quot;/Users/victoriamckinney/Library/Visual Studio Projects/DrumScript/.venv/lib/python3.12/site-packages/librosa/core/audio.py&quot;, line 209, in __soundfile_load
-</span><span data-line="14">    context = sf.SoundFile(path)
-</span><span data-line="15">              ^^^^^^^^^^^^^^^^^^
-</span><span data-line="16">  File &quot;/Users/victoriamckinney/Library/Visual Studio Projects/DrumScript/.venv/lib/python3.12/site-packages/soundfile.py&quot;, line 690, in __init__
-</span><span data-line="17">    self._file = self._open(file, mode_int, closefd)
-</span><span data-line="18">                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-</span><span data-line="19">  File &quot;/Users/victoriamckinney/Library/Visual Studio Projects/DrumScript/.venv/lib/python3.12/site-packages/soundfile.py&quot;, line 1265, in _open
-</span><span data-line="20">    raise LibsndfileError(err, prefix=&quot;Error opening {0!r}: &quot;.format(self.name))
-</span><span data-line="21">soundfile.LibsndfileError: Error opening &#39;demo_beat.wav&#39;: System error.
-</span><span data-line="22">
-</span><span data-line="23">During handling of the above exception, another exception occurred:
-</span><span data-line="24">
-</span><span data-line="25">Traceback (most recent call last):
-</span><span data-line="26">  File &quot;/Users/victoriamckinney/Library/Visual Studio Projects/DrumScript/drumscript/main.py&quot;, line 75, in main
-</span><span data-line="27">    y, sr = audio_loader.load_audio(
-</span><span data-line="28">            ^^^^^^^^^^^^^^^^^^^^^^^^
-</span><span data-line="29">  File &quot;/Users/victoriamckinney/Library/Visual Studio Projects/DrumScript/drumscript/audio_processor/audio_loader.py&quot;, line 41, in load_audio
-</span><span data-line="30">    audio_data, sample_rate = librosa.load(
-</span><span data-line="31">                              ^^^^^^^^^^^^^
-</span><span data-line="32">  File &quot;/Users/victoriamckinney/Library/Visual Studio Projects/DrumScript/.venv/lib/python3.12/site-packages/librosa/core/audio.py&quot;, line 184, in load
-</span><span data-line="33">    y, sr_native = __audioread_load(path, offset, duration, dtype)
-</span><span data-line="34">                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-</span><span data-line="35">  File &quot;/Users/victoriamckinney/Library/Visual Studio Projects/DrumScript/.venv/lib/python3.12/site-packages/decorator.py&quot;, line 235, in fun
-</span><span data-line="36">    return caller(func, *(extras + args), **kw)
-</span><span data-line="37">           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-</span><span data-line="38">  File &quot;/Users/victoriamckinney/Library/Visual Studio Projects/DrumScript/.venv/lib/python3.12/site-packages/librosa/util/decorators.py&quot;, line 63, in __wrapper
-</span><span data-line="39">    return func(*args, **kwargs)
-</span><span data-line="40">           ^^^^^^^^^^^^^^^^^^^^^
-</span><span data-line="41">  File &quot;/Users/victoriamckinney/Library/Visual Studio Projects/DrumScript/.venv/lib/python3.12/site-packages/librosa/core/audio.py&quot;, line 240, in __audioread_load
-</span><span data-line="42">    reader = audioread.audio_open(path)
-</span><span data-line="43">             ^^^^^^^^^^^^^^^^^^^^^^^^^^
-</span><span data-line="44">  File &quot;/Users/victoriamckinney/Library/Visual Studio Projects/DrumScript/.venv/lib/python3.12/site-packages/audioread/__init__.py&quot;, line 126, in audio_open
-</span><span data-line="45">    return BackendClass(path)
-</span><span data-line="46">           ^^^^^^^^^^^^^^^^^^
-</span><span data-line="47">  File &quot;/Users/victoriamckinney/Library/Visual Studio Projects/DrumScript/.venv/lib/python3.12/site-packages/audioread/rawread.py&quot;, line 59, in __init__
-</span><span data-line="48">    self._fh = open(filename, &#39;rb&#39;)
-</span><span data-line="49">               ^^^^^^^^^^^^^^^^^^^^
-</span><span data-line="50">FileNotFoundError: [Errno 2] No such file or directory: &#39;demo_beat.wav&#39;
-</span><span data-line="51">...Loading &amp; Analysing Audio (demo_beat.wav)...
-</span><span data-line="52">Error: Audio file not found at demo_beat.wav
-</span><span data-line="53">Traceback (most recent call last):
-</span><span data-line="54">  File &quot;/Users/victoriamckinney/Library/Visual Studio Projects/DrumScript/.venv/lib/python3.12/site-packages/librosa/core/audio.py&quot;, line 176, in load
-</span><span data-line="55">    y, sr_native = __soundfile_load(path, offset, duration, dtype)
-</span><span data-line="56">                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-</span><span data-line="57">  File &quot;/Users/victoriamckinney/Library/Visual Studio Projects/DrumScript/.venv/lib/python3.12/site-packages/librosa/core/audio.py&quot;, line 209, in __soundfile_load
-</span><span data-line="58">    context = sf.SoundFile(path)
-</span><span data-line="59">              ^^^^^^^^^^^^^^^^^^
-</span><span data-line="60">  File &quot;/Users/victoriamckinney/Library/Visual Studio Projects/DrumScript/.venv/lib/python3.12/site-packages/soundfile.py&quot;, line 690, in __init__
-</span><span data-line="61">    self._file = self._open(file, mode_int, closefd)
-</span><span data-line="62">                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-</span><span data-line="63">  File &quot;/Users/victoriamckinney/Library/Visual Studio Projects/DrumScript/.venv/lib/python3.12/site-packages/soundfile.py&quot;, line 1265, in _open
-</span><span data-line="64">    raise LibsndfileError(err, prefix=&quot;Error opening {0!r}: &quot;.format(self.name))
-</span><span data-line="65">soundfile.LibsndfileError: Error opening &#39;demo_beat.wav&#39;: System error.
-</span><span data-line="66">
-</span><span data-line="67">During handling of the above exception, another exception occurred:
-</span><span data-line="68">
-</span><span data-line="69">Traceback (most recent call last):
-</span><span data-line="70">  File &quot;/Users/victoriamckinney/Library/Visual Studio Projects/DrumScript/drumscript/main.py&quot;, line 75, in main
-</span><span data-line="71">    y, sr = audio_loader.load_audio(
-</span><span data-line="72">            ^^^^^^^^^^^^^^^^^^^^^^^^
-</span><span data-line="73">  File &quot;/Users/victoriamckinney/Library/Visual Studio Projects/DrumScript/drumscript/audio_processor/audio_loader.py&quot;, line 41, in load_audio
-</span><span data-line="74">    audio_data, sample_rate = librosa.load(
-</span><span data-line="75">                              ^^^^^^^^^^^^^
-</span><span data-line="76">  File &quot;/Users/victoriamckinney/Library/Visual Studio Projects/DrumScript/.venv/lib/python3.12/site-packages/librosa/core/audio.py&quot;, line 184, in load
-</span><span data-line="77">    y, sr_native = __audioread_load(path, offset, duration, dtype)
-</span><span data-line="78">                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-</span><span data-line="79">  File &quot;/Users/victoriamckinney/Library/Visual Studio Projects/DrumScript/.venv/lib/python3.12/site-packages/decorator.py&quot;, line 235, in fun
-</span><span data-line="80">    return caller(func, *(extras + args), **kw)
-</span><span data-line="81">           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-</span><span data-line="82">  File &quot;/Users/victoriamckinney/Library/Visual Studio Projects/DrumScript/.venv/lib/python3.12/site-packages/librosa/util/decorators.py&quot;, line 63, in __wrapper
-</span><span data-line="83">    return func(*args, **kwargs)
-</span><span data-line="84">           ^^^^^^^^^^^^^^^^^^^^^
-</span><span data-line="85">  File &quot;/Users/victoriamckinney/Library/Visual Studio Projects/DrumScript/.venv/lib/python3.12/site-packages/librosa/core/audio.py&quot;, line 240, in __audioread_load
-</span><span data-line="86">    reader = audioread.audio_open(path)
-</span><span data-line="87">             ^^^^^^^^^^^^^^^^^^^^^^^^^^
-</span><span data-line="88">  File &quot;/Users/victoriamckinney/Library/Visual Studio Projects/DrumScript/.venv/lib/python3.12/site-packages/audioread/__init__.py&quot;, line 126, in audio_open
-</span><span data-line="89">    return BackendClass(path)
-</span><span data-line="90">           ^^^^^^^^^^^^^^^^^^
-</span><span data-line="91">  File &quot;/Users/victoriamckinney/Library/Visual Studio Projects/DrumScript/.venv/lib/python3.12/site-packages/audioread/rawread.py&quot;, line 59, in __init__
-</span><span data-line="92">    self._fh = open(filename, &#39;rb&#39;)
-</span><span data-line="93">               ^^^^^^^^^^^^^^^^^^^^
-</span><span data-line="94">FileNotFoundError: [Errno 2] No such file or directory: &#39;demo_beat.wav&#39;
-</span><span data-line="95">
-</span><span data-line="96">During handling of the above exception, another exception occurred:
-</span><span data-line="97">
-</span><span data-line="98">Traceback (most recent call last):
-</span><span data-line="99">  File &quot;/Users/victoriamckinney/Library/Visual Studio Projects/DrumScript/.venv/lib/python3.12/site-packages/librosa/core/audio.py&quot;, line 176, in load
-</span><span data-line="100">    y, sr_native = __soundfile_load(path, offset, duration, dtype)
-</span><span data-line="101">                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-</span><span data-line="102">  File &quot;/Users/victoriamckinney/Library/Visual Studio Projects/DrumScript/.venv/lib/python3.12/site-packages/librosa/core/audio.py&quot;, line 209, in __soundfile_load
-</span><span data-line="103">    context = sf.SoundFile(path)
-</span><span data-line="104">              ^^^^^^^^^^^^^^^^^^
-</span><span data-line="105">  File &quot;/Users/victoriamckinney/Library/Visual Studio Projects/DrumScript/.venv/lib/python3.12/site-packages/soundfile.py&quot;, line 690, in __init__
-</span><span data-line="106">    self._file = self._open(file, mode_int, closefd)
-</span><span data-line="107">                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-</span><span data-line="108">  File &quot;/Users/victoriamckinney/Library/Visual Studio Projects/DrumScript/.venv/lib/python3.12/site-packages/soundfile.py&quot;, line 1265, in _open
-</span><span data-line="109">    raise LibsndfileError(err, prefix=&quot;Error opening {0!r}: &quot;.format(self.name))
-</span><span data-line="110">soundfile.LibsndfileError: Error opening &#39;demo_beat.wav&#39;: System error.
-</span><span data-line="111">
-</span><span data-line="112">During handling of the above exception, another exception occurred:
-</span><span data-line="113">
-</span><span data-line="114">Traceback (most recent call last):
-</span><span data-line="115">  File &quot;&lt;frozen runpy&gt;&quot;, line 198, in _run_module_as_main
-</span><span data-line="116">  File &quot;&lt;frozen runpy&gt;&quot;, line 88, in _run_code
-</span><span data-line="117">  File &quot;/Users/victoriamckinney/Library/Visual Studio Projects/DrumScript/drumscript/main.py&quot;, line 284, in &lt;module&gt;
-</span><span data-line="118">    main(
-</span><span data-line="119">  File &quot;/Users/victoriamckinney/Library/Visual Studio Projects/DrumScript/drumscript/main.py&quot;, line 186, in main
-</span><span data-line="120">    y, sr = audio_loader.load_audio(audio_path)
-</span><span data-line="121">            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-</span><span data-line="122">  File &quot;/Users/victoriamckinney/Library/Visual Studio Projects/DrumScript/drumscript/audio_processor/audio_loader.py&quot;, line 41, in load_audio
-</span><span data-line="123">    audio_data, sample_rate = librosa.load(
-</span><span data-line="124">                              ^^^^^^^^^^^^^
-</span><span data-line="125">  File &quot;/Users/victoriamckinney/Library/Visual Studio Projects/DrumScript/.venv/lib/python3.12/site-packages/librosa/core/audio.py&quot;, line 184, in load
-</span><span data-line="126">    y, sr_native = __audioread_load(path, offset, duration, dtype)
-</span><span data-line="127">                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-</span><span data-line="128">  File &quot;/Users/victoriamckinney/Library/Visual Studio Projects/DrumScript/.venv/lib/python3.12/site-packages/decorator.py&quot;, line 235, in fun
-</span><span data-line="129">    return caller(func, *(extras + args), **kw)
-</span><span data-line="130">           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-</span><span data-line="131">  File &quot;/Users/victoriamckinney/Library/Visual Studio Projects/DrumScript/.venv/lib/python3.12/site-packages/librosa/util/decorators.py&quot;, line 63, in __wrapper
-</span><span data-line="132">    return func(*args, **kwargs)
-</span><span data-line="133">           ^^^^^^^^^^^^^^^^^^^^^
-</span><span data-line="134">  File &quot;/Users/victoriamckinney/Library/Visual Studio Projects/DrumScript/.venv/lib/python3.12/site-packages/librosa/core/audio.py&quot;, line 240, in __audioread_load
-</span><span data-line="135">    reader = audioread.audio_open(path)
-</span><span data-line="136">             ^^^^^^^^^^^^^^^^^^^^^^^^^^
-</span><span data-line="137">  File &quot;/Users/victoriamckinney/Library/Visual Studio Projects/DrumScript/.venv/lib/python3.12/site-packages/audioread/__init__.py&quot;, line 126, in audio_open
-</span><span data-line="138">    return BackendClass(path)
-</span><span data-line="139">           ^^^^^^^^^^^^^^^^^^
-</span><span data-line="140">  File &quot;/Users/victoriamckinney/Library/Visual Studio Projects/DrumScript/.venv/lib/python3.12/site-packages/audioread/rawread.py&quot;, line 59, in __init__
-</span><span data-line="141">    self._fh = open(filename, &#39;rb&#39;)
-</span><span data-line="142">               ^^^^^^^^^^^^^^^^^^^^
-</span><span data-line="143">FileNotFoundError: [Errno 2] No such file or directory: &#39;demo_beat.wav&#39;
+</span></pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span data-line="1">Traceback (most recent call last):
+</span><span data-line="2">  File &quot;/Users/victoriamckinney/Library/Visual Studio Projects/DrumScript/.venv/lib/python3.12/site-packages/librosa/core/audio.py&quot;, line 176, in load
+</span><span data-line="3">    y, sr_native = __soundfile_load(path, offset, duration, dtype)
+</span><span data-line="4">                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+</span><span data-line="5">  File &quot;/Users/victoriamckinney/Library/Visual Studio Projects/DrumScript/.venv/lib/python3.12/site-packages/librosa/core/audio.py&quot;, line 209, in __soundfile_load
+</span><span data-line="6">    context = sf.SoundFile(path)
+</span><span data-line="7">              ^^^^^^^^^^^^^^^^^^
+</span><span data-line="8">  File &quot;/Users/victoriamckinney/Library/Visual Studio Projects/DrumScript/.venv/lib/python3.12/site-packages/soundfile.py&quot;, line 690, in __init__
+</span><span data-line="9">    self._file = self._open(file, mode_int, closefd)
+</span><span data-line="10">                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+</span><span data-line="11">  File &quot;/Users/victoriamckinney/Library/Visual Studio Projects/DrumScript/.venv/lib/python3.12/site-packages/soundfile.py&quot;, line 1265, in _open
+</span><span data-line="12">    raise LibsndfileError(err, prefix=&quot;Error opening {0!r}: &quot;.format(self.name))
+</span><span data-line="13">soundfile.LibsndfileError: Error opening &#39;demo_beat.wav&#39;: System error.
+</span><span data-line="14">
+</span><span data-line="15">During handling of the above exception, another exception occurred:
+</span><span data-line="16">
+</span><span data-line="17">Traceback (most recent call last):
+</span><span data-line="18">  File &quot;/Users/victoriamckinney/Library/Visual Studio Projects/DrumScript/drumscript/main.py&quot;, line 75, in main
+</span><span data-line="19">    y, sr = audio_loader.load_audio(
+</span><span data-line="20">            ^^^^^^^^^^^^^^^^^^^^^^^^
+</span><span data-line="21">  File &quot;/Users/victoriamckinney/Library/Visual Studio Projects/DrumScript/drumscript/audio_processor/audio_loader.py&quot;, line 41, in load_audio
+</span><span data-line="22">    audio_data, sample_rate = librosa.load(
+</span><span data-line="23">                              ^^^^^^^^^^^^^
+</span><span data-line="24">  File &quot;/Users/victoriamckinney/Library/Visual Studio Projects/DrumScript/.venv/lib/python3.12/site-packages/librosa/core/audio.py&quot;, line 184, in load
+</span><span data-line="25">    y, sr_native = __audioread_load(path, offset, duration, dtype)
+</span><span data-line="26">                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+</span><span data-line="27">  File &quot;/Users/victoriamckinney/Library/Visual Studio Projects/DrumScript/.venv/lib/python3.12/site-packages/decorator.py&quot;, line 235, in fun
+</span><span data-line="28">    return caller(func, *(extras + args), **kw)
+</span><span data-line="29">           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+</span><span data-line="30">  File &quot;/Users/victoriamckinney/Library/Visual Studio Projects/DrumScript/.venv/lib/python3.12/site-packages/librosa/util/decorators.py&quot;, line 63, in __wrapper
+</span><span data-line="31">    return func(*args, **kwargs)
+</span><span data-line="32">           ^^^^^^^^^^^^^^^^^^^^^
+</span><span data-line="33">  File &quot;/Users/victoriamckinney/Library/Visual Studio Projects/DrumScript/.venv/lib/python3.12/site-packages/librosa/core/audio.py&quot;, line 240, in __audioread_load
+</span><span data-line="34">    reader = audioread.audio_open(path)
+</span><span data-line="35">             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+</span><span data-line="36">  File &quot;/Users/victoriamckinney/Library/Visual Studio Projects/DrumScript/.venv/lib/python3.12/site-packages/audioread/__init__.py&quot;, line 126, in audio_open
+</span><span data-line="37">    return BackendClass(path)
+</span><span data-line="38">           ^^^^^^^^^^^^^^^^^^
+</span><span data-line="39">  File &quot;/Users/victoriamckinney/Library/Visual Studio Projects/DrumScript/.venv/lib/python3.12/site-packages/audioread/rawread.py&quot;, line 59, in __init__
+</span><span data-line="40">    self._fh = open(filename, &#39;rb&#39;)
+</span><span data-line="41">               ^^^^^^^^^^^^^^^^^^^^
+</span><span data-line="42">FileNotFoundError: [Errno 2] No such file or directory: &#39;demo_beat.wav&#39;
+</span><span data-line="43">...Loading &amp; Analysing Audio (demo_beat.wav)...
+</span><span data-line="44">Error: Audio file not found at demo_beat.wav
+</span><span data-line="45">Traceback (most recent call last):
+</span><span data-line="46">  File &quot;/Users/victoriamckinney/Library/Visual Studio Projects/DrumScript/.venv/lib/python3.12/site-packages/librosa/core/audio.py&quot;, line 176, in load
+</span><span data-line="47">    y, sr_native = __soundfile_load(path, offset, duration, dtype)
+</span><span data-line="48">                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+</span><span data-line="49">  File &quot;/Users/victoriamckinney/Library/Visual Studio Projects/DrumScript/.venv/lib/python3.12/site-packages/librosa/core/audio.py&quot;, line 209, in __soundfile_load
+</span><span data-line="50">    context = sf.SoundFile(path)
+</span><span data-line="51">              ^^^^^^^^^^^^^^^^^^
+</span><span data-line="52">  File &quot;/Users/victoriamckinney/Library/Visual Studio Projects/DrumScript/.venv/lib/python3.12/site-packages/soundfile.py&quot;, line 690, in __init__
+</span><span data-line="53">    self._file = self._open(file, mode_int, closefd)
+</span><span data-line="54">                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+</span><span data-line="55">  File &quot;/Users/victoriamckinney/Library/Visual Studio Projects/DrumScript/.venv/lib/python3.12/site-packages/soundfile.py&quot;, line 1265, in _open
+</span><span data-line="56">    raise LibsndfileError(err, prefix=&quot;Error opening {0!r}: &quot;.format(self.name))
+</span><span data-line="57">soundfile.LibsndfileError: Error opening &#39;demo_beat.wav&#39;: System error.
+</span><span data-line="58">
+</span><span data-line="59">During handling of the above exception, another exception occurred:
+</span><span data-line="60">
+</span><span data-line="61">Traceback (most recent call last):
+</span><span data-line="62">  File &quot;/Users/victoriamckinney/Library/Visual Studio Projects/DrumScript/drumscript/main.py&quot;, line 75, in main
+</span><span data-line="63">    y, sr = audio_loader.load_audio(
+</span><span data-line="64">            ^^^^^^^^^^^^^^^^^^^^^^^^
+</span><span data-line="65">  File &quot;/Users/victoriamckinney/Library/Visual Studio Projects/DrumScript/drumscript/audio_processor/audio_loader.py&quot;, line 41, in load_audio
+</span><span data-line="66">    audio_data, sample_rate = librosa.load(
+</span><span data-line="67">                              ^^^^^^^^^^^^^
+</span><span data-line="68">  File &quot;/Users/victoriamckinney/Library/Visual Studio Projects/DrumScript/.venv/lib/python3.12/site-packages/librosa/core/audio.py&quot;, line 184, in load
+</span><span data-line="69">    y, sr_native = __audioread_load(path, offset, duration, dtype)
+</span><span data-line="70">                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+</span><span data-line="71">  File &quot;/Users/victoriamckinney/Library/Visual Studio Projects/DrumScript/.venv/lib/python3.12/site-packages/decorator.py&quot;, line 235, in fun
+</span><span data-line="72">    return caller(func, *(extras + args), **kw)
+</span><span data-line="73">           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+</span><span data-line="74">  File &quot;/Users/victoriamckinney/Library/Visual Studio Projects/DrumScript/.venv/lib/python3.12/site-packages/librosa/util/decorators.py&quot;, line 63, in __wrapper
+</span><span data-line="75">    return func(*args, **kwargs)
+</span><span data-line="76">           ^^^^^^^^^^^^^^^^^^^^^
+</span><span data-line="77">  File &quot;/Users/victoriamckinney/Library/Visual Studio Projects/DrumScript/.venv/lib/python3.12/site-packages/librosa/core/audio.py&quot;, line 240, in __audioread_load
+</span><span data-line="78">    reader = audioread.audio_open(path)
+</span><span data-line="79">             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+</span><span data-line="80">  File &quot;/Users/victoriamckinney/Library/Visual Studio Projects/DrumScript/.venv/lib/python3.12/site-packages/audioread/__init__.py&quot;, line 126, in audio_open
+</span><span data-line="81">    return BackendClass(path)
+</span><span data-line="82">           ^^^^^^^^^^^^^^^^^^
+</span><span data-line="83">  File &quot;/Users/victoriamckinney/Library/Visual Studio Projects/DrumScript/.venv/lib/python3.12/site-packages/audioread/rawread.py&quot;, line 59, in __init__
+</span><span data-line="84">    self._fh = open(filename, &#39;rb&#39;)
+</span><span data-line="85">               ^^^^^^^^^^^^^^^^^^^^
+</span><span data-line="86">FileNotFoundError: [Errno 2] No such file or directory: &#39;demo_beat.wav&#39;
+</span><span data-line="87">
+</span><span data-line="88">During handling of the above exception, another exception occurred:
+</span><span data-line="89">
+</span><span data-line="90">Traceback (most recent call last):
+</span><span data-line="91">  File &quot;/Users/victoriamckinney/Library/Visual Studio Projects/DrumScript/.venv/lib/python3.12/site-packages/librosa/core/audio.py&quot;, line 176, in load
+</span><span data-line="92">    y, sr_native = __soundfile_load(path, offset, duration, dtype)
+</span><span data-line="93">                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+</span><span data-line="94">  File &quot;/Users/victoriamckinney/Library/Visual Studio Projects/DrumScript/.venv/lib/python3.12/site-packages/librosa/core/audio.py&quot;, line 209, in __soundfile_load
+</span><span data-line="95">    context = sf.SoundFile(path)
+</span><span data-line="96">              ^^^^^^^^^^^^^^^^^^
+</span><span data-line="97">  File &quot;/Users/victoriamckinney/Library/Visual Studio Projects/DrumScript/.venv/lib/python3.12/site-packages/soundfile.py&quot;, line 690, in __init__
+</span><span data-line="98">    self._file = self._open(file, mode_int, closefd)
+</span><span data-line="99">                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+</span><span data-line="100">  File &quot;/Users/victoriamckinney/Library/Visual Studio Projects/DrumScript/.venv/lib/python3.12/site-packages/soundfile.py&quot;, line 1265, in _open
+</span><span data-line="101">    raise LibsndfileError(err, prefix=&quot;Error opening {0!r}: &quot;.format(self.name))
+</span><span data-line="102">soundfile.LibsndfileError: Error opening &#39;demo_beat.wav&#39;: System error.
+</span><span data-line="103">
+</span><span data-line="104">During handling of the above exception, another exception occurred:
+</span><span data-line="105">
+</span><span data-line="106">Traceback (most recent call last):
+</span><span data-line="107">  File &quot;&lt;frozen runpy&gt;&quot;, line 198, in _run_module_as_main
+</span><span data-line="108">  File &quot;&lt;frozen runpy&gt;&quot;, line 88, in _run_code
+</span><span data-line="109">  File &quot;/Users/victoriamckinney/Library/Visual Studio Projects/DrumScript/drumscript/main.py&quot;, line 284, in &lt;module&gt;
+</span><span data-line="110">    main(
+</span><span data-line="111">  File &quot;/Users/victoriamckinney/Library/Visual Studio Projects/DrumScript/drumscript/main.py&quot;, line 186, in main
+</span><span data-line="112">    y, sr = audio_loader.load_audio(audio_path)
+</span><span data-line="113">            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+</span><span data-line="114">  File &quot;/Users/victoriamckinney/Library/Visual Studio Projects/DrumScript/drumscript/audio_processor/audio_loader.py&quot;, line 41, in load_audio
+</span><span data-line="115">    audio_data, sample_rate = librosa.load(
+</span><span data-line="116">                              ^^^^^^^^^^^^^
+</span><span data-line="117">  File &quot;/Users/victoriamckinney/Library/Visual Studio Projects/DrumScript/.venv/lib/python3.12/site-packages/librosa/core/audio.py&quot;, line 184, in load
+</span><span data-line="118">    y, sr_native = __audioread_load(path, offset, duration, dtype)
+</span><span data-line="119">                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+</span><span data-line="120">  File &quot;/Users/victoriamckinney/Library/Visual Studio Projects/DrumScript/.venv/lib/python3.12/site-packages/decorator.py&quot;, line 235, in fun
+</span><span data-line="121">    return caller(func, *(extras + args), **kw)
+</span><span data-line="122">           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+</span><span data-line="123">  File &quot;/Users/victoriamckinney/Library/Visual Studio Projects/DrumScript/.venv/lib/python3.12/site-packages/librosa/util/decorators.py&quot;, line 63, in __wrapper
+</span><span data-line="124">    return func(*args, **kwargs)
+</span><span data-line="125">           ^^^^^^^^^^^^^^^^^^^^^
+</span><span data-line="126">  File &quot;/Users/victoriamckinney/Library/Visual Studio Projects/DrumScript/.venv/lib/python3.12/site-packages/librosa/core/audio.py&quot;, line 240, in __audioread_load
+</span><span data-line="127">    reader = audioread.audio_open(path)
+</span><span data-line="128">             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+</span><span data-line="129">  File &quot;/Users/victoriamckinney/Library/Visual Studio Projects/DrumScript/.venv/lib/python3.12/site-packages/audioread/__init__.py&quot;, line 126, in audio_open
+</span><span data-line="130">    return BackendClass(path)
+</span><span data-line="131">           ^^^^^^^^^^^^^^^^^^
+</span><span data-line="132">  File &quot;/Users/victoriamckinney/Library/Visual Studio Projects/DrumScript/.venv/lib/python3.12/site-packages/audioread/rawread.py&quot;, line 59, in __init__
+</span><span data-line="133">    self._fh = open(filename, &#39;rb&#39;)
+</span><span data-line="134">               ^^^^^^^^^^^^^^^^^^^^
+</span><span data-line="135">FileNotFoundError: [Errno 2] No such file or directory: &#39;demo_beat.wav&#39;
 </span></pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span data-line="1">Transcription Complete. Check the &#39;outputs&#39; folder in the file browser on the left for your PDF!
