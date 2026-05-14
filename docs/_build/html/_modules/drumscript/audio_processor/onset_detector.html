@@ -412,7 +412,7 @@ data-aria-dark="Switch to auto color mode">
 </span><span data-line="135">    <span class="c1"># if duration &lt; 1.0 and len(onset_times) &gt; 1:</span>
 </span><span data-line="136">    <span class="k">if</span> <span class="n">duration</span> <span class="o">&lt;</span> <span class="mf">2.0</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">onset_times</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
 </span><span data-line="137">        <span class="c1"># We only keep the FIRST onset if others follow too closely (within 150ms)</span>
-</span><span data-line="138">        <span class="c1"># This fixes the &#39;single hit showing multiple events&#39; issue in your orchestration folder.</span>
+</span><span data-line="138">        <span class="c1"># This fixes the &#39;single hit showing multiple events&#39; issue in orchestration folder.</span>
 </span><span data-line="139">        <span class="n">refined_onsets</span> <span class="o">=</span> <span class="p">[</span><span class="n">onset_times</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
 </span><span data-line="140">        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">onset_times</span><span class="p">)):</span>
 </span><span data-line="141">            <span class="k">if</span> <span class="n">onset_times</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">refined_onsets</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">0.150</span><span class="p">:</span>  <span class="c1"># 150ms threshold</span>
@@ -476,7 +476,7 @@ data-aria-dark="Switch to auto color mode">
 </span><span data-line="198">    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">#=======================================================================================&quot;</span><span class="p">)</span>
 </span><span data-line="199">    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Running onset_detector.py example with provided filepath...&quot;</span><span class="p">)</span>  <span class="c1"># FUTURE: Find way to encode this so it prints the file path provided in CLI</span>
 </span><span data-line="200">    <span class="k">try</span><span class="p">:</span>
-</span><span data-line="201">        <span class="c1"># Import necessary modules from your package</span>
+</span><span data-line="201">        <span class="c1"># Import necessary modules from package</span>
 </span><span data-line="202">        <span class="c1"># Note: You might need &#39;from DrumScript.audio_processor.audio_loader import ...&#39;</span>
 </span><span data-line="203">        <span class="c1"># if running this script directly and &#39;audio_processor&#39; is not in the Python path.</span>
 </span><span data-line="204">        <span class="c1"># However, for &#39;python -m&#39; style execution, &#39;from audio_processor.audio_loader import ...&#39; is usually correct.</span>
@@ -541,11 +541,11 @@ data-aria-dark="Switch to auto color mode">
 </span><span data-line="263">        <span class="p">)</span>
 </span><span data-line="264">    <span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
 </span><span data-line="265">        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">ERROR: The audio file &#39;</span><span class="si">{</span><span class="n">audio_path</span><span class="si">}</span><span class="s2">&#39; was not found.&quot;</span><span class="p">)</span>
-</span><span data-line="266">        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Please ensure you have provided the correct path to your audio file: </span><span class="si">{</span><span class="n">audio_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span data-line="266">        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Please ensure you have provided the correct path to audio file: </span><span class="si">{</span><span class="n">audio_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </span><span data-line="267">    <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
 </span><span data-line="268">        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">ERROR: Required modules/libraries might be missing or imports are incorrect: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-</span><span data-line="269">        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Ensure &#39;soundfile&#39;, &#39;librosa&#39;, &#39;numpy&#39;, and your DrumScript modules are correctly installed and structured.&quot;</span><span class="p">)</span>
-</span><span data-line="270">        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;For MP3, &#39;ffmpeg&#39; must also be installed on your system and accessible in PATH.&quot;</span><span class="p">)</span>
+</span><span data-line="269">        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Ensure &#39;soundfile&#39;, &#39;librosa&#39;, &#39;numpy&#39;, and DrumScript modules are correctly installed and structured.&quot;</span><span class="p">)</span>
+</span><span data-line="270">        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;For MP3, &#39;ffmpeg&#39; must also be installed on system and accessible in PATH.&quot;</span><span class="p">)</span>
 </span><span data-line="271">    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
 </span><span data-line="272">        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">An unexpected error occurred during the example execution: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </span><span data-line="273">        <span class="kn">import</span><span class="w"> </span><span class="nn">traceback</span>
@@ -553,27 +553,6 @@ data-aria-dark="Switch to auto color mode">
 </span><span data-line="275">        <span class="n">traceback</span><span class="o">.</span><span class="n">print_exc</span><span class="p">()</span>  <span class="c1"># Print full traceback for debugging</span>
 </span><span data-line="276">
 </span><span data-line="277">    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">onset_detector.py example finished.&quot;</span><span class="p">)</span>
-</span><span data-line="278">
-</span><span data-line="279"><span class="c1"># Uncomment to use, for clearer error logs</span>
-</span><span data-line="280"><span class="c1"># print(&quot;\n# ------------------------------------------------------------------------------------&quot;)</span>
-</span><span data-line="281"><span class="c1"># LEGACY CODE:</span>
-</span><span data-line="282"><span class="c1"># --- 2. Onset detection</span>
-</span><span data-line="283"><span class="c1"># Now, we run the same onset detection, but on the much cleaner</span>
-</span><span data-line="284"><span class="c1"># percussive signal. This allows us to get a precise detection</span>
-</span><span data-line="285"><span class="c1"># of the initial hit without interference from the sustain.</span>
-</span><span data-line="286">
-</span><span data-line="287"><span class="c1">#  Changed units from &#39;frames&#39; to &#39;time&#39; to get seconds directly.</span>
-</span><span data-line="288"><span class="c1"># This removes the need for the subsequent librosa.frames_to_time conversion.</span>
-</span><span data-line="289"><span class="c1"># onset_times = librosa.onset.onset_detect(</span>
-</span><span data-line="290"><span class="c1">#   y=y_percussive,  # Use the percussive-only signal</span>
-</span><span data-line="291"><span class="c1">#  sr=SAMPLE_RATE,</span>
-</span><span data-line="292"><span class="c1">#  units=&#39;time&#39;,       # Request output directly in seconds (float)</span>
-</span><span data-line="293"><span class="c1"># delta=0.0095,       # The sensitive delta is now effective and safe to use</span>
-</span><span data-line="294"><span class="c1"># wait=1,</span>
-</span><span data-line="295"><span class="c1">#  pre_avg=8,</span>
-</span><span data-line="296"><span class="c1">#  post_avg=8,</span>
-</span><span data-line="297"><span class="c1">#  backtrack=True</span>
-</span><span data-line="298"><span class="c1"># )</span>
 </span></pre></div>
         </article><button class="back-to-top" type="button">
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
