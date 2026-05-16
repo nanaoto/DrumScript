@@ -53,29 +53,6 @@
    ]
   },
   {
-   "cell_type": "code",
-   "execution_count": null,
-   "id": "d8df93ae",
-   "metadata": {},
-   "outputs": [],
-   "source": [
-    "\"\"\"    # 2. Advanced transcription using all available flags\n",
-    "    advanced_transcription = ds.transcribe(\n",
-    "        audio_path=audio_file_path,\n",
-    "        output_dir='output_advanced_transcription',\n",
-    "        output_format='all',\n",
-    "        include_audio=True,\n",
-    "        quantization_subdivision=16,\n",
-    "        output_prefix='custom_test_track',\n",
-    "        pdf_page_size='A4',\n",
-    "        title='Interactive Test Track',\n",
-    "        author='DrumScript User'\n",
-    "    )\n",
-    "\n",
-    "    print('Advanced transcription complete. Files generated:', advanced_transcription)\"\"\""
-   ]
-  },
-  {
    "cell_type": "markdown",
    "id": "118b0cee",
    "metadata": {},
