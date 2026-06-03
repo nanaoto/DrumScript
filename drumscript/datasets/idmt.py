@@ -31,9 +31,14 @@ SUBSETS: tuple[str, ...] = ("RealDrum", "WaveDrum", "TechnoDrum")
 #: GM MIDI pitch → IDMT code, used when annotations carry a ``<pitch>`` instead
 #: of an ``<instrument>`` label.
 GM_PITCH_TO_IDMT: dict[int, str] = {
-    35: "KD", 36: "KD",
-    37: "SD", 38: "SD", 40: "SD",
-    42: "HH", 44: "HH", 46: "HH",
+    35: "KD",
+    36: "KD",
+    37: "SD",
+    38: "SD",
+    40: "SD",
+    42: "HH",
+    44: "HH",
+    46: "HH",
 }
 
 

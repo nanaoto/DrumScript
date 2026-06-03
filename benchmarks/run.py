@@ -49,9 +49,7 @@ def onset_metrics(reference: np.ndarray, estimated: np.ndarray) -> dict[str, flo
     """Return named onset precision, recall, and F-measure metrics."""
     if len(estimated) == 0:
         return {"precision": 0.0, "recall": 0.0, "f_measure": 0.0}
-    f_measure, precision, recall = mir_eval.onset.f_measure(
-        reference, estimated, window=ONSET_WINDOW
-    )
+    f_measure, precision, recall = mir_eval.onset.f_measure(reference, estimated, window=ONSET_WINDOW)
     return {"precision": precision, "recall": recall, "f_measure": f_measure}
 
 
@@ -86,10 +84,7 @@ def summarise(results: Iterable[dict]) -> dict:
         for inst, metrics in file_res.items():
             for metric, value in metrics.items():
                 accum[inst][metric].append(value)
-    return {
-        inst: {m: float(np.mean(values)) for m, values in metrics.items()}
-        for inst, metrics in accum.items()
-    }
+    return {inst: {m: float(np.mean(values)) for m, values in metrics.items()} for inst, metrics in accum.items()}
 
 
 def summarise_by_bucket(items: Sequence[BenchmarkItem], results: Sequence[dict]) -> dict[str, dict]:
@@ -107,10 +102,7 @@ def print_summary(title: str, summary: dict) -> None:
     print(f"{'Instrument':<12} {'Precision':>10} {'Recall':>10} {'F-measure':>10}")
     print("-" * 44)
     for inst, metrics in summary.items():
-        print(
-            f"{inst:<12} {metrics['precision']:>10.3f} "
-            f"{metrics['recall']:>10.3f} {metrics['f_measure']:>10.3f}"
-        )
+        print(f"{inst:<12} {metrics['precision']:>10.3f} {metrics['recall']:>10.3f} {metrics['f_measure']:>10.3f}")
 
 
 def fmt_optional(value) -> str:
@@ -221,9 +213,7 @@ def archive_run(
     }
     (archive_dir / "summary.json").write_text(json.dumps(metadata, indent=2))
     (archive_dir / "command.txt").write_text(metadata["command"] + "\n")
-    (archive_dir / "git_commit.txt").write_text(
-        f"{metadata['git_commit']}\ndirty={metadata['git_dirty']}\n"
-    )
+    (archive_dir / "git_commit.txt").write_text(f"{metadata['git_commit']}\ndirty={metadata['git_dirty']}\n")
     return archive_dir
 
 
@@ -245,10 +235,7 @@ def evaluate_item(item: BenchmarkItem, code_to_labels: Mapping[str, Sequence[str
 
     metrics = evaluate_per_instrument(predictions, item.references, code_to_labels)
     for code, m in metrics.items():
-        print(
-            f"    {code}: P={m['precision']:.3f}  R={m['recall']:.3f}  F={m['f_measure']:.3f}  "
-            f"(ref={m['n_ref']}, est={m['n_est']})"
-        )
+        print(f"    {code}: P={m['precision']:.3f}  R={m['recall']:.3f}  F={m['f_measure']:.3f}  (ref={m['n_ref']}, est={m['n_est']})")
     return metrics
 
 
@@ -258,14 +245,11 @@ def evaluate_item(item: BenchmarkItem, code_to_labels: Mapping[str, Sequence[str
 def build_parser() -> argparse.ArgumentParser:
     """Build the benchmark command-line parser."""
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    parser.add_argument("--output", default=None,
-                        help="Per-item CSV path (default: <dataset>_results.csv)")
-    parser.add_argument("--run-name", default=None,
-                        help="Optional suffix for the archived run directory")
+    parser.add_argument("--output", default=None, help="Per-item CSV path (default: <dataset>_results.csv)")
+    parser.add_argument("--run-name", default=None, help="Optional suffix for the archived run directory")
     parser.add_argument("--limit", type=int, default=None, help="Process only first N items")
 
-    subparsers = parser.add_subparsers(dest="dataset", required=True, metavar="DATASET",
-                                       help="Which dataset adapter to use")
+    subparsers = parser.add_subparsers(dest="dataset", required=True, metavar="DATASET", help="Which dataset adapter to use")
     for name, adapter in sorted(ADAPTERS.items()):
         sub = subparsers.add_parser(name, help=adapter.__doc__.splitlines()[0] if adapter.__doc__ else name)
         adapter.add_cli_args(sub)
