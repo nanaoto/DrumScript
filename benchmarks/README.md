@@ -25,6 +25,19 @@ Only IDMT-SMT-Drums is currently verified to run end-to-end.
 ### IDMT-SMT-Drums V2
 
 - Source: <https://zenodo.org/record/7544164>
+- Evaluation scope: the current IDMT benchmark covers the dataset's
+  foundational instrument classes only:
+
+  | IDMT code | DrumScript label(s) |
+  | --- | --- |
+  | `KD` | `kick` |
+  | `SD` | `snare` |
+  | `HH` | `hi_hat_closed`, `hi_hat_open` |
+
+  This is intentional for the first verified benchmark: IDMT-SMT-DRUMS-V2's
+  evaluation annotations focus on kick drum, snare drum, and hi-hat, which makes
+  it a clean target for validating the core `mir_eval` scoring pipeline before
+  expanding the benchmark surface.
 - Download the V2 archive from Zenodo and extract it anywhere.
 - Required layout after extraction (the path you pass to `--root` must be
   the directory that directly contains `audio/` and `annotation_xml/`):
@@ -65,3 +78,13 @@ Only IDMT-SMT-Drums is currently verified to run end-to-end.
   ```
 
   Results archive to `outputs/benchmarks/idmt/` (untracked).
+
+## Planned dataset coverage
+
+IDMT is the first end-to-end benchmark because its three-class setup matches the
+current core classifier and keeps the initial `mir_eval` pipeline easy to audit.
+Future benchmark adapters should add broader automatic drum transcription
+datasets such as ENST-Drums and MDB-Drums so DrumScript can evaluate full-kit
+classes including toms, crash, ride, and other cymbal types. Those adapters will
+also expand each dataset's code-to-DrumScript mapping beyond the current
+`KD`/`SD`/`HH` scope.
