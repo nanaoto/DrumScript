@@ -62,6 +62,38 @@ class TestBenchmarkRun:
         assert metrics["recall"] == pytest.approx(0.5)
         assert metrics["f_measure"] == pytest.approx(2 / 3)
 
+    def test_evaluate_item_returns_none_when_annotations_are_missing(self, monkeypatch, tmp_path):
+        benchmark_run = load_benchmark_run()
+        item = benchmark_run.BenchmarkItem(
+            track_id="missing",
+            audio_path=tmp_path / "missing.wav",
+            references={},
+        )
+        monkeypatch.setattr(
+            benchmark_run,
+            "predict_instruments",
+            lambda path: pytest.fail("prediction should not run for missing annotations"),
+        )
+
+        assert benchmark_run.evaluate_item(item, {"KD": ["kick"]}) is None
+
+    def test_count_result_statuses_distinguishes_skipped_from_failed(self, tmp_path):
+        benchmark_run = load_benchmark_run()
+        items = [
+            benchmark_run.BenchmarkItem("evaluated", tmp_path / "evaluated.wav", {"KD": np.array([0.1])}),
+            benchmark_run.BenchmarkItem("skipped", tmp_path / "skipped.wav", {}),
+            benchmark_run.BenchmarkItem("failed", tmp_path / "failed.wav", {"SD": np.array([0.2])}),
+            benchmark_run.BenchmarkItem("empty-metrics", tmp_path / "empty.wav", {"HH": np.array([0.3])}),
+        ]
+        results = [{"KD": {"precision": 1.0}}, None, None, {}]
+
+        assert benchmark_run.count_result_statuses(items, results) == {
+            "files_total": 4,
+            "files_evaluated": 2,
+            "files_skipped_no_annotations": 1,
+            "files_failed": 1,
+        }
+
     def test_predict_instruments_uses_existing_drumscript_pipeline_functions(self, monkeypatch, tmp_path):
         benchmark_run = load_benchmark_run()
         audio_path = tmp_path / "RealDrum01_00#MIX.wav"

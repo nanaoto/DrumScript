@@ -37,6 +37,7 @@ from drumscript.drum_classifier.classify import classify_events
 from drumscript.notation_generator.constants import SAMPLE_RATE
 
 ONSET_WINDOW = 0.050  # 50 ms tolerance, standard in ADT literature.
+CLI_DESCRIPTION = "Run a DrumScript benchmark on one dataset."
 ADAPTERS: dict[str, ModuleType] = {
     idmt_adapter.DATASET_NAME: idmt_adapter,
 }
@@ -87,13 +88,33 @@ def summarise(results: Iterable[dict]) -> dict:
     return {inst: {m: float(np.mean(values)) for m, values in metrics.items()} for inst, metrics in accum.items()}
 
 
-def summarise_by_bucket(items: Sequence[BenchmarkItem], results: Sequence[dict]) -> dict[str, dict]:
+def summarise_by_bucket(items: Sequence[BenchmarkItem], results: Sequence[dict | None]) -> dict[str, dict]:
     """Macro-average metrics grouped by each benchmark item's bucket."""
     grouped: dict[str, list[dict]] = defaultdict(list)
     for item, result in zip(items, results, strict=True):
-        if result:
+        if result is not None:
             grouped[item.bucket].append(result)
     return {bucket: summarise(values) for bucket, values in grouped.items()}
+
+
+def count_result_statuses(items: Sequence[BenchmarkItem], results: Sequence[dict | None]) -> dict[str, int]:
+    """Count evaluated, skipped, and failed benchmark items."""
+    skipped_no_annotations = 0
+    failed = 0
+    evaluated = 0
+    for item, result in zip(items, results, strict=True):
+        if result is not None:
+            evaluated += 1
+        elif not item.references:
+            skipped_no_annotations += 1
+        else:
+            failed += 1
+    return {
+        "files_total": len(items),
+        "files_evaluated": evaluated,
+        "files_skipped_no_annotations": skipped_no_annotations,
+        "files_failed": failed,
+    }
 
 
 def print_summary(title: str, summary: dict) -> None:
@@ -199,11 +220,11 @@ def archive_run(
 
     write_metrics_csv(items, results, ctx.adapter.INSTRUMENT_CODES, archive_dir / "results.csv")
 
+    result_statuses = count_result_statuses(items, results)
     metadata = {
         "dataset": ctx.dataset_name,
         "window_seconds": ONSET_WINDOW,
-        "files_total": len(items),
-        "files_evaluated": len([r for r in results if r]),
+        **result_statuses,
         "git_commit": git_output(["rev-parse", "HEAD"]),
         "git_dirty": bool(git_output(["status", "--short"])),
         "command": " ".join(shlex.quote(part) for part in sys.argv),
@@ -225,7 +246,7 @@ def evaluate_item(item: BenchmarkItem, code_to_labels: Mapping[str, Sequence[str
     print(f"  {item.track_id} [{item.bucket}]")
     if not item.references:
         print("    [WARN] No annotations, skipping.")
-        return {}
+        return None
 
     try:
         predictions = predict_instruments(item.audio_path)
@@ -244,7 +265,7 @@ def evaluate_item(item: BenchmarkItem, code_to_labels: Mapping[str, Sequence[str
 
 def build_parser() -> argparse.ArgumentParser:
     """Build the benchmark command-line parser."""
-    parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    parser = argparse.ArgumentParser(description=CLI_DESCRIPTION)
     parser.add_argument("--output", default=None, help="Per-item CSV path (default: <dataset>_results.csv)")
     parser.add_argument("--run-name", default=None, help="Optional suffix for the archived run directory")
     parser.add_argument("--limit", type=int, default=None, help="Process only first N items")
@@ -276,8 +297,16 @@ def main() -> None:
     print("─" * 60)
 
     results: list[dict | None] = [evaluate_item(item, adapter.CODE_TO_DRUMSCRIPT) for item in items]
-    valid = [r for r in results if r]
-    print(f"\n{'─' * 60}\nEvaluated {len(valid)} / {len(items)} items successfully.\n")
+    valid = [r for r in results if r is not None]
+    result_statuses = count_result_statuses(items, results)
+    print(f"\n{'─' * 60}\nEvaluated {result_statuses['files_evaluated']} / {len(items)} items successfully.")
+    if result_statuses["files_skipped_no_annotations"] or result_statuses["files_failed"]:
+        print(
+            f"Skipped {result_statuses['files_skipped_no_annotations']} without annotations; "
+            f"failed {result_statuses['files_failed']}.\n"
+        )
+    else:
+        print()
 
     summary = summarise(valid)
     print_summary("── SUMMARY (macro-average across items) ──", summary)

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import logging
 import sys
 import xml.etree.ElementTree as ET
 from collections.abc import Iterator
@@ -9,6 +10,8 @@ from pathlib import Path
 import numpy as np
 
 from drumscript.datasets.base import BenchmarkItem
+
+logger = logging.getLogger(__name__)
 
 DATASET_NAME = "idmt"
 
@@ -19,9 +22,6 @@ CODE_TO_DRUMSCRIPT: dict[str, list[str]] = {
     "SD": ["snare"],
     "HH": ["hi_hat_closed", "hi_hat_open"],
 }
-
-#: Back-compat alias for callers that still import the old name.
-IDMT_TO_DRUMSCRIPT = CODE_TO_DRUMSCRIPT
 
 INSTRUMENT_CODES: tuple[str, ...] = tuple(CODE_TO_DRUMSCRIPT.keys())
 
@@ -142,7 +142,7 @@ def parse_annotation(
     try:
         tree = ET.parse(annotation_path)
     except ET.ParseError as e:  # pragma: no cover - corrupt file
-        print(f"  [WARN] Could not parse {annotation_path.name}: {e}")
+        logger.warning("Could not parse %s: %s", annotation_path.name, e)
         return np.array([])
 
     root = tree.getroot()
