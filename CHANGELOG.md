@@ -2,7 +2,7 @@
 # Changelog
 
 <!--date_added:thurs-28-may-2026-->
-<!--date:updated:thurs-28-may-2026-->
+<!--date:updated:sun-07-june-2026-->
 
 
 All notable changes to DrumScript will be documented here.
@@ -10,6 +10,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 DrumScript follows [Semantic Versioning](https://semver.org/).
 
 ---
+## Unreleased
 
 ## [Unreleased]
 
@@ -29,7 +30,34 @@ DrumScript follows [Semantic Versioning](https://semver.org/).
 - Example notebooks updated to reflect expected drum-only audio input
 - Better audio samples used for runbooks, ie not synthetic, which has created messy outputs so far
 - Cymbal and hi-hat stem rendering: note tails and heads correctly aligned
+- `ds.transcribe()` only outputs PDF, not the documented `.json` / `.midi` / `.xml`
+- `main.py` structural bug: duplicated pipeline inside `except` block needs removing, error handling needs restructuring
+- Flag inconsistency: `full=True` means "return detailed dict" in Python API but `--full` means "full song / separate stems" in CLI — rename to `verbose=True` (or `detail=True` / `return_dict=True`) across all wrapper functions (`transcribe`, `extract_stems`, `detect_tempo`)
 
+#### Planned — Changes
+- Transcription function docstrings to be updated to make clear that drum-only audio is expected as standard input
+- README to be updated to clarify expected input for transcription functions
+- Example notebooks to be updated to reflect expected drum-only audio input
+- Better audio samples needed for runbooks — not synthetic, which has created messy outputs
+- Runbook presentation to be tidied: one variable per line, properly tested
+- Commented-out dead code to be removed from `drumscript/__init__.py` and `drumscript/main.py`
+
+#### Planned — Additions
+- CHANGELOG reference to be added to README and Sphinx docs
+- `output_midi`, `output_json`, `output_xml` flags to be added to `transcribe()` for multi-format export
+
+#### Moved to Future Release (PR reviews requested of contributor)
+- PR #273 by nanaoto (IDMT-SMT-Drums V2 benchmark runner with `mir_eval` scaffolding) (pending items)
+
+### [0.1.7] - June/July 2026 - Target: TBD
+
+#### Planned
+- IDMT-SMT-Drums V2 benchmark runner (`benchmarks/run.py`) with `mir_eval` scaffolding (PR #273 by nanaoto)
+- `drumscript/datasets/` package: `BenchmarkItem` dataclass and IDMT adapter
+- Unit tests for benchmark runner and IDMT dataset adapter
+- `benchmarks/README.md` documenting conventions and dataset setup
+- **Onset timing precision**: investigate user-feedback on score generation. Though quantisation is used, look at the extent to which there are slight imperfections in onset detection cause notes to be placed at incorrect positions in the score (e.g. snare hit at 0.503s instead of 0.500s generates spurious rests). https://github.com/DrumScript/DrumScript/issues/274
+ 
 ---
 
 ## Released
